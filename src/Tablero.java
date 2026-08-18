@@ -137,7 +137,11 @@ public class Tablero extends JFrame implements ActionListener{
 						
 						//Se obtiene la jugada de la computadora
 						posicionMatris = juego.jugadaMaquinaAleatoria(iTamanio, juego.getiTurno());
-						if(posicionMatris == null) return;
+						if(posicionMatris == null){
+							this.bMensaje.setText("Empate! Click para jugar de nuevo");
+							bMensaje.setEnabled(true);
+							return;
+						}
 						//Se marca en la matriz de enteros que controla el juego la jugada del jugador 1 o 2
 						juego.jugada(posicionMatris.getiFila(), posicionMatris.getiColumna(), juego.getiTurno());
 						//Se evalua mediante la clase juego (en la matriz de enteros) si un jugador ha ganado ya
@@ -148,6 +152,13 @@ public class Tablero extends JFrame implements ActionListener{
 						//Se evalua si ganó el jugador 1 (X)
 						if(juego.isbFinJuego()){
 							this.bMensaje.setText("Ganó el jugador "+juego.getiTurno()+" Click para jugar de nuevo" );
+							bMensaje.setEnabled(true);
+							return;
+						}
+						
+						//Se evalua si hay empate
+						if(juego.isTableroLleno()){
+							this.bMensaje.setText("Empate! Click para jugar de nuevo");
 							bMensaje.setEnabled(true);
 							return;
 						}

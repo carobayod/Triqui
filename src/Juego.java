@@ -132,6 +132,17 @@ public class Juego {
 		return bFinJuego;
 	}
 
+	public boolean isTableroLleno() {
+		for(int fila=0; fila<iTamanio; fila++){
+			for(int columna=0; columna<iTamanio; columna++){
+				if(mJuego[fila][columna] == 0){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public void setbFinJuego(boolean bFinJuego) {
 		this.bFinJuego = bFinJuego;
 	}
