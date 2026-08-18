@@ -190,6 +190,17 @@ public class Juego {
 		return null;
 		
 	}
+
+	/**
+	 * Método que usa la clase IA para calcular la mejor jugada usando minimax
+	 * @param iTamanio
+	 * @param iTurno
+	 * @return
+	 */
+	public PosMatris jugadaMaquinaInteligente(int iTamanio, int iTurno){
+		IA ia = new IA(iTamanio);
+		return ia.mejorJugada(mJuego, iTurno);
+	}
 	
 	
 
