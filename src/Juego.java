@@ -159,7 +159,6 @@ public class Juego {
 		int iAleatorioColumnas = (int) (Math.random()*iTamanio+1) - 1;
 
 		if(this.mJuego[iAleatorioFilas][iAleatorioColumnas] == 0){
-			this.mJuego[iAleatorioFilas][iAleatorioColumnas] = iTurno;			
 			System.out.println(" Fila: "+iAleatorioFilas+" Columna: "+iAleatorioColumnas);
 			return new PosMatris(iAleatorioFilas, iAleatorioColumnas);			
 		}
