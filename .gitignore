@@ -1,1 +1,9 @@
 *.class
+target/
+*.jar
+*.log
+.idea/
+*.iml
+.settings/
+.project
+.classpath
