@@ -1,11 +1,14 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -19,20 +22,19 @@ import javax.swing.JPanel;
  */
 public class Tablero extends JFrame implements ActionListener{
 
-	/**
-	 * DECLARACIÓN DE ATRIBUTOS
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private JButton mBotones[][];
 	private JPanel pBotones;
-	private JButton bMensaje;
+	private JPanel pSur;
+	private JButton bNuevoJuego;
+	private JLabel lMensaje;
+	private JLabel lPuntaje;
 	private int iTamanio;	
 	private Juego juego;
-	
-	/**
-	 * MÉTODO CONSTRUCTOR DE LA CLASE
-	 */
+	private int iPuntajeJugador = 0;
+	private int iPuntajeComputadora = 0;
+
 	public Tablero(int iTamanio) {
 		
 		this.iTamanio = iTamanio;
@@ -40,56 +42,71 @@ public class Tablero extends JFrame implements ActionListener{
 
 		pBotones = new JPanel();
 		pBotones.setLayout(new GridLayout(iTamanio, iTamanio));
-		bMensaje = new JButton("Bienvenido al juego");
-		bMensaje.setEnabled(false);
-		bMensaje.setForeground(Color.RED);		
-		bMensaje.addActionListener(this);
+
+		pSur = new JPanel();
+		pSur.setLayout(new BorderLayout());
+
+		lMensaje = new JLabel("Bienvenido al juego");
+		lMensaje.setHorizontalAlignment(JLabel.CENTER);
+		lMensaje.setFont(new Font("Arial", Font.BOLD, 16));
+		lMensaje.setForeground(Color.DARK_GRAY);
+
+		lPuntaje = new JLabel("Jugador: 0 | Computadora: 0");
+		lPuntaje.setHorizontalAlignment(JLabel.CENTER);
+		lPuntaje.setFont(new Font("Arial", Font.PLAIN, 14));
+		lPuntaje.setForeground(Color.GRAY);
+
+		bNuevoJuego = new JButton("Nuevo juego");
+		bNuevoJuego.setFont(new Font("Arial", Font.BOLD, 12));
+		bNuevoJuego.addActionListener(this);
+
+		pSur.add(lPuntaje, BorderLayout.NORTH);
+		pSur.add(lMensaje, BorderLayout.CENTER);
+		pSur.add(bNuevoJuego, BorderLayout.SOUTH);
 		
 		this.setLayout(new BorderLayout());
 		mBotones = new JButton[iTamanio][iTamanio];
 		for(int fila=0; fila<iTamanio; fila++){
 			for(int columna=0; columna<iTamanio; columna++){
 				mBotones[fila][columna] = new JButton();
+				mBotones[fila][columna].setFont(new Font("Arial", Font.BOLD, 48));
 				pBotones.add(mBotones[fila][columna]);
 				mBotones[fila][columna].addActionListener(this);
 			}
 		}
 		
 		this.add(pBotones, BorderLayout.CENTER);
-		this.add(bMensaje, BorderLayout.SOUTH);
+		this.add(pSur, BorderLayout.SOUTH);
 		
-		this.setSize(400, 400);
+		int iTamVentana = 150 * iTamanio;
+		this.setSize(iTamVentana, iTamVentana);
+		this.setMinimumSize(new Dimension(300, 300));
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		init();
 		
 	}
 	
-	/**
-	 * Método que limpia inicializa el juego 
-	 */
 	public void init(){
 		
-		//Mensaje en el botón
-		bMensaje.setText("Bienvenido al juego"); 
+		lMensaje.setText("Bienvenido al juego"); 
+		lMensaje.setForeground(Color.DARK_GRAY);
 		
-		//Limpia matriz de botones 
 		for(int fila=0; fila<iTamanio; fila++){
 			for(int columna=0; columna<iTamanio; columna++){
 				mBotones[fila][columna].setText("");
+				mBotones[fila][columna].setForeground(Color.BLACK);
+				mBotones[fila][columna].setEnabled(true);
 			}
 		}
 			
-		//Crea una nueva clase (Juego) donde se realiza la lógica del juego 
 		juego = new Juego(iTamanio);
 		
-		bMensaje.setEnabled(false);
-		
+		actualizarPuntaje();
 		
 	}
-	/**
-	 * Clase principal que ejecuta el programa
-	 * @param args
-	 */
+
 	public static void main(String args[]){
 		
 		Integer iNumero = Integer.parseInt(JOptionPane.showInputDialog("Dígite el tamaño del triky (3x3, 4x4..)"));		
@@ -98,74 +115,71 @@ public class Tablero extends JFrame implements ActionListener{
 		
 	}
 
-	/**
-	 * Clase que maneja los eventos de los elementos de la interfez gráfica
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		//Se recorre la matriz de botones para saber que boton se presionó
+		if(e.getSource().equals(bNuevoJuego)){
+			init();
+			return;
+		}
+
 		for(int fila=0; fila<iTamanio; fila++){
 			for(int columna=0; columna<iTamanio; columna++){
 				
-				//Se encuentra el boton presionado
 				if(e.getSource().equals(mBotones[fila][columna])){
 					System.out.println("Fila: "+fila+" Columna: "+columna);
 					
 					if(juego.getmJuego()[fila][columna] != 0) break;
 					
-					//Se marca en la matriz de enteros que controla el juego la jugada del jugador 1 o 2 
 					juego.jugada(fila, columna, juego.getiTurno());
-					//Se evalua mediante la clase juego (en la matriz de enteros) si un jugador ha ganado ya 
 					juego.evaluarJuego(juego.getiTurno());
 
-					//Juega el jugador 1 
 					if(juego.getiTurno() == 1){
 						
-						//Se marca en la matriz de botones la X
 						mBotones[fila][columna].setText("X");
+						mBotones[fila][columna].setForeground(new Color(0, 102, 204));
 						
-						//Se evalua si ganó el jugador 1 (X)
 						if(juego.isbFinJuego()){
-							this.bMensaje.setText("Ganó el jugador "+juego.getiTurno()+" Click para jugar de nuevo" );
-							bMensaje.setEnabled(true);
+							iPuntajeJugador++;
+							lMensaje.setText("Ganó el jugador! Click 'Nuevo juego'");
+							lMensaje.setForeground(new Color(0, 102, 204));
+							deshabilitarTablero();
+							actualizarPuntaje();
 							return;
 						}
 						
-						//Cambio de turno, juega la computadora
 						juego.setiTurno(2);
 						
 						PosMatris posicionMatris;
 						
-						//Se obtiene la jugada de la computadora
 						posicionMatris = juego.jugadaMaquinaAleatoria(iTamanio, juego.getiTurno());
 						if(posicionMatris == null){
-							this.bMensaje.setText("Empate! Click para jugar de nuevo");
-							bMensaje.setEnabled(true);
+							lMensaje.setText("Empate! Click 'Nuevo juego'");
+							lMensaje.setForeground(Color.GRAY);
+							deshabilitarTablero();
 							return;
 						}
-						//Se marca en la matriz de enteros que controla el juego la jugada del jugador 1 o 2
 						juego.jugada(posicionMatris.getiFila(), posicionMatris.getiColumna(), juego.getiTurno());
-						//Se evalua mediante la clase juego (en la matriz de enteros) si un jugador ha ganado ya
 						juego.evaluarJuego(juego.getiTurno());
-						//Se marca en la matriz de botones la 0
-						mBotones[posicionMatris.getiFila()][posicionMatris.getiColumna()].setText("0");
+						mBotones[posicionMatris.getiFila()][posicionMatris.getiColumna()].setText("O");
+						mBotones[posicionMatris.getiFila()][posicionMatris.getiColumna()].setForeground(Color.RED);
 						
-						//Se evalua si ganó la computadora (0)
 						if(juego.isbFinJuego()){
-							this.bMensaje.setText("Ganó la computadora! Click para jugar de nuevo");
-							bMensaje.setEnabled(true);
+							iPuntajeComputadora++;
+							lMensaje.setText("Ganó la computadora! Click 'Nuevo juego'");
+							lMensaje.setForeground(Color.RED);
+							deshabilitarTablero();
+							actualizarPuntaje();
 							return;
 						}
 						
-						//Se evalua si hay empate
 						if(juego.isTableroLleno()){
-							this.bMensaje.setText("Empate! Click para jugar de nuevo");
-							bMensaje.setEnabled(true);
+							lMensaje.setText("Empate! Click 'Nuevo juego'");
+							lMensaje.setForeground(Color.GRAY);
+							deshabilitarTablero();
 							return;
 						}
 						
-						//Cambio de turno, juega el humano
 						juego.setiTurno(1);
 							
 						
@@ -176,17 +190,18 @@ public class Tablero extends JFrame implements ActionListener{
 			}
 		}
 		
-		//Si algun jugador ha ganado, se activa el boton de mensajes para comenzar de nuevo
-		if(e.getSource().equals(bMensaje)){			
-			init();
-		}
-		
-		
 	}
-	
-	/**
-	 * 
-	 */
-	
+
+	private void deshabilitarTablero(){
+		for(int fila=0; fila<iTamanio; fila++){
+			for(int columna=0; columna<iTamanio; columna++){
+				mBotones[fila][columna].setEnabled(false);
+			}
+		}
+	}
+
+	private void actualizarPuntaje(){
+		lPuntaje.setText("Jugador: "+iPuntajeJugador+" | Computadora: "+iPuntajeComputadora);
+	}
 
 }
