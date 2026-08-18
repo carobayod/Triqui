@@ -171,19 +171,6 @@ public class Tablero extends JFrame implements ActionListener{
 						
 					}
 					
-					//
-//					else{
-//						mBotones[fila][columna].setText("0");
-//						
-//						if(juego.isbFinJuego()){
-//							this.bMensaje.setText("Ganó el jugador "+juego.getiTurno()+" Click para jugar de nuevo" );
-//							bMensaje.setEnabled(true);
-//						}
-//						
-//						juego.setiTurno(1);
-//						
-//					}
-					
 					break;
 				}
 			}
