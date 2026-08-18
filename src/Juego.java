@@ -166,6 +166,7 @@ public class Juego {
 		for(int fila=0; fila<iTamanio; fila++){
 			for(int columna=0; columna<iTamanio; columna++){
 				if( mJuego[fila][columna] == 0 ){
+					mJuego[fila][columna] = iTurno;
 					System.out.println(" Fila: "+fila+" Columna: "+columna);
 					return new PosMatris(fila, columna);
 				}
