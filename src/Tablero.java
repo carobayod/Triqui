@@ -137,6 +137,7 @@ public class Tablero extends JFrame implements ActionListener{
 						
 						//Se obtiene la jugada de la computadora
 						posicionMatris = juego.jugadaMaquinaAleatoria(iTamanio, juego.getiTurno());
+						if(posicionMatris == null) return;
 						//Se marca en la matriz de enteros que controla el juego la jugada del jugador 1 o 2
 						juego.jugada(posicionMatris.getiFila(), posicionMatris.getiColumna(), juego.getiTurno());
 						//Se evalua mediante la clase juego (en la matriz de enteros) si un jugador ha ganado ya
