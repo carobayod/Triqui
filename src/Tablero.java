@@ -151,9 +151,9 @@ public class Tablero extends JFrame implements ActionListener{
 						//Se marca en la matriz de botones la 0
 						mBotones[posicionMatris.getiFila()][posicionMatris.getiColumna()].setText("0");
 						
-						//Se evalua si ganó el jugador 1 (X)
+						//Se evalua si ganó la computadora (0)
 						if(juego.isbFinJuego()){
-							this.bMensaje.setText("Ganó el jugador "+juego.getiTurno()+" Click para jugar de nuevo" );
+							this.bMensaje.setText("Ganó la computadora! Click para jugar de nuevo");
 							bMensaje.setEnabled(true);
 							return;
 						}
