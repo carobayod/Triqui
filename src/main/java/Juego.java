@@ -1,7 +1,7 @@
 
 /**
  * Clase que realiza la lógica de un juego triky de tamaño N x N para jugar contra la computadora
- * @author magoprieto
+ * @author carobayo
  *
  */
 public class Juego {

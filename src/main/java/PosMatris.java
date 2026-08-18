@@ -1,6 +1,6 @@
 /**
  * Clase que contiene las variables para una posición en una matriz 
- * @author magoprieto
+ * @author carobayo
  *
  */
 public class PosMatris {
