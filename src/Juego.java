@@ -143,6 +143,10 @@ public class Juego {
 		return true;
 	}
 
+	public int[][] getmJuego() {
+		return mJuego;
+	}
+
 	public void setbFinJuego(boolean bFinJuego) {
 		this.bFinJuego = bFinJuego;
 	}

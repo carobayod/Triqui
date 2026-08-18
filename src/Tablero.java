@@ -112,6 +112,8 @@ public class Tablero extends JFrame implements ActionListener{
 				if(e.getSource().equals(mBotones[fila][columna])){
 					System.out.println("Fila: "+fila+" Columna: "+columna);
 					
+					if(juego.getmJuego()[fila][columna] != 0) break;
+					
 					//Se marca en la matriz de enteros que controla el juego la jugada del jugador 1 o 2 
 					juego.jugada(fila, columna, juego.getiTurno());
 					//Se evalua mediante la clase juego (en la matriz de enteros) si un jugador ha ganado ya 
