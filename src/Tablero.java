@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,6 +31,7 @@ public class Tablero extends JFrame implements ActionListener{
 	private JButton bNuevoJuego;
 	private JLabel lMensaje;
 	private JLabel lPuntaje;
+	private JComboBox<String> cbDificultad;
 	private int iTamanio;	
 	private Juego juego;
 	private int iPuntajeJugador = 0;
@@ -56,13 +58,23 @@ public class Tablero extends JFrame implements ActionListener{
 		lPuntaje.setFont(new Font("Arial", Font.PLAIN, 14));
 		lPuntaje.setForeground(Color.GRAY);
 
+		String[] dificultades = {"Fácil (aleatorio)", "Difícil (minimax)"};
+		cbDificultad = new JComboBox<>(dificultades);
+		cbDificultad.setFont(new Font("Arial", Font.PLAIN, 12));
+		cbDificultad.addActionListener(this);
+
 		bNuevoJuego = new JButton("Nuevo juego");
 		bNuevoJuego.setFont(new Font("Arial", Font.BOLD, 12));
 		bNuevoJuego.addActionListener(this);
 
 		pSur.add(lPuntaje, BorderLayout.NORTH);
 		pSur.add(lMensaje, BorderLayout.CENTER);
-		pSur.add(bNuevoJuego, BorderLayout.SOUTH);
+		
+		JPanel pSurInferior = new JPanel();
+		pSurInferior.setLayout(new BorderLayout());
+		pSurInferior.add(cbDificultad, BorderLayout.WEST);
+		pSurInferior.add(bNuevoJuego, BorderLayout.EAST);
+		pSur.add(pSurInferior, BorderLayout.SOUTH);
 		
 		this.setLayout(new BorderLayout());
 		mBotones = new JButton[iTamanio][iTamanio];
@@ -123,6 +135,10 @@ public class Tablero extends JFrame implements ActionListener{
 			return;
 		}
 
+		if(e.getSource().equals(cbDificultad)){
+			return;
+		}
+
 		for(int fila=0; fila<iTamanio; fila++){
 			for(int columna=0; columna<iTamanio; columna++){
 				
@@ -152,7 +168,12 @@ public class Tablero extends JFrame implements ActionListener{
 						
 						PosMatris posicionMatris;
 						
-						posicionMatris = juego.jugadaMaquinaAleatoria(iTamanio, juego.getiTurno());
+						if(cbDificultad.getSelectedIndex() == 0){
+							posicionMatris = juego.jugadaMaquinaAleatoria(iTamanio, juego.getiTurno());
+						} else {
+							posicionMatris = juego.jugadaMaquinaInteligente(iTamanio, juego.getiTurno());
+						}
+						
 						if(posicionMatris == null){
 							lMensaje.setText("Empate! Click 'Nuevo juego'");
 							lMensaje.setForeground(Color.GRAY);
