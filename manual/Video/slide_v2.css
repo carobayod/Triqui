@@ -1,0 +1,59 @@
+/* ============================================================
+   SLIDE V2 — 16:9 (203.2mm × 114.3mm) — video explicativo
+   Tipografia: Georgia (titulos) + Lato (cuerpo)
+   ============================================================ */
+.slide {
+  width: 203.2mm; height: 114.3mm; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #10194a 0%, #233191 45%, #0f9dcc 100%);
+  color: #ffffff;
+}
+.slide::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 88% 8%,  rgba(38,198,218,0.35) 0%,  rgba(38,198,218,0) 24%),
+    radial-gradient(circle at 4%  96%, rgba(57,73,171,0.55) 0%, rgba(57,73,171,0) 30%);
+}
+/* orbes de decoración */
+.orb { position: absolute; border-radius: 50%; }
+.o1 { width: 70mm; height: 70mm; top: -22mm; right: -18mm; background: rgba(255,255,255,0.08); }
+.o2 { width: 46mm; height: 46mm; bottom: -14mm; left: -12mm; background: rgba(38,198,218,0.28); }
+
+/* franja superior */
+.top { position: absolute; top: 8mm; left: 14mm; right: 14mm; display: flex;
+  justify-content: space-between; align-items: center; z-index: 2; }
+.section {
+  font-family: "Lato", sans-serif; font-size: 4.6mm; font-weight: 700;
+  letter-spacing: 2.2px; color: #c9d6ff;
+  border: 1px solid rgba(255,255,255,0.35); border-radius: 40px;
+  padding: 1.6mm 6mm; text-transform: uppercase;
+}
+.progress { font-family: "Lato", sans-serif; font-size: 4.2mm; font-weight: 700;
+  color: #ffffff; letter-spacing: 1.5px; }
+
+/* título */
+h1 { position: absolute; left: 16mm; right: 16mm; top: 31mm; margin: 0; z-index: 2;
+  font-family: Georgia, "Times New Roman", serif; font-size: 15mm; font-weight: 700;
+  line-height: 1.12; color: #ffffff;
+  text-shadow: 0 2.5px 8px rgba(0,0,0,0.4); }
+.rule { position: absolute; left: 16mm; top: 72mm; width: 34mm; height: 2.4mm;
+  background: linear-gradient(90deg, #26C6DA, #7ce3ee); border-radius: 2mm; z-index: 2; }
+
+/* puntos clave */
+ul { position: absolute; left: 16mm; right: 16mm; top: 79mm; margin: 0;
+  list-style: none; z-index: 2; }
+li { font-family: "Lato", "Liberation Sans", sans-serif; font-size: 6.8mm;
+  line-height: 1.28; font-weight: 600; color: #ffffff;
+  margin: 0 0 6.2mm 0; padding-left: 12mm; position: relative; }
+li::before {
+  content: ""; position: absolute; left: 0; top: 1.6mm;
+  width: 4.6mm; height: 4.6mm; border: 1.3mm solid #26C6DA; border-radius: 1mm;
+  background: rgba(38,198,218,0.15);
+}
+
+/* footer */
+.foot { position: absolute; left: 16mm; right: 16mm; bottom: 8mm;
+  display: flex; justify-content: space-between; align-items: baseline; z-index: 2;
+  border-top: 1px solid rgba(255,255,255,0.3); padding-top: 3mm; }
+.foot .course { font-family: "Lato", sans-serif; font-size: 4mm; font-weight: 600;
+  color: #dbe6ff; letter-spacing: 1.5px; text-transform: uppercase; }
+.foot .tag { font-family: "Lato", sans-serif; font-size: 4mm; color: #b8e6f2; }

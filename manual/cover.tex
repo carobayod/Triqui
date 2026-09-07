@@ -1,0 +1,40 @@
+\usepackage{tikz}
+\usepackage{tcolorbox}
+
+\definecolor{coverblue}{RGB}{0,70,150}
+\definecolor{coverdarkblue}{RGB}{0,40,100}
+
+\renewcommand{\maketitle}{
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture, overlay]
+      % Bloque azul en la parte superior (42% de la pagina)
+      \fill[coverblue] (current page.north west) rectangle
+        ([yshift=-0.42\paperheight]current page.north east);
+
+      % Titulo en blanco, centrado dentro del bloque azul
+      \node[anchor=center, text=white, font=\Huge\bfseries\sffamily, align=center, text width=0.85\paperwidth]
+        at ([yshift=-0.16\paperheight]current page.north)
+        {Aprende Java\\[0.3em]Jugando};
+
+      % Subtitulo en blanco, dentro del bloque azul
+      \node[anchor=center, text=white!85!coverblue, font=\Large, align=center, text width=0.78\paperwidth]
+        at ([yshift=-0.34\paperheight]current page.north)
+        {Desarrolla un Triki con Interfaz Gráfica\\e Inteligencia Artificial (Minimax) desde Cero};
+
+      % Autor en azul oscuro, debajo del bloque
+      \node[anchor=center, text=coverdarkblue, font=\Large, align=center]
+        at ([yshift=-0.52\paperheight]current page.north)
+        {Carlos Alberto Robayo Delgado};
+
+      % Etiqueta en gris
+      \node[anchor=center, text=gray, font=\large, align=center]
+        at ([yshift=-0.58\paperheight]current page.north)
+        {Curso práctico, guiado y con retos de código};
+
+      % Linea decorativa azul en la parte inferior
+      \fill[coverblue] ([yshift=1.5cm]current page.south west) rectangle
+        ([yshift=1.65cm]current page.south east);
+    \end{tikzpicture}
+  \end{titlepage}
+}

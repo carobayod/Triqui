@@ -1,0 +1,76 @@
+\usepackage{fontspec}
+\setmainfont{Georgia}[Ligatures=TeX]
+\setsansfont{DejaVu Sans}
+\setmonofont{Fira Code}[Scale=0.85]
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{float}
+
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codeframe}{RGB}{110,110,120}
+\definecolor{codekeyword}{RGB}{0,90,180}
+\definecolor{codecomment}{RGB}{0,128,0}
+\definecolor{codestring}{RGB}{180,40,40}
+
+\definecolor{consejocolor}{RGB}{0,110,90}
+\definecolor{consejobg}{RGB}{235,248,243}
+\definecolor{bugcolor}{RGB}{200,90,0}
+\definecolor{bugbg}{RGB}{253,241,230}
+
+\lstdefinestyle{javastyle}{
+  basewidth=0.5em,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeframe},
+  framerule=0.6pt,
+  xleftmargin=16pt,
+  framexleftmargin=16pt,
+  framexrightmargin=0pt,
+  fillcolor=\color{codebg},
+  basicstyle=\ttfamily\footnotesize\color{black},
+  keywordstyle=\color{codekeyword}\bfseries,
+  commentstyle=\color{codecomment}\itshape,
+  stringstyle=\color{codestring},
+  showstringspaces=false,
+  breaklines=true,
+  numbers=left,
+  numberstyle=\ttfamily\tiny\color{gray},
+  numbersep=8pt,
+  tabsize=4,
+  aboveskip=12pt,
+  belowskip=12pt,
+  linewidth=1\linewidth,
+  captionpos=b,
+  keepspaces=true,
+}
+
+\lstset{style=javastyle}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\itshape Aprende Java Jugando}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}
+  {\Large\bfseries\sffamily\color{blue!70!black}}
+  {\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{0pt}{0.6em}
+\newcommand{\sectionbreak}{\clearpage}
+\titleformat{\subsection}
+  {\large\bfseries\sffamily}
+  {\thesubsection}{0.5em}{}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdftitle={Aprende Java Jugando - El Triki},
+  pdfauthor={Carlos Alberto Robayo Delgado}
+}

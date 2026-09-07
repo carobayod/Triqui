@@ -1,0 +1,37 @@
+/* ================================
+   TEMA B — Pastel (rosa, menta, durazno) · alegre y didáctico
+   ================================ */
+
+h1, h2, h3, h4 { color: #3A2E39; }
+h1 { border-bottom: 4px solid #FFD9E8; padding-bottom: 4mm; }
+h2 { border-left: 6px solid #FFD9E8; padding-left: 5mm; }
+
+/* ---- Portada ---- */
+.cover {
+  width: 210mm; height: 297mm; background: #FFF7E6; color: #3A2E39;
+  position: relative; overflow: hidden; text-align: center;
+  page-break-after: always;
+}
+.cover .blob { position: absolute; border-radius: 50%; }
+.cover .b1 { width: 160mm; height: 160mm; background: #FFD9E8; top: -50mm; left: -40mm; opacity: 0.9; }
+.cover .b2 { width: 120mm; height: 120mm; background: #C9F0E9; bottom: -30mm; right: -30mm; }
+.cover .b3 { width: 90mm; height: 90mm; background: #FFE3B3; top: 20mm; right: -20mm; opacity: 0.85; }
+.cover .ctr { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 170mm; z-index: 2; }
+.cover .emoji-row { font-size: 42px; margin-bottom: 10mm; letter-spacing: 6mm; }
+.cover h1 { font-family: "Segoe UI", Arial, sans-serif; font-size: 48px; font-weight: 900; color: #3A2E39; border: none; padding: 0; margin: 0 0 6mm 0; }
+.cover .pill { display: inline-block; background: #C9F0E9; color: #006D5B; font-weight: 800; font-size: 18px; padding: 5px 22px; border-radius: 40px; margin-bottom: 10mm; }
+.cover .dots { letter-spacing: 5mm; font-size: 20px; color: #FF9E9E; margin: 6mm 0; }
+.cover .sub { font-family: Arial, sans-serif; font-size: 18px; color: #5C4D5E; margin-bottom: 8mm; }
+.cover .author { font-family: Arial, sans-serif; font-size: 14px; color: #8A7B8D; }
+
+/* ---- Blockquotes ---- */
+blockquote { background: linear-gradient(135deg,#C9F0E9,#EAFBF7); border-left: 6px solid #3bb79a; border-radius: 10px; }
+blockquote p { color: #1C5348; }
+
+/* ---- Tablas ---- */
+th { background-color: #3A2E39 !important; color: #FFF7E6; border-color: #3A2E39; }
+tr:nth-child(even) td { background-color: #FFF3F8; }
+
+/* ---- TOC ---- */
+nav#TOC a { border-bottom-color: #FFD9E8; }
+nav#TOC a::after { color: #B36A85; }

@@ -1,0 +1,35 @@
+digraph minimax_tree {
+    rankdir=TB;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=13, penwidth=1.2];
+    edge [fontname="Fira Code", fontsize=11];
+
+    // Raíz
+    estado [label="Estado del tablero", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // nivel max (computadora)
+    max [label="Turno computadora\nMAX", fillcolor="#c8e6c9", color="#2e7d32"];
+
+    jA [label="Jugada A\n(5)", fillcolor="#ffe0b2", color="#ef6c00"];
+    jB [label="Jugada B\n(10)", fillcolor="#c8e6c9", color="#2e7d32"];
+    jC [label="Jugada C\n(3)", fillcolor="#ffe0b2", color="#ef6c00"];
+
+    // nivel min (humano) bajo jB
+    min [label="Turno humano\nMIN", fillcolor="#fff9c4", color="#f9a825"];
+
+    r1 [label="Respuesta 1\n(-10)", fillcolor="#ffcdd2", color="#c62828"];
+    r2 [label="Respuesta 2\n(0)", fillcolor="#ffe0b2", color="#ef6c00"];
+
+    estado -> max;
+    max -> jA [label="opción 1"];
+    max -> jB [label="opción 2"];
+    max -> jC [label="opción 3"];
+    jB -> min;
+    min -> r1;
+    min -> r2;
+
+    // Comentario de resultado
+    mejor [label="Computadora elige\nJugada B (puntaje 10): gana", fillcolor="#f1f8e9", color="#33691e", shape=note];
+    jB -> mejor [style=dashed, color="#33691e"];
+}

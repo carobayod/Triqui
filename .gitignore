@@ -8,3 +8,15 @@ target/
 .project
 .classpath
 tmp/
+.venv/
+.venv312/
+__pycache__/
+manual/.xelatex_history.txt
+manual/Video/work/
+manual/Video/media/
+manual/Video/*.mp4
+manual/Video/__pycache__/
+manual/*.docx
+manual/*.epub
+manual/Libro_Aprende_Java_Triqui_Canva_*.pdf
+manual/Libro_Aprende_Java_Triqui_Premium.pdf

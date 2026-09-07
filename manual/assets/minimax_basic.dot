@@ -1,0 +1,31 @@
+digraph minimax_basic {
+    rankdir=TB;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=13, penwidth=1.2];
+    edge [fontname="Fira Code", fontsize=11];
+
+    // Nodo raíz: tabla actual
+    raiz [label="Tablero actual\n(turno computadora)", fillcolor="#e8f0fe", color="#4a6fa5", shape=box];
+
+    // Nivel max (computadora)
+    max [label="MAX (computadora)", fillcolor="#c8e6c9", color="#2e7d32"];
+
+    // Jugadas posibles
+    j1 [label="Jugada 1\npuntaje = -10", fillcolor="#ffcdd2", color="#c62828"];
+    j2 [label="Jugada 2\npuntaje = +10", fillcolor="#c8e6c9", color="#2e7d32"];
+    j3 [label="Jugada 3\npuntaje = 0", fillcolor="#ffe0b2", color="#ef6c00"];
+
+    // Nivel min (humano) bajo j2
+    min [label="MIN (humano)\nrespuesta = -10", fillcolor="#fff9c4", color="#f9a825"];
+
+    raiz -> max;
+    max -> j1;
+    max -> j2;
+    max -> j3;
+    j2 -> min;
+
+    // Nota de leyenda
+    leyenda [label="+10 gana computadora       -10 gana humano       0 empate",
+             fillcolor="#fafafa", color="#bbbbbb", shape=plaintext, fontsize=11];
+}

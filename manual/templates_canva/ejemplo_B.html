@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Triqui Canva B</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ============ PORTADA pastel ============ */
+  .cover {
+    width: 210mm; height: 297mm; background: #FFF7E6; color: #3A2E39;
+    position: relative; overflow: hidden; page-break-after: always;
+    text-align: center;
+  }
+  .cover .blob {
+    position: absolute; border-radius: 50%;
+  }
+  .cover .b1 { width: 160mm; height: 160mm; background: #FFD9E8; top: -50mm; left: -40mm; opacity: 0.9; }
+  .cover .b2 { width: 120mm; height: 120mm; background: #C9F0E9; bottom: -30mm; right: -30mm; }
+  .cover .b3 { width: 90mm; height: 90mm; background: #FFE3B3; top: 20mm; right: -20mm; opacity: 0.85; }
+  .cover .ctr {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 170mm; z-index: 2;
+  }
+  .cover .emoji-row { font-size: 60px; margin-bottom: 12mm; letter-spacing: 8mm; }
+  .cover h1 {
+    font-family: "Segoe UI", Arial, sans-serif; font-size: 56px; font-weight: 900;
+    color: #3A2E39; margin-bottom: 6mm;
+  }
+  .cover .pill {
+    display: inline-block; background: #C9F0E9; color: #006D5B; font-family: Arial, sans-serif;
+    font-weight: 800; font-size: 24px; padding: 6px 28px; border-radius: 40px; margin-bottom: 12mm;
+  }
+  .cover .sub { font-family: Arial, sans-serif; font-size: 23px; color: #5C4D5E; margin-bottom: 10mm; }
+  .cover .dots { letter-spacing: 6mm; font-size: 26px; color: #FF9E9E; margin: 8mm 0; }
+  .cover .author { font-family: Arial, sans-serif; font-size: 16px; color: #8A7B8D; }
+
+  /* ============ CONTENIDO ============ */
+  .content { padding: 20mm 26mm; font-family: Arial, sans-serif; color: #3A2E39; }
+  .page-tag { display: flex; justify-content: space-between; font-size: 12px; color: #A79AA9; margin-bottom: 8mm; }
+
+  h2.titulo {
+    font-family: "Segoe UI", Arial, sans-serif; color: #3A2E39; font-size: 32px; margin-bottom: 10mm;
+    text-align: center;
+  }
+  .titulo span.underline { border-bottom: 8px solid #FFD9E8; }
+
+  p.lead { font-size: 15.5px; line-height: 1.75; text-align: center; color: #5C4D5E; margin-bottom: 10mm; }
+
+  .cards-row { display: flex; gap: 8mm; margin: 8mm 0; }
+  .tcard {
+    flex: 1; border-radius: 20px; padding: 11mm; text-align: center;
+    border: 2.5px solid rgba(0,0,0,0.05);
+  }
+  .tcard .emoji { font-size: 40px; margin-bottom: 5mm; display: block; }
+  .tcard h3 { font-size: 19px; margin-bottom: 4mm; }
+  .tcard p { font-size: 13.5px; line-height: 1.55; color: #5C4D5E; }
+  .tcard.t1 { background: #FFD9E8; }
+  .tcard.t2 { background: #C9F0E9; }
+  .tcard.t3 { background: #FFE3B3; }
+
+  .statbox { display: flex; gap: 8mm; margin: 8mm 0; }
+  .stat { flex: 1; background: #3A2E39; color: #FFF7E6; border-radius: 16px; padding: 8mm; text-align: center; }
+  .stat .num { font-size: 34px; font-weight: 900; color: #FFD9E8; }
+  .stat .lab { font-size: 13px; color: #E9DAE3; margin-top: 2mm; }
+
+  .code {
+    background: #2E2430; color: #F6EEF3; border-radius: 16px; padding: 9mm 12mm;
+    font-family: Consolas, monospace; font-size: 12.5px; line-height: 1.65; margin: 8mm 0;
+  }
+  .code .k { color: #FFD9E8; } .code .c { color: #C9F0E9; } .code .s { color: #FFE3B3; } .code .n { color: #FF9E9E; }
+
+  .tip {
+    background: linear-gradient(135deg,#C9F0E9,#EAFBF7); border-radius: 16px; padding: 9mm 12mm; margin: 8mm 0;
+    border-left: 8px solid #3bb79a;
+  }
+  .tip h3 { font-size: 18px; color: #006D5B; margin-bottom: 3mm; }
+  .tip p { font-size: 14px; line-height: 1.6; color: #1C5348; }
+
+  .foot { margin-top: 12mm; border-top: 3px dotted #FFD9E8; padding-top: 6mm; display: flex; justify-content: space-between; font-size: 12px; color: #A79AA9; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="ctr">
+    <div class="emoji-row">☕ 🎮 🤖</div>
+    <div class="pill">APRENDE HACIENDO</div>
+    <h1>Aprende Java<br>Jugando</h1>
+    <div class="dots">• • •</div>
+    <div class="sub">Triki con Interfaz Gráfica e Inteligencia Artificial</div>
+    <div class="author">Carlos Alberto Robayo Delgado</div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="page-tag"><span>Capítulo 1 · Introducción</span><span class="pagen">1</span></div>
+  <h2 class="titulo"><span class="underline">Bienvenido al</span> Triki</h2>
+  <p class="lead">Aprenderás Java de verdad construyendo un juego completo: desde la ventana gráfica hasta el algoritmo que nunca pierde.</p>
+
+  <div class="cards-row">
+    <div class="tcard t1"><span class="emoji">📘</span><h3>Para todos</h3><p>Diseñado para quien empieza desde cero, con explicaciones claras.</p></div>
+    <div class="tcard t2"><span class="emoji">🛠️</span><h3>Proyecto real</h3><p>No ejercicios sueltos: construyes un juego que funciona.</p></div>
+    <div class="tcard t3"><span class="emoji">🤖</span><h3>IA incluida</h3><p>Tu oponente usa Minimax y es invencible.</p></div>
+  </div>
+
+  <div class="statbox">
+    <div class="stat"><div class="num">3×3</div><div class="lab">Tablero clásico</div></div>
+    <div class="stat"><div class="num">2</div><div class="lab">Modos de juego</div></div>
+    <div class="stat"><div class="num">∞</div><div class="lab">Paciencia de la IA</div></div>
+  </div>
+
+  <div class="code">
+<span class="c">// Punto de entrada del programa</span>
+<span class="k">public static void</span> main(<span class="n">String</span>[] args) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">System.out</span>.println(<span class="s">"¡Triki!"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">new</span> <span class="n">Tablero</span>().init();
+}
+  </div>
+
+  <div class="tip"><h3>💡 Que no te intimide el código</h3><p>En las siguientes páginas desmenuzamos cada línea. Para este punto solo necesitas instalar Java y tener ganas de jugar.</p></div>
+
+  <div class="foot"><span>Aprende Java Jugando</span><span>Página 1</span></div>
+</div>
+
+</body>
+</html>

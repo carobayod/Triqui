@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Triqui Canva C</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ============ PORTADA oscura + acentos neón ============ */
+  .cover {
+    width: 210mm; height: 297mm; background: #0F172A; color: #F8FAFC;
+    position: relative; overflow: hidden; page-break-after: always;
+  }
+  .cover .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(148,163,184,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.12) 1px, transparent 1px);
+    background-size: 24mm 24mm;
+  }
+  .cover .glow {
+    position: absolute; border-radius: 50%; filter: blur(40px);
+  }
+  .cover .g1 { width: 150mm; height: 150mm; background: rgba(99,102,241,0.55); top: -40mm; left: -40mm; }
+  .cover .g2 { width: 130mm; height: 130mm; background: rgba(34,211,238,0.45); bottom: -30mm; right: -40mm; }
+  .cover .ctr {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: 170mm; z-index: 3;
+  }
+  .cover .tag {
+    display: inline-block; border: 2px solid #22D3EE; color: #22D3EE; font-family: Arial, sans-serif;
+    font-weight: 800; font-size: 20px; letter-spacing: 4px; padding: 6px 22px; border-radius: 6px; margin-bottom: 14mm;
+  }
+  .cover h1 {
+    font-family: Arial, sans-serif; font-weight: 900; font-size: 62px; letter-spacing: 1px; line-height: 1.05;
+    background: linear-gradient(90deg,#A5B4FC,#22D3EE);
+    -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8mm;
+  }
+  .cover .hline { width: 50mm; height: 4px; background: linear-gradient(90deg,#6366F1,#22D3EE); margin: 0 auto 12mm; border-radius: 2px; }
+  .cover .sub { font-family: Arial, sans-serif; font-size: 22px; color: #CBD5E1; margin-bottom: 18mm; }
+  .cover .meta { font-family: Arial, sans-serif; font-size: 15px; color: #94A3B8; }
+  .cover .meta b { color: #F8FAFC; }
+
+  /* ============ CONTENIDO ============ */
+  .content { padding: 20mm 26mm; font-family: Arial, sans-serif; color: #1E293B; }
+  .ptag { display: flex; justify-content: space-between; font-size: 12px; color: #94A3B8; margin-bottom: 8mm; }
+
+  h2.titulo { font-family: Arial, sans-serif; font-weight: 900; font-size: 30px; color: #0F172A; margin-bottom: 10mm; }
+  h2.titulo .acc { color: #6366F1; }
+  p.lead { font-size: 15.5px; line-height: 1.75; color: #475569; margin-bottom: 10mm; }
+
+  .feature { display: flex; gap: 8mm; align-items: flex-start; margin: 7mm 0; }
+  .feature .num {
+    min-width: 14mm; height: 14mm; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    background: #6366F1; color: white; font-weight: 900; font-size: 16px;
+  }
+  .feature h3 { font-size: 18px; color: #0F172A; margin-bottom: 2mm; }
+  .feature p { font-size: 14px; color: #475569; line-height: 1.55; }
+
+  .banner {
+    border-radius: 14px; padding: 9mm 12mm; margin: 10mm 0 14mm;
+    background: linear-gradient(135deg,#6366F1,#22D3EE); color: white;
+  }
+  .banner h3 { font-size: 20px; font-weight: 900; margin-bottom: 3mm; }
+  .banner p { font-size: 14.5px; opacity: 0.95; line-height: 1.6; }
+
+  .code {
+    background: #0F172A; color: #E2E8F0; border-radius: 10px; padding: 9mm 12mm;
+    font-family: Consolas, monospace; font-size: 12.5px; line-height: 1.65; margin: 8mm 0;
+    border: 1px solid #1E293B;
+  }
+  .code .k { color: #A5B4FC; } .code .c { color: #86EFAC; } .code .s { color: #FDE68A; } .code .n { color: #67E8F9; }
+
+  .foot { margin-top: 12mm; border-top: 3px solid #6366F1; padding-top: 6mm; display: flex; justify-content: space-between; font-size: 12px; color: #94A3B8; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="grid-bg"></div>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="ctr">
+    <div class="tag">✚ PREMIUM</div>
+    <h1>Aprende<br>Java Jugando</h1>
+    <div class="hline"></div>
+    <div class="sub">Triki con Interfaz Gráfica e Inteligencia Artificial</div>
+    <div class="meta">por <b>Carlos Alberto Robayo Delgado</b><br>Desarrolla tu primer videojuego con Java</div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="ptag"><span>Capítulo 1 · Introducción</span><span>Página 01</span></div>
+  <h2 class="titulo">Tu primer proyecto <span class="acc">de verdad</span></h2>
+  <p class="lead">Olvídate de los tutoriales aburridos. Aquí construirás un Triki completo, con ventana gráfica y una inteligencia artificial que jamás pierde.</p>
+
+  <div class="feature"><div class="num">1</div><div><h3>Java desde cero</h3><p>Instalación, entorno y primeros pasos con un lenguaje que corre en millones de dispositivos.</p></div></div>
+  <div class="feature"><div class="num">2</div><div><h3>Interfaz gráfica con Swing</h3><p>Botones, eventos y lógica: tu tablero cobra vida en pantalla.</p></div></div>
+  <div class="feature"><div class="num">3</div><div><h3>Minimax</h3><p>El algoritmo que convierte a la máquina en un oponente imbatible.</p></div></div>
+
+  <div class="banner"><h3>⚡ Empieza a codear hoy</h3><p>Veamos cómo se ve el punto de partida de tu programa.</p></div>
+
+  <div class="code">
+<span class="c">// Punto de entrada del programa</span>
+<span class="k">public static void</span> main(<span class="n">String</span>[] args) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">System.out</span>.println(<span class="s">"¡Triki!"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">new</span> <span class="n">Tablero</span>().init();
+}
+  </div>
+
+  <div class="foot"><span>Aprende Java Jugando · Triki Premium</span><span>Página 01</span></div>
+</div>
+
+</body>
+</html>

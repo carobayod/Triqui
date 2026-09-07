@@ -1,0 +1,46 @@
+/* ================================
+   TEMA C — Oscuro + neón (indigo / cyan) · tech futurista
+   ================================ */
+
+h1, h2, h3, h4 { color: #0F172A; }
+h1 { border-bottom: 4px solid #6366F1; padding-bottom: 4mm; }
+h2 { border-left: 6px solid #6366F1; padding-left: 5mm; }
+a { color: #6366F1; }
+
+/* ---- Portada ---- */
+.cover {
+  width: 210mm; height: 297mm; background: #0F172A; color: #F8FAFC;
+  position: relative; overflow: hidden; page-break-after: always;
+}
+.cover .grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(148,163,184,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148,163,184,0.12) 1px, transparent 1px);
+  background-size: 24mm 24mm;
+}
+.cover .glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.55), transparent 70%); }
+.cover .g1 { width: 180mm; height: 180mm; top: -50mm; left: -50mm; }
+.cover .g2 { width: 160mm; height: 160mm; background: radial-gradient(circle, rgba(34,211,238,0.5), transparent 70%); bottom: -40mm; right: -50mm; }
+.cover .ctr { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: 170mm; z-index: 3; }
+.cover .tag { display: inline-block; border: 2px solid #22D3EE; color: #22D3EE; font-weight: 800; font-size: 16px; letter-spacing: 4px; padding: 5px 18px; border-radius: 6px; margin-bottom: 12mm; }
+.cover h1 { font-family: Arial, sans-serif; font-weight: 900; font-size: 52px; letter-spacing: 1px; line-height: 1.05; color: #F8FAFC; border: none; padding: 0; margin: 0 0 8mm 0; }
+.cover .hline { width: 50mm; height: 4px; background: linear-gradient(90deg,#6366F1,#22D3EE); margin: 0 auto 10mm; border-radius: 2px; }
+.cover .sub { font-size: 18px; color: #CBD5E1; margin-bottom: 14mm; }
+.cover .meta { font-size: 13px; color: #94A3B8; }
+.cover .meta b { color: #F8FAFC; }
+
+/* ---- Blockquotes ---- */
+blockquote { background: #EEF2FF; border-left: 6px solid #818CF8; border-radius: 10px; }
+blockquote p { color: #312E81; }
+
+/* ---- Tablas ---- */
+th { background-color: #0F172A !important; color: white; border-color: #0F172A; }
+tr:nth-child(even) td { background-color: #F8FAFC; }
+
+/* ---- TOC ---- */
+nav#TOC a { border-bottom-color: #C7D2FE; }
+nav#TOC a::after { color: #6366F1; }
+
+/* figcaption */
+figcaption { color: #64748B; }

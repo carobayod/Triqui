@@ -1,0 +1,51 @@
+digraph flujo_turno {
+    rankdir=TB;
+    bgcolor="white";
+    fontname="Fira Code";
+    nodesep=0.25;
+    ranksep=0.35;
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=9, penwidth=1.1, margin="0.12,0.06"];
+    edge [fontname="Fira Code", fontsize=9];
+
+    // Nodo de inicio
+    inicio [label="Clic del jugador\nen una casilla", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Accion: marcar X
+    marcarX [label="juego.jugada(fila, col, turno)\nmarca X en la matriz", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Evaluar
+    evaluar [label="juego.evaluarJuego(turno)\nrevisa filas, columnas,\ndiagonales", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Decision: gano el jugador?
+    decision [label="¿Ganó\nel jugador?", fillcolor="#fff9c4", color="#f9a825", shape=diamond];
+
+    // Mensaje gano
+    gano [label="Mensaje:\n\"¡Ganó!\"", fillcolor="#c8e6c9", color="#2e7d32"];
+
+    // Turno computadora
+    compu [label="Turno de la\ncomputadora (2)", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Facil o dificil
+    modo [label="Fácil (aleatorio)\no Difícil (IA minimax)", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Marcar O y evaluar
+    marcarO [label="Marca O, evalúa\nsi nadie ganó...", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Volver
+    volver [label="Vuelve al jugador", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // Conexiones
+    inicio -> marcarX;
+    marcarX -> evaluar;
+    evaluar -> decision;
+
+    decision -> gano [label="Sí"];
+    decision -> compu [label="No"];
+
+    gano -> volver [style=dashed, color="#2e7d32"];
+
+    compu -> modo;
+    modo -> marcarO;
+    marcarO -> volver;
+    volver -> inicio [style=dashed, color="#4a6fa5", constraint=false];
+}

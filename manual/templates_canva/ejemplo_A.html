@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Triqui Canva A</title>
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ============ PORTADA ============ */
+  .cover {
+    width: 210mm; height: 297mm;
+    background: linear-gradient(135deg, #1A237E 0%, #3949AB 55%, #26C6DA 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .cover .orb {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+  }
+  .cover .orb1 { width: 220mm; height: 220mm; top: -80mm; right: -70mm; }
+  .cover .orb2 { width: 150mm; height: 150mm; bottom: -50mm; left: -40mm; background: rgba(38,198,218,0.25); }
+  .cover .ctr {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    text-align: center; width: 180mm; z-index: 2;
+  }
+  .cover .badge {
+    display: inline-block; background: #26C6DA; color: #00324b;
+    font-family: Arial, sans-serif; font-weight: 800; font-size: 26px;
+    padding: 8px 26px; border-radius: 40px; letter-spacing: 3px; margin-bottom: 18mm;
+  }
+  .cover h1 {
+    font-family: Georgia, serif; font-size: 54px; line-height: 1.15;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.35); margin-bottom: 10mm;
+  }
+  .cover .rule { width: 60mm; height: 4px; background: #26C6DA; border-radius: 2px; margin: 0 auto 10mm; }
+  .cover .sub {
+    font-family: Arial, sans-serif; font-size: 22px; font-weight: 400; opacity: 0.95; line-height: 1.5;
+  }
+  .cover .author {
+    margin-top: 22mm; font-family: Arial, sans-serif; font-size: 17px;
+    border-top: 1px solid rgba(255,255,255,0.4); padding-top: 8mm; width: 100mm; margin-left: auto; margin-right: auto;
+  }
+  .cover .chips { margin-top: 16mm; }
+  .cover .chip {
+    display: inline-block; background: rgba(255,255,255,0.16); padding: 6px 18px;
+    border-radius: 30px; font-family: Arial, sans-serif; font-size: 14px; margin: 0 4px;
+    border: 1px solid rgba(255,255,255,0.35);
+  }
+
+  /* ============ CONTENIDO ============ */
+  .content { padding: 20mm 24mm; font-family: Arial, sans-serif; color: #263238; }
+  .content .page {
+    font-size: 13px; color: #607D8B; margin-bottom: 8mm;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .content .pagen { background: #3949AB; color: white; padding: 3px 12px; border-radius: 12px; font-size: 11px; }
+
+  h2.titulo {
+    font-family: Georgia, serif; color: #1A237E; font-size: 30px; margin-bottom: 8mm;
+    border-left: 8px solid #26C6DA; padding-left: 8mm;
+  }
+  p.lead { font-size: 15px; line-height: 1.7; color: #37474F; margin-bottom: 8mm; }
+
+  /* Tarjetas tipo Canva */
+  .card {
+    border-radius: 14px; padding: 10mm 12mm; margin: 8mm 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .card.blue   { background: linear-gradient(135deg,#E8EAF6,#F5F7FF); border-top: 6px solid #3949AB; }
+  .card.cyan   { background: linear-gradient(135deg,#E0F7FA,#F0FCFE); border-top: 6px solid #00ACC1; }
+  .card.dark   { background: linear-gradient(135deg,#263238,#37474F); color: #ECEFF1; }
+  .card h3 { font-family: Georgia, serif; font-size: 22px; margin-bottom: 6mm; color: #1A237E; }
+  .card.dark h3 { color: #80DEEA; }
+  .card p, .card li { font-size: 14.5px; line-height: 1.7; }
+  .card ul { margin-left: 7mm; }
+
+  /* Iconos circulares */
+  .icon {
+    width: 18mm; height: 18mm; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 800; color: white; margin-bottom: 5mm;
+  }
+  .icon.i1 { background: #3949AB; }
+  .icon.i2 { background: #00ACC1; }
+
+  /* Código */
+  .code {
+    background: #1E293B; color: #E2E8F0; border-radius: 12px; padding: 9mm 11mm;
+    font-family: Consolas, monospace; font-size: 12.5px; line-height: 1.65; margin: 8mm 0;
+    border: 1px solid #334155;
+  }
+  .code .k { color: #7DD3FC; } .code .c { color: #86EFAC; } .code .s { color: #FDBA74; } .code .n { color: #FDE68A; }
+
+  .grid { display: flex; gap: 8mm; }
+  .grid .card { flex: 1; }
+
+  .footer-line {
+    margin-top: 12mm; border-top: 2px solid #26C6DA; padding-top: 6mm;
+    display: flex; justify-content: space-between; font-size: 12.5px; color: #607D8B;
+  }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="ctr">
+    <div class="badge">EDICIÓN PREMIUM</div>
+    <h1>Aprende Java<br>Jugando</h1>
+    <div class="rule"></div>
+    <div class="sub">Desarrolla un Triki con Interfaz Gráfica<br>e Inteligencia Artificial (Minimax) desde Cero</div>
+    <div class="author">Carlos Alberto Robayo Delgado</div>
+    <div class="chips">
+      <span class="chip">☕ Java</span><span class="chip">🖥️ Swing</span><span class="chip">🤖 Minimax</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="content">
+  <div class="page"><span>Capítulo 1 · Introducción</span><span class="pagen">01</span></div>
+  <p class="lead">Bienvenido a una forma nueva de aprender Java: construyendo el clásico juego del Triki mientras descubres, paso a paso, los fundamentos de la programación orientada a objetos.</p>
+
+  <div class="card dark">
+    <div class="icon i1">🎯</div>
+    <h3>Objetivo del libro</h3>
+    <p>Al finalizar este libro habrás construido un Triki funcional con interfaz gráfica (Swing) y una máquina oponente invencible gracias al algoritmo Minimax. Aprenderás haciendo, no solo leyendo.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card blue">
+      <div class="icon i2">📘</div>
+      <h3>¿A quién va dirigido?</h3>
+      <ul>
+        <li>Principiantes que quieren aprender Java de forma práctica.</li>
+        <li>Estudiantes que buscan un proyecto real y divertido.</li>
+        <li>Curiosos del desarrollo de videojuegos sencillos.</li>
+      </ul>
+    </div>
+    <div class="card cyan">
+      <div class="icon i2">🧩</div>
+      <h3>¿Qué construirás?</h3>
+      <ul>
+        <li>Un tablero Triki de 3×3 (o más).</li>
+        <li>Jugador contra jugador.</li>
+        <li>Modo contra la máquina con Minimax.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="titulo">Empecemos a codear</h2>
+  <div class="code">
+<span class="c">// Punto de entrada del programa</span>
+<span class="k">public static void</span> main(<span class="n">String</span>[] args) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">System.out</span>.println(<span class="s">"¡Triki!"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">new</span> <span class="n">Tablero</span>().init();
+}
+  </div>
+
+  <div class="footer-line"><span>Aprende Java Jugando · Triki Premium</span><span>Página 1</span></div>
+</div>
+
+</body>
+</html>
