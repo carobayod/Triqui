@@ -20,7 +20,7 @@ Desde `manual/`:
 | `.docx` | `pandoc Aprendiendo_a_programar_jugando_con_el_Triki.md -o Aprendiendo_a_programar_jugando_con_el_Triki.docx` | `unzip -l` (word/document.xml), tamaño |
 | `.epub` | `pandoc <canónica> -o Libro_Aprende_Java_Triqui.epub --toc --toc-depth=2 --metadata lang=es` | `unzip -l` (mimetype), epubcheck si existe |
 | Canva A/B/C (HTML→PDF) | `python3 templates_canva/build_canva.py` (pandoc html5 embed `--toc-depth=2` + `--lua-filter=strip-emoji.lua`, plantillas `css_*.css` + `portada_*.html`, WeasyPrint) | `pdfinfo` páginas/tamaño |
-| Premium (LaTeX/xelatex) | `pandoc <canónica> --pdf-engine=xelatex -H header.tex --include-before-body cover.tex --lua-filter ... -o Libro_Aprende_Java_Triqui_Premium.pdf` | `pdfinfo` + render de páginas (`pdftoppm`) |
+| Premium (LaTeX/xelatex) | `pandoc <canónica> --pdf-engine=xelatex -H header.tex -H cover.tex --listings --lua-filter ... -o Libro_Aprende_Java_Triqui_Premium.pdf` | `pdfinfo` + render de páginas (`pdftoppm`) |
 
 Filtros lua disponibles: `boxes-tcolorbox.lua` (callouts 💡⚠️🏆 → tcolorbox), `fix-figure.lua`, `highlight-final.lua`, `strip-newpage.lua`, `strip-emoji.lua` (usado solo en Canva; en LaTeX los emojis pasan por tcolorbox).
 

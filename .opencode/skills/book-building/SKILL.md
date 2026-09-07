@@ -31,6 +31,7 @@ Regenera `Libro_Aprende_Java_Triqui_Canva_{A,B,C}.pdf`. Internamente: pandoc `ht
 ```
 pandoc Aprendiendo_a_programar_jugando_con_el_Triki.md -o Libro_Aprende_Java_Triqui_Premium.pdf \
   --pdf-engine=xelatex --toc \
+  --listings \
   -H header.tex \
   -H cover.tex \
   --lua-filter=highlight-final.lua \
