@@ -17,6 +17,8 @@ manual/Video/media/
 manual/Video/*.mp4
 manual/Video/__pycache__/
 manual/*.docx
+# ...pero reference.docx es input de build del .docx (Georgia), no salida
+!manual/reference.docx
 manual/*.epub
 manual/Libro_Aprende_Java_Triqui_Canva_*.pdf
 manual/Libro_Aprende_Java_Triqui_Premium.pdf
