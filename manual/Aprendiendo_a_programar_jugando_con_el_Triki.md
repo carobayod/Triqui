@@ -15,6 +15,8 @@ Este manual está pensado para principiantes absolutos. Usamos un tono cercano y
 
 El libro está organizado en cinco partes pensadas para aprender en orden. La Parte Cero te enseña las reglas del juego y te muestra una partida completa bajo el microscopio, para que entiendas qué vamos a construir desde el primer minuto. La Parte I te prepara el taller: instalas el entorno y ejecutas el Triki por primera vez. La Parte II cubre los fundamentos de la programación con Java. La Parte III te muestra cómo está construido el juego, empezando por el mapa del código. La Parte IV presenta las herramientas profesionales: la línea de comandos, Maven, Git y las pruebas unitarias. Cierra con un glosario y un apéndice de referencia rápida del código.
 
+El código completo del proyecto está publicado en GitHub para que puedas descargarlo y ejecutarlo desde el primer minuto (lo hacemos en el Capítulo 3). Lo que este libro te da es el camino para entenderlo: por qué está escrito así, archivo por archivo, hasta que puedas cambiarlo a tu gusto.
+
 > 💡 **CONSEJO:** No te saltes la Parte I. Configurar bien el entorno (JDK, IDE y Maven) y ejecutar el juego temprano es el primer paso para que todo lo demás funcione sin frustraciones.
 
 ---
