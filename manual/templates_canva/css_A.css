@@ -6,30 +6,24 @@ h1, h2, h3, h4 { color: #1A237E; }
 h1 { border-bottom: 4px solid #26C6DA; padding-bottom: 4mm; }
 h2 { border-left: 6px solid #26C6DA; padding-left: 5mm; }
 
-/* ---- Portada ---- */
+/* ---- Portada (V1 "Código nocturno", tema índigo) ---- */
 .cover {
-  width: 210mm; height: 297mm;
-  background: linear-gradient(135deg, #1A237E 0%, #3949AB 55%, #26C6DA 100%);
-  color: white; position: relative; overflow: hidden;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  page-break-after: always;
+  background:
+    radial-gradient(120% 90% at 12% -5%, #16325C 0%, rgba(22,50,92,0) 55%),
+    radial-gradient(110% 80% at 100% 105%, #0E2B45 0%, rgba(14,43,69,0) 55%),
+    linear-gradient(160deg, #0B1220 0%, #0D1830 55%, #0B1220 100%);
+  color: #FFFFFF;
 }
-.cover .orb { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.10); }
-.cover .orb1 { width: 220mm; height: 220mm; top: -80mm; right: -70mm; }
-.cover .orb2 { width: 150mm; height: 150mm; bottom: -50mm; left: -40mm; background: rgba(38,198,218,0.25); }
-.cover .ctr { position: relative; text-align: center; width: 180mm; z-index: 2; }
-.cover .badge {
-  display: inline-block; background: #26C6DA; color: #00324b;
-  font-weight: 800; font-size: 20px; padding: 6px 22px; border-radius: 40px;
-  letter-spacing: 3px; margin-bottom: 12mm;
-}
-.cover h1 { font-family: Georgia, serif; font-size: 46px; line-height: 1.15; border: none; padding: 0; margin: 0 0 8mm 0; }
-.cover .rule { width: 60mm; height: 4px; background: #26C6DA; border-radius: 2px; margin: 0 auto 8mm; }
-.cover .sub { font-size: 17px; line-height: 1.5; opacity: 1; }
-.cover .author { margin-top: 12mm; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.4); padding-top: 6mm; width: 100mm; margin-left: auto; margin-right: auto; }
-.cover .chips { margin-top: 12mm; }
-.cover .chip { display: inline-block; background: rgba(255,255,255,0.16); padding: 4px 14px; border-radius: 30px; font-size: 11px; margin: 0 3px; border: 1px solid rgba(255,255,255,0.35); }
-.cover .mockup { width: 112mm; }
+.cover .orb { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.06); }
+.cover .orb1 { width: 180mm; height: 180mm; top: -60mm; right: -70mm; }
+.cover .orb2 { width: 140mm; height: 140mm; bottom: -50mm; left: -60mm; background: rgba(74,222,128,0.08); }
+.cover .badge .pill { border: 1.2pt solid rgba(255,255,255,0.28); color: rgba(255,255,255,0.85); }
+.cover h1 { color: #FFFFFF; }
+.cover h1 .grn { color: #4ADE80; }
+.cover .sub { color: rgba(255,255,255,0.80); }
+.cover .sub .accent { color: #4ADE80; }
+.cover .author { color: rgba(255,255,255,0.72); }
+.cover .cred { color: rgba(255,255,255,0.55); }
 
 /* ---- Blockquotes ---- */
 blockquote { background: linear-gradient(135deg,#E8EAF6,#F5F7FF); border-top: 4px solid #3949AB; border-radius: 10px; }

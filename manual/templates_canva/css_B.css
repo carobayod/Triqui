@@ -6,27 +6,22 @@ h1, h2, h3, h4 { color: #3A2E39; }
 h1 { border-bottom: 4px solid #FFD9E8; padding-bottom: 4mm; }
 h2 { border-left: 6px solid #FFD9E8; padding-left: 5mm; }
 
-/* ---- Portada ---- */
+/* ---- Portada (V1, tema marfil) ---- */
 .cover {
-  width: 210mm; height: 297mm; background: #FFF7E6; color: #3A2E39;
-  position: relative; overflow: hidden; text-align: center;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  page-break-after: always;
+  background: #FBF8F1;
+  color: #141414;
 }
 .cover .blob { position: absolute; border-radius: 50%; }
-.cover .b1 { width: 160mm; height: 160mm; background: #FFD9E8; top: -50mm; left: -40mm; opacity: 0.9; }
-.cover .b2 { width: 120mm; height: 120mm; background: #C9F0E9; bottom: -30mm; right: -30mm; }
-.cover .b3 { width: 90mm; height: 90mm; background: #FFE3B3; top: 20mm; right: -20mm; opacity: 0.85; }
-.cover .ctr { position: relative; width: 170mm; z-index: 2; }
-.cover .emoji-row { font-size: 42px; margin-bottom: 10mm; letter-spacing: 6mm; }
-.cover h1 { font-family: "Segoe UI", Arial, sans-serif; font-size: 48px; font-weight: 900; color: #3A2E39; border: none; padding: 0; margin: 0 0 6mm 0; }
-.cover .pill { display: inline-block; background: #C9F0E9; color: #006D5B; font-weight: 800; font-size: 18px; padding: 5px 22px; border-radius: 40px; margin-bottom: 10mm; }
-.cover .dots { letter-spacing: 5mm; font-size: 20px; color: #FF9E9E; margin: 6mm 0; }
-.cover .sub { font-family: Georgia, "Times New Roman", serif; font-size: 18px; color: #5C4D5E; margin-bottom: 8mm; }
-.cover .author { font-family: Georgia, "Times New Roman", serif; font-size: 14px; color: #8A7B8D; }
-.cover .sub .accent { color: #15803d; }
-.cover .mockup { width: 112mm; }
-.cover .cred { color: #8A7B8D; margin-top: 10mm; font-size: 11px; }
+.cover .b1 { width: 170mm; height: 170mm; background: #FFD9E8; top: -60mm; left: -55mm; opacity: 0.5; }
+.cover .b2 { width: 130mm; height: 130mm; background: #C9F0E9; bottom: -35mm; right: -45mm; }
+.cover .b3 { width: 95mm; height: 95mm; background: #FFE3B3; top: 12mm; right: -30mm; opacity: 0.45; }
+.cover .badge .pill { border: 1.1pt solid rgba(20,20,20,0.35); color: #6B6B6B; }
+.cover h1 { color: #141414; }
+.cover h1 .grn { color: #15803D; }
+.cover .sub { color: #4A4A4A; }
+.cover .sub .accent { color: #15803D; }
+.cover .author { color: #3A3A3A; }
+.cover .cred { color: #99938A; }
 
 /* ---- Blockquotes ---- */
 blockquote { background: linear-gradient(135deg,#C9F0E9,#EAFBF7); border-left: 6px solid #3bb79a; border-radius: 10px; }

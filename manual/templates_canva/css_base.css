@@ -149,17 +149,41 @@ figcaption {
 /* ---- Footer respeto espacios ---- */
 img { max-width: 100%; }
 
-/* ---- Portada: mockup, acento y credibilidad ---- */
-.cover .mockup {
-  display: block;
-  width: 118mm;
-  margin: 5mm auto 7mm auto;
-  border-radius: 14px;
+/* ---- Portada V1 "Código nocturno": composición compartida ----
+   El layout es idéntico en los 3 temas; la paleta vive en css_{A,B,C}.css. */
+.cover {
+  width: 210mm; height: 297mm;
+  position: relative; overflow: hidden; text-align: center;
 }
-.cover .sub .accent { color: #22c55e; font-weight: 700; }
+.cover .gridbg { position: absolute; top: 0; left: 0; width: 210mm; height: 297mm; z-index: 0; }
+.cover .badge {
+  position: absolute; top: 22mm; left: 0; width: 100%;
+  font-size: 11pt; letter-spacing: 4px; text-align: center;
+  z-index: 1;
+}
+.cover .badge .pill { display: inline-block; padding: 3pt 16pt; border-radius: 999px; }
+.cover h1 {
+  position: absolute; top: 40mm; left: 0; width: 100%;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700; font-size: 46pt; line-height: 1.08; letter-spacing: 1px;
+  border: none; padding: 0; margin: 0; text-align: center;
+  z-index: 1;
+}
+.cover .art { position: absolute; top: 96mm; left: 0; width: 100%; text-align: center; z-index: 1; }
+.cover .art svg { vertical-align: top; }
+.cover .sub {
+  position: absolute; top: 210mm; left: 0; width: 100%;
+  font-size: 15pt; line-height: 1.5; text-align: center;
+  z-index: 1;
+}
+.cover .sub .accent { font-weight: 700; }
+.cover .author {
+  position: absolute; top: 252mm; left: 0; width: 100%;
+  font-size: 13pt; letter-spacing: 0.5px; text-align: center;
+  z-index: 1;
+}
 .cover .cred {
-  margin-top: 13mm;
-  font-size: 12px;
-  opacity: 0.85;
-  letter-spacing: 0.3px;
+  position: absolute; top: 271mm; left: 0; width: 100%;
+  font-size: 10.5pt; letter-spacing: 1px; text-align: center;
+  z-index: 1;
 }

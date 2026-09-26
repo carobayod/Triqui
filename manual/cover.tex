@@ -1,45 +1,97 @@
 \usepackage{tikz}
+\usepackage{eso-pic}
 \usepackage{tcolorbox}
 
+% --- Colores heredados usados por el cuerpo (highlight-final.lua) ---
 \definecolor{coverblue}{RGB}{0,70,150}
 \definecolor{coverdarkblue}{RGB}{0,40,100}
+
+% --- Paleta "Código nocturno" (V1) ---
+\definecolor{coverdark}{RGB}{11,18,32}
+\definecolor{covertop}{RGB}{22,50,92}
+\definecolor{coverbottom}{RGB}{13,24,48}
+\definecolor{coverline}{RGB}{43,62,96}
+\definecolor{boardstroke}{RGB}{59,81,120}
+\definecolor{boardfill}{RGB}{15,44,29}
+\definecolor{boardblue}{RGB}{124,166,255}
+\definecolor{boardorange}{RGB}{255,158,99}
 \definecolor{accentgreen}{RGB}{74,222,128}
 
 \renewcommand{\maketitle}{
   \begin{titlepage}
     \thispagestyle{empty}
-    \begin{tikzpicture}[remember picture, overlay]
-      % Bloque azul en la parte superior (~62% de la pagina)
-      \fill[coverblue] (current page.north west) rectangle
-        ([yshift=-0.62\paperheight]current page.north east);
+    % Dibuja la portada completa en coordenadas absolutas de página
+    % (esquina inferior izquierda = (0,0), y en mm ascendente).
+    \AddToShipoutPictureBG*{%
+      \AtPageLowerLeft{%
+        \begin{tikzpicture}[x=1mm, y=1mm]
+          % ===== Fondo oscuro con degradado diagonal =====
+          \shade[top color=covertop, bottom color=coverbottom, shading angle=160]
+            (0,0) rectangle (210,297);
 
-      % ===== Titulo (marca) en Georgia bold =====
-      \node[anchor=center, text=white, font=\Huge\bfseries, align=center, text width=0.9\paperwidth]
-        at ([yshift=-0.085\paperheight]current page.north)
-        {Aprende Java\\[0.18em]Jugando};
+          % ===== Rejilla sutil de tablero 3x3 (página completa) =====
+          \draw[coverline, line width=0.35pt] (0,99)  -- (210,99);
+          \draw[coverline, line width=0.35pt] (0,198) -- (210,198);
+          \draw[coverline, line width=0.35pt] (70,0)  -- (70,297);
+          \draw[coverline, line width=0.35pt] (140,0) -- (140,297);
 
-      % ===== Mockup de la ventana del juego (imagen central) =====
-      \node[anchor=center] at ([yshift=-0.335\paperheight]current page.north)
-        {\includegraphics[width=0.415\paperwidth]{assets/mockup_juego.png}};
+          % ===== Badge =====
+          \node[rounded corners=1ex, draw=white!28, text=white!85,
+                inner sep=0, inner xsep=1.5em, inner ysep=0.32em,
+                font=\fontsize{11}{13}\selectfont]
+            at (105,275) {EDICIÓN PREMIUM};
 
-      % ===== Subtitulo de venta, dentro del bloque azul, acento verde =====
-      \node[anchor=center, text=white, font=\Large, align=center, text width=0.8\paperwidth]
-        at ([yshift=-0.555\paperheight]current page.north)
-        {De no saber programar a tu primer juego\\con \textcolor{accentgreen}{\textbf{Inteligencia Artificial}} (Minimax)};
+          % ===== Titulo en Georgia bold =====
+          \node[anchor=center, text=white, font=\fontsize{44}{48}\bfseries\selectfont,
+                align=center]
+            at (105,243)
+            {Aprende Java\\[0.1em]\textcolor{accentgreen}{Jugando}};
 
-      % ===== Autor en azul oscuro, debajo del bloque =====
-      \node[anchor=center, text=coverdarkblue, font=\large, align=center]
-        at ([yshift=-0.74\paperheight]current page.north)
-        {Carlos Alberto Robayo Delgado};
+          % ===== Arte: tablero 3x3 estilizado (centro en y=163) =====
+          \begin{scope}[shift={(105,163)}]
+            % Rectangulo exterior (relleno sutil sin opacidad: evita el
+            % problema de pgf/poppler con ExtGState)
+            \draw[draw=boardstroke, line width=0.45mm, rounded corners=6mm,
+                  fill=boardfill]
+              (-29mm,-29mm) rectangle (29mm,29mm);
+            % Rejilla interior
+            \draw[coverline, line width=0.55mm] (-19mm,-29mm) -- (-19mm,29mm);
+            \draw[coverline, line width=0.55mm] (19mm,-29mm) -- (19mm,29mm);
+            \draw[coverline, line width=0.55mm] (-29mm,-19mm) -- (29mm,-19mm);
+            \draw[coverline, line width=0.55mm] (-29mm,19mm) -- (29mm,19mm);
+            % X azul, celda (arriba-izquierda)
+            \draw[boardblue, line width=1.7mm, line cap=round] (-15.2mm,22.8mm) -- (-22.8mm,15.2mm);
+            \draw[boardblue, line width=1.7mm, line cap=round] (-22.8mm,22.8mm) -- (-15.2mm,15.2mm);
+            % X azul, celda (medio-izquierda)
+            \draw[boardblue, line width=1.7mm, line cap=round] (-15.2mm,3.8mm) -- (-22.8mm,-3.8mm);
+            \draw[boardblue, line width=1.7mm, line cap=round] (-22.8mm,3.8mm) -- (-15.2mm,-3.8mm);
+            % O naranja (arriba-centro) y (derecha-medio)
+            \draw[boardorange, line width=1.7mm] (0mm,19mm) circle (4.6mm);
+            \draw[boardorange, line width=1.7mm] (19mm,0mm) circle (4.6mm);
+            % X verde central (jugada de la IA)
+            \draw[accentgreen, line width=1.9mm, line cap=round] (4mm,4mm) -- (-4mm,-4mm);
+            \draw[accentgreen, line width=1.9mm, line cap=round] (4mm,-4mm) -- (-4mm,4mm);
+          \end{scope}
 
-      % ===== Linea de credibilidad en gris =====
-      \node[anchor=center, text=gray, font=\large, align=center]
-        at ([yshift=-0.80\paperheight]current page.north)
-        {Curso práctico, guiado y con retos de código};
+          % ===== Subtitulo de venta =====
+          \node[anchor=center, text=white!80, font=\fontsize{15}{22}\selectfont,
+                align=center, text width=168mm]
+            at (105,78)
+            {De no saber programar a tu primer juego\\con \textcolor{accentgreen}{\textbf{Inteligencia Artificial}} (Minimax)};
 
-      % Linea decorativa azul en la parte inferior
-      \fill[coverblue] ([yshift=1.5cm]current page.south west) rectangle
-        ([yshift=1.65cm]current page.south east);
-    \end{tikzpicture}
+          % ===== Autor =====
+          \node[anchor=center, text=white!72, font=\fontsize{13}{17}\selectfont, align=center]
+            at (105,40)
+            {Carlos Alberto Robayo Delgado};
+
+          % ===== Linea de credibilidad =====
+          \node[anchor=center, text=white!55, font=\fontsize{11}{14}\selectfont, align=center]
+            at (105,20)
+            {CURSO PRÁCTICO · GUIADO · CON RETOS DE CÓDIGO};
+        \end{tikzpicture}
+      }%
+    }
+    \null
+    \vfill
   \end{titlepage}
 }

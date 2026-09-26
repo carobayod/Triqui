@@ -7,33 +7,21 @@ h1 { border-bottom: 4px solid #6366F1; padding-bottom: 4mm; }
 h2 { border-left: 6px solid #6366F1; padding-left: 5mm; }
 a { color: #6366F1; }
 
-/* ---- Portada ---- */
+/* ---- Portada (V1, tema pizarra/cian) ---- */
 .cover {
-  width: 210mm; height: 297mm; background: #0F172A; color: #F8FAFC;
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  page-break-after: always;
+  background: linear-gradient(160deg, #0B1020 0%, #131C36 52%, #0F172A 100%);
+  color: #F8FAFC;
 }
-.cover .grid-bg {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(148,163,184,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148,163,184,0.12) 1px, transparent 1px);
-  background-size: 24mm 24mm;
-}
-.cover .glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.55), transparent 70%); }
-.cover .g1 { width: 180mm; height: 180mm; top: -50mm; left: -50mm; }
-.cover .g2 { width: 160mm; height: 160mm; background: radial-gradient(circle, rgba(34,211,238,0.5), transparent 70%); bottom: -40mm; right: -50mm; }
-.cover .ctr { position: relative; text-align: center; width: 170mm; z-index: 3; }
-.cover .tag { display: inline-block; border: 2px solid #22D3EE; color: #22D3EE; font-weight: 800; font-size: 16px; letter-spacing: 4px; padding: 5px 18px; border-radius: 6px; margin-bottom: 12mm; }
-.cover h1 { font-family: Arial, sans-serif; font-weight: 900; font-size: 52px; letter-spacing: 1px; line-height: 1.05; color: #F8FAFC; border: none; padding: 0; margin: 0 0 8mm 0; }
-.cover .hline { width: 50mm; height: 4px; background: linear-gradient(90deg,#6366F1,#22D3EE); margin: 0 auto 10mm; border-radius: 2px; }
-.cover .sub { font-size: 18px; color: #CBD5E1; margin-bottom: 12mm; }
-.cover .meta { font-size: 13px; color: #94A3B8; }
-.cover .meta b { color: #F8FAFC; }
-.cover .author { font-family: Georgia, "Times New Roman", serif; font-size: 14px; color: #CBD5E1; margin-top: 10mm; letter-spacing: 0.5px; }
-.cover .cred { color: #94A3B8; margin-top: 12mm; font-size: 12px; }
-.cover .mockup { width: 112mm; }
+.cover .orb { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.5), transparent 70%); }
+.cover .o1 { width: 190mm; height: 190mm; top: -60mm; left: -65mm; }
+.cover .o2 { width: 170mm; height: 170mm; background: radial-gradient(circle, rgba(34,211,238,0.45), transparent 70%); bottom: -50mm; right: -70mm; }
+.cover .badge .pill { border: 1.1pt solid rgba(34,211,238,0.45); color: #22D3EE; }
+.cover h1 { color: #F8FAFC; }
+.cover h1 .grn { color: #22D3EE; }
+.cover .sub { color: #CBD5E1; }
+.cover .sub .accent { color: #22D3EE; }
+.cover .author { color: #CBD5E1; }
+.cover .cred { color: #94A3B8; }
 
 /* ---- Blockquotes ---- */
 blockquote { background: #EEF2FF; border-left: 6px solid #818CF8; border-radius: 10px; }
