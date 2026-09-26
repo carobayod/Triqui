@@ -10,12 +10,21 @@
 \definecolor{coverdark}{RGB}{11,18,32}
 \definecolor{covertop}{RGB}{22,50,92}
 \definecolor{coverbottom}{RGB}{13,24,48}
-\definecolor{coverline}{RGB}{43,62,96}
-\definecolor{boardstroke}{RGB}{59,81,120}
+\definecolor{coverline}{RGB}{62,84,122}
+\definecolor{boardline}{RGB}{124,150,188}
+\definecolor{boardedge}{RGB}{172,194,224}
 \definecolor{boardfill}{RGB}{15,44,29}
 \definecolor{boardblue}{RGB}{124,166,255}
 \definecolor{boardorange}{RGB}{255,158,99}
 \definecolor{accentgreen}{RGB}{74,222,128}
+% --- Jerarquía tonal del texto ---
+% OJO: en xcolor, white!NN equivale a blanco puro (el color por defecto del
+% mezcla es el propio blanco), así que la atenuación hay quearla a mano.
+\definecolor{inkbadge}{RGB}{206,218,235}
+\definecolor{badgeedge}{RGB}{92,116,152}
+\definecolor{inksub}{RGB}{206,218,235}
+\definecolor{inkauthor}{RGB}{176,192,214}
+\definecolor{inkcredit}{RGB}{140,158,184}
 
 \renewcommand{\maketitle}{
   \begin{titlepage}
@@ -30,13 +39,13 @@
             (0,0) rectangle (210,297);
 
           % ===== Rejilla sutil de tablero 3x3 (página completa) =====
-          \draw[coverline, line width=0.35pt] (0,99)  -- (210,99);
-          \draw[coverline, line width=0.35pt] (0,198) -- (210,198);
-          \draw[coverline, line width=0.35pt] (70,0)  -- (70,297);
-          \draw[coverline, line width=0.35pt] (140,0) -- (140,297);
+          \draw[coverline, line width=0.4pt] (0,99)  -- (210,99);
+          \draw[coverline, line width=0.4pt] (0,198) -- (210,198);
+          \draw[coverline, line width=0.4pt] (70,0)  -- (70,297);
+          \draw[coverline, line width=0.4pt] (140,0) -- (140,297);
 
           % ===== Badge =====
-          \node[rounded corners=1ex, draw=white!28, text=white!85,
+          \node[rounded corners=1ex, draw=badgeedge, text=inkbadge,
                 inner sep=0, inner xsep=1.5em, inner ysep=0.32em,
                 font=\fontsize{11}{13}\selectfont]
             at (105,275) {EDICIÓN PREMIUM};
@@ -51,14 +60,14 @@
           \begin{scope}[shift={(105,163)}]
             % Rectangulo exterior (relleno sutil sin opacidad: evita el
             % problema de pgf/poppler con ExtGState)
-            \draw[draw=boardstroke, line width=0.45mm, rounded corners=6mm,
+            \draw[draw=boardedge, line width=0.5mm, rounded corners=6mm,
                   fill=boardfill]
               (-29mm,-29mm) rectangle (29mm,29mm);
             % Rejilla interior
-            \draw[coverline, line width=0.55mm] (-19mm,-29mm) -- (-19mm,29mm);
-            \draw[coverline, line width=0.55mm] (19mm,-29mm) -- (19mm,29mm);
-            \draw[coverline, line width=0.55mm] (-29mm,-19mm) -- (29mm,-19mm);
-            \draw[coverline, line width=0.55mm] (-29mm,19mm) -- (29mm,19mm);
+            \draw[boardline, line width=0.6mm] (-19mm,-29mm) -- (-19mm,29mm);
+            \draw[boardline, line width=0.6mm] (19mm,-29mm) -- (19mm,29mm);
+            \draw[boardline, line width=0.6mm] (-29mm,-19mm) -- (29mm,-19mm);
+            \draw[boardline, line width=0.6mm] (-29mm,19mm) -- (29mm,19mm);
             % X azul, celda (arriba-izquierda)
             \draw[boardblue, line width=1.7mm, line cap=round] (-15.2mm,22.8mm) -- (-22.8mm,15.2mm);
             \draw[boardblue, line width=1.7mm, line cap=round] (-22.8mm,22.8mm) -- (-15.2mm,15.2mm);
@@ -74,18 +83,18 @@
           \end{scope}
 
           % ===== Subtitulo de venta =====
-          \node[anchor=center, text=white!80, font=\fontsize{15}{22}\selectfont,
+          \node[anchor=center, text=inksub, font=\fontsize{15}{22}\selectfont,
                 align=center, text width=168mm]
             at (105,78)
             {De no saber programar a tu primer juego\\con \textcolor{accentgreen}{\textbf{Inteligencia Artificial}} (Minimax)};
 
           % ===== Autor =====
-          \node[anchor=center, text=white!72, font=\fontsize{13}{17}\selectfont, align=center]
+          \node[anchor=center, text=inkauthor, font=\fontsize{13}{17}\selectfont, align=center]
             at (105,40)
             {Carlos Alberto Robayo Delgado};
 
           % ===== Linea de credibilidad =====
-          \node[anchor=center, text=white!55, font=\fontsize{11}{14}\selectfont, align=center]
+          \node[anchor=center, text=inkcredit, font=\fontsize{11}{14}\selectfont, align=center]
             at (105,20)
             {CURSO PRÁCTICO · GUIADO · CON RETOS DE CÓDIGO};
         \end{tikzpicture}

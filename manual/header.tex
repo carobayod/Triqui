@@ -3,6 +3,9 @@
 \setsansfont{DejaVu Sans}
 \setmonofont{Fira Code}[Scale=0.85]
 \usepackage{xcolor}
+% A4 con márgenes de 2,5 cm: el \textwidth por defecto de LaTeX (345 pt =
+% 122 mm) dejaba 44 mm de margen y las imágenes salían espichadas.
+\usepackage[a4paper,margin=2.5cm,headheight=14pt,headsep=7mm,footskip=12mm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{listings}
