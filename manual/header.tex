@@ -1,6 +1,6 @@
 \usepackage{fontspec}
 \setmainfont{Georgia}[Ligatures=TeX]
-\setsansfont{DejaVu Sans}
+\setsansfont{Georgia}
 \setmonofont{Fira Code}[Scale=0.85]
 \usepackage{xcolor}
 % A4 con márgenes de 2,5 cm: el \textwidth por defecto de LaTeX (345 pt =
@@ -60,13 +60,15 @@
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
+% Títulos en Georgia Bold y en negro: con \sffamily salían en DejaVu Sans
+% (mientras el cuerpo es Georgia) y en azul, que no coincide con los Canva.
 \titleformat{\section}
-  {\Large\bfseries\sffamily\color{blue!70!black}}
+  {\Large\bfseries}
   {\thesection}{0.5em}{}
 \titlespacing*{\section}{0pt}{0pt}{0.6em}
 \newcommand{\sectionbreak}{\clearpage}
 \titleformat{\subsection}
-  {\large\bfseries\sffamily}
+  {\large\bfseries}
   {\thesubsection}{0.5em}{}
 
 \usepackage{hyperref}

@@ -8,7 +8,7 @@
     content: counter(page);
     font-size: 9pt;
     color: #94A3B8;
-    font-family: "Liberation Sans", Arial, sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
   }
 }
 @page cover {
@@ -97,6 +97,13 @@ blockquote {
 blockquote p { margin: 0 0 2mm 0; }
 
 /* ---- Código ---- */
+/* El código en línea (javac, git clone, JAVA_HOME) caía al "monospace"
+   genérico, que en esta máquina es DejaVu Sans Mono, mientras los bloques
+   usan Fira Code. Aquí se fija la misma pila para que todo el código del
+   libro se vea igual. */
+code {
+  font-family: "Fira Code", "DejaVu Sans Mono", monospace;
+}
 pre.sourceCode {
   background: #F5F5F5;
   border: 1px solid #6E6E78;

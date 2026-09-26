@@ -17,7 +17,7 @@ Desde `manual/`:
 
 | Formato | Comando | Verificación |
 |---|---|---|
-| `.docx` | `pandoc Aprendiendo_a_programar_jugando_con_el_Triki.md -o Aprendiendo_a_programar_jugando_con_el_Triki.docx` | `unzip -l` (word/document.xml), tamaño |
+| `.docx` | `pandoc Aprendiendo_a_programar_jugando_con_el_Triki.md -o Aprendiendo_a_programar_jugando_con_el_Triki.docx --reference-doc=reference.docx` | `unzip -l` (word/document.xml), tamaño, `word/theme/theme1.xml` → Georgia |
 | `.epub` | `pandoc <canónica> -o Libro_Aprende_Java_Triqui.epub --toc --toc-depth=2 --metadata lang=es` | `unzip -l` (mimetype), epubcheck si existe |
 | Canva A/B/C (HTML→PDF) | `python3 templates_canva/build_canva.py` (pandoc html5 embed `--toc-depth=2` + `--lua-filter=strip-emoji.lua`, plantillas `css_*.css` + `portada_*.html`, WeasyPrint) | `pdfinfo` páginas/tamaño |
 | Premium (LaTeX/xelatex) | `pandoc <canónica> --pdf-engine=xelatex -V papersize=a4 -H header.tex -H cover.tex --listings --lua-filter ... -o Libro_Aprende_Java_Triqui_Premium.pdf` | `pdfinfo` + render de páginas (`pdftoppm`) |
@@ -54,6 +54,7 @@ Verificación: `ffprobe` → 1920x1080p30, h264 yuv420p, aac mono, duración ~8:
 - Render en LaTeX vía tcolorbox (`consejocolor`/`bugcolor`); en Canva/HTML se quitan los emojis (`strip-emoji.lua`).
 - Imágenes: `![texto](assets/...)`. TOC de pandoc depth 2 → solo H1 (partes) y H2 (capítulos) entran al índice.
 - Código en Java con resaltado de listings (LaTeX) / highlight-js (HTML).
+- **Tipografía (unificada 2026-09-26)**: Georgia para todo el texto (cuerpo, títulos, portada, paginación) y Fira Code para el código, en los 4 PDF, el EPUB y el DOCX. En LaTeX: nada de `\sffamily` ni de color en los `titlesec` de `header.tex`. En CSS: la regla `code { font-family }` debe existir (si no, el código en línea cae al `monospace` genérico) y `@bottom-center` no debe usar Liberation Sans. `pdffonts` debe dar solo Georgia (3) + Fira Code (2).
 
 ## Entorno y trampas operativas
 
