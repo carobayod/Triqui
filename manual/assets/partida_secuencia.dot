@@ -12,8 +12,4 @@ digraph partida_secuencia {
     n1 -> n2 [style=invis];
     n2 -> n3 [style=invis];
     n3 -> n4 [style=invis];
-    nota [label="X = jugador   O = computadora   celda verde = columna ganadora",
-         shape=box, style="rounded,filled", fillcolor="#fafafa", color="#bbbbbb",
-         shape=plaintext, fontname="Fira Code", fontsize=11];
-    n4 -> nota [style=invis];
 }

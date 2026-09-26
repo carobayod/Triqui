@@ -48,14 +48,14 @@ Las tres X de la primera columna forman un triki: gana el jugador uno.
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué tamaño tiene el tablero clásico del Triki?
-   a) 3x3. b) 5x5. c) 2x2.
+1. ¿Qué tamaño tiene el tablero clásico del Triki?  
+   a\) 3x3. b\) 5x5. c\) 2x2.  
    **Respuesta correcta: a**
-2. ¿Qué se necesita para ganar?
-   a) Llenar el tablero. b) Tres marcas iguales en línea. c) Jugar de último.
+2. ¿Qué se necesita para ganar?  
+   a\) Llenar el tablero. b\) Tres marcas iguales en línea. c\) Jugar de último.  
    **Respuesta correcta: b**
-3. Si el tablero se llena y nadie ganó, el resultado es...
-   a) Victoria. b) Derrota. c) Empate.
+3. Si el tablero se llena y nadie ganó, el resultado es...  
+   a\) Victoria. b\) Derrota. c\) Empate.  
    **Respuesta correcta: c**
 
 **🏆 RETO DE CÓDIGO:** Abre el juego del Triki (tu profesor te mostrará cómo en la próxima parte) y juega una partida contra la computadora en dificultad Fácil. Mientras juegas, anota con qué símbolo juega cada uno y qué hace falta para ganar. Compara lo que observaste con las reglas de este capítulo.
@@ -75,6 +75,8 @@ Ahora vamos a ver cómo se aplican las reglas del capítulo anterior en una part
 **Movimiento 5:** X completa la columna con (2, 1). ¡Tres X en línea! Termina la partida: gana el jugador.
 
 ![Secuencia de la partida: movimiento por movimiento](assets/partida_secuencia.png){ width=100% }
+
+*X = jugador (tú) · O = computadora · celda verde = columna ganadora.*
 
 El tablero quedó así:
 
@@ -100,14 +102,14 @@ Ese es el ciclo invisible del juego: cada clic desencadena una pequeña cadena d
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es lo primero que ocurre en cada jugada?
-   a) La computadora piensa. b) Se verifica que la casilla esté vacía. c) Suena una música.
+1. ¿Qué es lo primero que ocurre en cada jugada?  
+   a\) La computadora piensa. b\) Se verifica que la casilla esté vacía. c\) Suena una música.  
    **Respuesta correcta: b**
-2. ¿Quién empieza siempre la partida?
-   a) La O. b) La X. c) El que llegue primero.
+2. ¿Quién empieza siempre la partida?  
+   a\) La O. b\) La X. c\) El que llegue primero.  
    **Respuesta correcta: b**
-3. ¿Qué hará la clase IA del proyecto?
-   a) Dibujar la ventana. b) Decidir la jugada de la máquina. c) Controlar los turnos del humano.
+3. ¿Qué hará la clase IA del proyecto?  
+   a\) Dibujar la ventana. b\) Decidir la jugada de la máquina. c\) Controlar los turnos del humano.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Juega una partida contra la computadora y anota, movimiento por movimiento, qué casilla elegiste y por qué. Luego responde para cada jugada: ¿estaba vacía?, ¿formaba un triki?, ¿bloqueaba un triki de la máquina? Ese análisis es exactamente lo que hará nuestro programa por ti en la Parte III.
@@ -180,14 +182,14 @@ Maven compilará el código y lanzará el juego. Se abrirá una ventana pidiénd
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué incluye el JDK?
-   a) Solo un editor. b) El compilador (javac) y la JVM. c) Un navegador.
+1. ¿Qué incluye el JDK?  
+   a\) Solo un editor. b\) El compilador (javac) y la JVM. c\) Un navegador.  
    **Respuesta correcta: b**
-2. ¿Para qué sirve la variable JAVA_HOME?
-   a) Para guardar juegos. b) Para indicar dónde está instalado Java. c) Para conectarse a internet.
+2. ¿Para qué sirve la variable JAVA_HOME?  
+   a\) Para guardar juegos. b\) Para indicar dónde está instalado Java. c\) Para conectarse a internet.  
    **Respuesta correcta: b**
-3. ¿Qué comando descarga el proyecto Triki desde GitHub?
-   a) `git clone https://github.com/carobayod/Triqui.git` b) `mvn exec:java`. c) `java -version`.
+3. ¿Qué comando descarga el proyecto Triki desde GitHub?  
+   a\) `git clone https://github.com/carobayod/Triqui.git` b\) `mvn exec:java`. c\) `java -version`.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Investiga cómo instalar Java en tu sistema operativo específico (Windows, Linux o macOS) siguiendo los pasos de este capítulo, y deja funcionando `java -version` en tu terminal.
@@ -219,14 +221,14 @@ En la Parte IV verás cómo Maven automatiza todo esto en un solo comando, pero 
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué comando compila todos los archivos?
-   a) java. b) javac \*.java. c) cd.
+1. ¿Qué comando compila todos los archivos?  
+   a\) java. b\) javac \*.java. c\) cd.  
    **Respuesta correcta: b**
-2. Después de compilar, ¿qué comando ejecuta el Triki?
-   a) java Tablero. b) javac Tablero. c) run Tablero.
+2. Después de compilar, ¿qué comando ejecuta el Triki?  
+   a\) java Tablero. b\) javac Tablero. c\) run Tablero.  
    **Respuesta correcta: a**
-3. ¿Qué genera la compilación?
-   a) Archivos .txt. b) Archivos .class (bytecode). c) Archivos .docx.
+3. ¿Qué genera la compilación?  
+   a\) Archivos .txt. b\) Archivos .class (bytecode). c\) Archivos .docx.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Compila y ejecuta el Triki manualmente con `javac` y `java` (sin Maven), tal como se explica en este capítulo. Anota los pasos que seguiste y qué archivo `.class` se generó para cada clase.
@@ -245,14 +247,14 @@ En este manual vamos a programar un juego de Triki (tres en raya). Aprenderás a
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Programar es...?
-   a) Hacer dibujos en la computadora. b) Dar instrucciones a la computadora. c) Jugar videojuegos.
+1. ¿Programar es...?  
+   a\) Hacer dibujos en la computadora. b\) Dar instrucciones a la computadora. c\) Jugar videojuegos.  
    **Respuesta correcta: b**
-2. ¿Qué hace la computadora con las instrucciones?
-   a) Las interpreta y las ejecuta. b) Las ignora. c) Las inventa.
+2. ¿Qué hace la computadora con las instrucciones?  
+   a\) Las interpreta y las ejecuta. b\) Las ignora. c\) Las inventa.  
    **Respuesta correcta: a**
-3. ¿A qué se le llama un "bug"?
-   a) A un insecto real. b) A un error en el programa. c) A un comando especial.
+3. ¿A qué se le llama un "bug"?  
+   a\) A un insecto real. b\) A un error en el programa. c\) A un comando especial.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Escribe un pequeño programa que imprima 'Hola, soy Java' usando System.out.println, luego compílalo con `javac` y ejecútalo con `java` para ver el resultado en la terminal.
@@ -267,14 +269,14 @@ Además, Java es un lenguaje "orientado a objetos". Esto significa que organizam
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es la JVM?
-   a) Un lenguaje de programación. b) La máquina virtual que ejecuta Java. c) Un virus.
+1. ¿Qué es la JVM?  
+   a\) Un lenguaje de programación. b\) La máquina virtual que ejecuta Java. c\) Un virus.  
    **Respuesta correcta: b**
-2. ¿Qué significa "orientado a objetos"?
-   a) Organizar el código en piezas llamadas objetos. b) Dibujar objetos. c) Usar computadoras.
+2. ¿Qué significa "orientado a objetos"?  
+   a\) Organizar el código en piezas llamadas objetos. b\) Dibujar objetos. c\) Usar computadoras.  
    **Respuesta correcta: a**
-3. Ventaja de Java: puede ejecutarse en...
-   a) Solo Windows. b) Windows, Linux y Mac. c) Solo teléfonos.
+3. Ventaja de Java: puede ejecutarse en...  
+   a\) Solo Windows. b\) Windows, Linux y Mac. c\) Solo teléfonos.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Investiga qué otros lenguajes de programación existen (por ejemplo Python, C++, JavaScript) y anota una ventaja de cada uno. Reflexiona: ¿por qué crees que Java se usa tanto en el mundo real?
@@ -302,14 +304,14 @@ public class Hola {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué archivo creamos al escribir código Java?
-   a) Un .txt. b) Un .java. c) Un .exe.
+1. ¿Qué archivo creamos al escribir código Java?  
+   a\) Un .txt. b\) Un .java. c\) Un .exe.  
    **Respuesta correcta: b**
-2. ¿Qué hace el compilador (javac)?
-   a) Ejecuta el programa. b) Traduce el código a bytecode. c) Borra archivos.
+2. ¿Qué hace el compilador (javac)?  
+   a\) Ejecuta el programa. b\) Traduce el código a bytecode. c\) Borra archivos.  
    **Respuesta correcta: b**
-3. ¿Qué comando ejecuta el programa?
-   a) `javac`. b) `java`. c) `cd`.
+3. ¿Qué comando ejecuta el programa?  
+   a\) `javac`. b\) `java`. c\) `cd`.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Crea un archivo `Hola.java` que imprima tu nombre. Compílalo con `javac Hola.java` y ejecútalo con `java Hola`. Observa si se genera un archivo `Hola.class` (ese es el bytecode).
@@ -337,14 +339,14 @@ En nuestro `Juego.java` verás palabras como `int`, `boolean`, `public`, `privat
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué tipo de dato guarda "Hola"?
-   a) int. b) boolean. c) String.
+1. ¿Qué tipo de dato guarda "Hola"?  
+   a\) int. b\) boolean. c\) String.  
    **Respuesta correcta: c**
-2. ¿Cuántos valores puede tener un boolean?
-   a) 10. b) 2 (true o false). c) 3.
+2. ¿Cuántos valores puede tener un boolean?  
+   a\) 10. b\) 2 (true o false). c\) 3.  
    **Respuesta correcta: b**
-3. La palabra 'void' significa que el método...
-   a) Devuelve un número. b) No devuelve nada. c) Se repite.
+3. La palabra 'void' significa que el método...  
+   a\) Devuelve un número. b\) No devuelve nada. c\) Se repite.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** En el archivo `Juego.java` del proyecto Triki, identifica al menos 5 palabras reservadas distintas (como int, boolean, public, private, for, return) y escribe en qué línea aparecen.
@@ -377,14 +379,14 @@ public void jugada(int fila, int columna, int turno) {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es una variable?
-   a) Un valor fijo. b) Un espacio de memoria con nombre. c) Un comando.
+1. ¿Qué es una variable?  
+   a\) Un valor fijo. b\) Un espacio de memoria con nombre. c\) Un comando.  
    **Respuesta correcta: b**
-2. La declaración 'int x = 5;' guarda...
-   a) Un texto. b) El número 5. c) Un carácter.
+2. La declaración 'int x = 5;' guarda...  
+   a\) Un texto. b\) El número 5. c\) Un carácter.  
    **Respuesta correcta: b**
-3. En el Triki, ¿qué significa que una casilla tenga valor 0?
-   a) Está vacía. b) La marcó el jugador. c) La marcó la máquina.
+3. En el Triki, ¿qué significa que una casilla tenga valor 0?  
+   a\) Está vacía. b\) La marcó el jugador. c\) La marcó la máquina.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Declara variables de los cuatro tipos (int, boolean, String, char) para representar: el tamaño del tablero, si el juego terminó, el mensaje de bienvenida y la letra que marca al jugador. Asigna un valor inicial a cada una.
@@ -429,14 +431,14 @@ if (juego.getiTurno() == 1) {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Para qué sirve la estructura 'if'?
-   a) Para repetir código. b) Para tomar decisiones. c) Para guardar variables.
+1. ¿Para qué sirve la estructura 'if'?  
+   a\) Para repetir código. b\) Para tomar decisiones. c\) Para guardar variables.  
    **Respuesta correcta: b**
-2. En 'if (x == 1)', ¿qué significa '=='?
-   a) Asignar un valor. b) Comparar si son iguales. c) Sumar.
+2. En 'if (x == 1)', ¿qué significa '=='?  
+   a\) Asignar un valor. b\) Comparar si son iguales. c\) Sumar.  
    **Respuesta correcta: b**
-3. 'else' se ejecuta cuando...
-   a) La condición es verdadera. b) La condición es falsa. c) Nunca.
+3. 'else' se ejecuta cuando...  
+   a\) La condición es verdadera. b\) La condición es falsa. c\) Nunca.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Escribe la estructura if/else que use el Triki para saber si la casilla está vacía antes de marcarla. Pista: usa `juego.getmJuego()[fila][columna] != 0` como condición.
@@ -478,14 +480,14 @@ for (int fila = 0; fila < iTamanio; fila++) {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Para qué sirve un ciclo 'for'?
-   a) Para tomar decisiones. b) Para repetir instrucciones. c) Para declarar variables.
+1. ¿Para qué sirve un ciclo 'for'?  
+   a\) Para tomar decisiones. b\) Para repetir instrucciones. c\) Para declarar variables.  
    **Respuesta correcta: b**
-2. 'fila++' significa...
-   a) Incrementar fila en 1. b) Disminuir fila en 1. c) Poner fila en 0.
+2. 'fila++' significa...  
+   a\) Incrementar fila en 1. b\) Disminuir fila en 1. c\) Poner fila en 0.  
    **Respuesta correcta: a**
-3. ¿Qué pareja de ciclos necesitamos para recorrer una matriz 3x3?
-   a) Uno. b) Dos anidados (filas y columnas). c) Tres.
+3. ¿Qué pareja de ciclos necesitamos para recorrer una matriz 3x3?  
+   a\) Uno. b\) Dos anidados (filas y columnas). c\) Tres.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Escribe un ciclo `for` que recorra el tablero completo y cuente cuántas casillas vacías (valor 0) hay. Este será la base de tu propio método `isTableroLleno`.
@@ -524,14 +526,14 @@ public boolean isTableroLleno() {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es un método?
-   a) Un tipo de variable. b) Un bloque de código reutilizable con nombre. c) Un ciclo.
+1. ¿Qué es un método?  
+   a\) Un tipo de variable. b\) Un bloque de código reutilizable con nombre. c\) Un ciclo.  
    **Respuesta correcta: b**
-2. ¿Qué significan los parámetros de un método?
-   a) Los valores que devuelve. b) Los datos que recibe para trabajar. c) El nombre del método.
+2. ¿Qué significan los parámetros de un método?  
+   a\) Los valores que devuelve. b\) Los datos que recibe para trabajar. c\) El nombre del método.  
    **Respuesta correcta: b**
-3. Si un método usa 'void' en su declaración, significa que...
-   a) Devuelve un número. b) No devuelve nada. c) Es un ciclo.
+3. Si un método usa 'void' en su declaración, significa que...  
+   a\) Devuelve un número. b\) No devuelve nada. c\) Es un ciclo.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Crea un método llamado `sumar` que reciba dos enteros y devuelva su suma usando `return`. Luego otro método `saludar` que no devuelva nada (void) e imprima 'Hola Triki'. Invoca ambos desde `main`.
@@ -571,14 +573,14 @@ public void setbFinJuego(boolean bFinJuego) { this.bFinJuego = bFinJuego; }
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es una clase?
-   a) Un objeto ya creado. b) Una plantilla para crear objetos. c) Una variable.
+1. ¿Qué es una clase?  
+   a\) Un objeto ya creado. b\) Una plantilla para crear objetos. c\) Una variable.  
    **Respuesta correcta: b**
-2. ¿Qué hace 'private'?
-   a) Permite acceder desde cualquier lugar. b) Protege los datos para que solo se accedan desde la clase. c) Es un tipo de dato.
+2. ¿Qué hace 'private'?  
+   a\) Permite acceder desde cualquier lugar. b\) Protege los datos para que solo se accedan desde la clase. c\) Es un tipo de dato.  
    **Respuesta correcta: b**
-3. Un getter sirve para...
-   a) Modificar un dato. b) Leer un dato privado. c) Borrar un dato.
+3. Un getter sirve para...  
+   a\) Modificar un dato. b\) Leer un dato privado. c\) Borrar un dato.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** En la clase `Juego`, convierte el campo `iTamanio` en privado y agrega su getter y setter, igual que ya existe `getiTurno()` y `setiTurno()`. ¿Por qué crees que es buena práctica proteger ese dato?
@@ -622,14 +624,14 @@ En los próximos capítulos recorreremos el mapa en orden: primero entendemos qu
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué clase dibuja la ventana y los botones?
-   a) Juego. b) Tablero. c) IA.
+1. ¿Qué clase dibuja la ventana y los botones?  
+   a\) Juego. b\) Tablero. c\) IA.  
    **Respuesta correcta: b**
-2. ¿Qué clase decide si hay un triki?
-   a) Tablero. b) PosMatris. c) Juego.
+2. ¿Qué clase decide si hay un triki?  
+   a\) Tablero. b\) PosMatris. c\) Juego.  
    **Respuesta correcta: c**
-3. ¿Para qué sirve `PosMatris`?
-   a) Para guardar una fila y una columna. b) Para dibujar. c) Para compilar.
+3. ¿Para qué sirve `PosMatris`?  
+   a\) Para guardar una fila y una columna. b\) Para dibujar. c\) Para compilar.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Abre el proyecto del Triki (ya lo clonaste en el capítulo 3). Con la vista de archivos (VS Code o IntelliJ), localiza las 4 clases de `src/main/java` y las 2 de `src/test/java`. Toca cada archivo y lee solo los comentarios: ¿coinciden con las responsabilidades de este capítulo?
@@ -644,14 +646,14 @@ En nuestro Triki, la clase `Tablero` crea una ventana (JFrame) que contiene un c
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es Swing?
-   a) Un juego. b) Una librería de Java para crear interfaces gráficas. c) Un tipo de variable.
+1. ¿Qué es Swing?  
+   a\) Un juego. b\) Una librería de Java para crear interfaces gráficas. c\) Un tipo de variable.  
    **Respuesta correcta: b**
-2. ¿Qué significa GUI?
-   a) Interfaz gráfica de usuario. b) Grupo de instrucciones. c) Grabar instrucciones útiles.
+2. ¿Qué significa GUI?  
+   a\) Interfaz gráfica de usuario. b\) Grupo de instrucciones. c\) Grabar instrucciones útiles.  
    **Respuesta correcta: a**
-3. ¿Qué clase de nuestro juego crea la ventana?
-   a) Juego. b) Tablero. c) IA.
+3. ¿Qué clase de nuestro juego crea la ventana?  
+   a\) Juego. b\) Tablero. c\) IA.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Abre la clase `Tablero.java` y lista los componentes Swing que ves (JFrame, JButton, JLabel...). Anota qué ventana y qué cuadro de botones forman la interfaz del juego.
@@ -681,14 +683,14 @@ private JComboBox<String> cbDificultad; // selector de dificultad
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué componente Swing representa la ventana?
-   a) JButton. b) JFrame. c) JLabel.
+1. ¿Qué componente Swing representa la ventana?  
+   a\) JButton. b\) JFrame. c\) JLabel.  
    **Respuesta correcta: b**
-2. ¿Qué componente es cada casilla del tablero?
-   a) JLabel. b) JButton. c) JComboBox.
+2. ¿Qué componente es cada casilla del tablero?  
+   a\) JLabel. b\) JButton. c\) JComboBox.  
    **Respuesta correcta: b**
-3. ¿Para qué sirve JOptionPane?
-   a) Para dibujar el tablero. b) Para mostrar cuadros de diálogo. c) Para repetir código.
+3. ¿Para qué sirve JOptionPane?  
+   a\) Para dibujar el tablero. b\) Para mostrar cuadros de diálogo. c\) Para repetir código.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Agrega un `JLabel` nuevo a la ventana del Triki que muestre el nombre del juego en la parte superior. Pista: agrégalo al panel `pSur` con `BorderLayout` para colocarlo en una posición.
@@ -715,14 +717,14 @@ this.add(pSur, BorderLayout.SOUTH);
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué layout sirve para la rejilla del tablero?
-   a) BorderLayout. b) GridLayout. c) FlowLayout.
+1. ¿Qué layout sirve para la rejilla del tablero?  
+   a\) BorderLayout. b\) GridLayout. c\) FlowLayout.  
    **Respuesta correcta: b**
-2. En BorderLayout, 'BorderLayout.SOUTH' coloca el componente...
-   a) En el centro. b) Abajo. c) Arriba.
+2. En BorderLayout, 'BorderLayout.SOUTH' coloca el componente...  
+   a\) En el centro. b\) Abajo. c\) Arriba.  
    **Respuesta correcta: b**
-3. ¿Dónde colocamos el tablero de botones en la ventana?
-   a) En el centro. b) Abajo. c) A la izquierda.
+3. ¿Dónde colocamos el tablero de botones en la ventana?  
+   a\) En el centro. b\) Abajo. c\) A la izquierda.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Cambia la posición del tablero para que quede abajo (BorderLayout.SOUTH) y los controles arriba (BorderLayout.NORTH). Observa cómo cambia la apariencia de la ventana.
@@ -756,14 +758,14 @@ Con `e.getSource()` averiguamos qué componente generó el evento, y así decidi
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué método se ejecuta cuando ocurre un clic?
-   a) init. b) actionPerformed. c) setText.
+1. ¿Qué método se ejecuta cuando ocurre un clic?  
+   a\) init. b\) actionPerformed. c\) setText.  
    **Respuesta correcta: b**
-2. ¿Para qué sirve 'addActionListener'?
-   a) Para dibujar. b) Para registrar un escuchador de eventos. c) Para compilar.
+2. ¿Para qué sirve 'addActionListener'?  
+   a\) Para dibujar. b\) Para registrar un escuchador de eventos. c\) Para compilar.  
    **Respuesta correcta: b**
-3. ¿Qué hace 'e.getSource()'?
-   a) Devuelve el componente que generó el evento. b) Borra la ventana. c) Cambia de turno.
+3. ¿Qué hace 'e.getSource()'?  
+   a\) Devuelve el componente que generó el evento. b\) Borra la ventana. c\) Cambia de turno.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Agrega un segundo botón 'Salir' que cierre el programa. Pista: en `actionPerformed` verifica `e.getSource().equals(bSalir)` y llama a `System.exit(0)`.
@@ -802,14 +804,14 @@ El método `actionPerformed` reacciona a los clics. Cuando el jugador presiona u
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Cuál es el punto de entrada de un programa Java?
-   a) El método main. b) El constructor. c) El método actionPerformed.
+1. ¿Cuál es el punto de entrada de un programa Java?  
+   a\) El método main. b\) El constructor. c\) El método actionPerformed.  
    **Respuesta correcta: a**
-2. ¿Qué hace 'setVisible(true)'?
-   a) Oculta la ventana. b) Muestra la ventana. c) Cierra el programa.
+2. ¿Qué hace 'setVisible(true)'?  
+   a\) Oculta la ventana. b\) Muestra la ventana. c\) Cierra el programa.  
    **Respuesta correcta: b**
-3. Cuando el jugador juega una casilla, ¿qué métodos de Juego se llaman?
-   a) jugada y evaluarJuego. b) init y main. c) setText y getSource.
+3. Cuando el jugador juega una casilla, ¿qué métodos de Juego se llaman?  
+   a\) jugada y evaluarJuego. b\) init y main. c\) setText y getSource.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Modifica `Tablero.java` para que las 'X' se pinten de un color distinto al azul (por ejemplo verde). Pista: cambia el color en `mBotones[fila][columna].setForeground(...)` cuando juega el humano.
@@ -856,14 +858,14 @@ El método `isTableroLleno` revisa el tablero completo: si encuentra alguna casi
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué hace la clase Juego?
-   a) Dibuja la ventana. b) Contiene la lógica del juego. c) Toca música.
+1. ¿Qué hace la clase Juego?  
+   a\) Dibuja la ventana. b\) Contiene la lógica del juego. c\) Toca música.  
    **Respuesta correcta: b**
-2. ¿Qué significa el valor 1 en la matriz del tablero?
-   a) Vacío. b) Lo marcó el jugador (X). c) Lo marcó la máquina (O).
+2. ¿Qué significa el valor 1 en la matriz del tablero?  
+   a\) Vacío. b\) Lo marcó el jugador (X). c\) Lo marcó la máquina (O).  
    **Respuesta correcta: b**
-3. Si isTableroLleno devuelve true, ¿qué significa?
-   a) Ganó alguien. b) El tablero está lleno (posible empate). c) El tablero está vacío.
+3. Si isTableroLleno devuelve true, ¿qué significa?  
+   a\) Ganó alguien. b\) El tablero está lleno (posible empate). c\) El tablero está vacío.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Crea un método `reiniciarTablero` en `Juego` que recorra la matriz y ponga todas las casillas en 0. Luego invócalo desde `Tablero` cuando se pulse 'Nuevo juego' en lugar de crear un nuevo `Juego`.
@@ -927,14 +929,14 @@ No te preocupes si el minimax parece complicado. Lo importante es comprender la 
 
 **REPASO DEL CAPÍTULO**
 
-1. En dificultad "Fácil", ¿cómo juega la máquina?
-   a) Con minimax. b) Al azar con Math.random(). c) No juega.
+1. En dificultad "Fácil", ¿cómo juega la máquina?  
+   a\) Con minimax. b\) Al azar con Math.random(). c\) No juega.  
    **Respuesta correcta: b**
-2. ¿Qué hace el algoritmo minimax?
-   a) Dibuja la ventana. b) Simula jugadas por adelantado y elige la mejor. c) Genera números al azar.
+2. ¿Qué hace el algoritmo minimax?  
+   a\) Dibuja la ventana. b\) Simula jugadas por adelantado y elige la mejor. c\) Genera números al azar.  
    **Respuesta correcta: b**
-3. En minimax, +10 significa que...
-   a) Hay empate. b) Gana la computadora. c) Gana el humano.
+3. En minimax, +10 significa que...  
+   a\) Hay empate. b\) Gana la computadora. c\) Gana el humano.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Ahora que el minimax está completo, investigá qué es la poda alfa-beta (mencionada en el recuadro de este capítulo) e intentá implementarla: agregá dos parámetros `alpha` y `beta` a `minimax`, y cortá el ciclo con `break` cuando `beta <= alpha`. Compará cuántas llamadas recursivas hace la versión con poda contra la versión sin poda en un tablero 4x4.
@@ -965,14 +967,14 @@ if (cbDificultad.getSelectedIndex() == 0) {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Cuál es el "cerebro" del juego?
-   a) Tablero. b) Juego. c) IA.
+1. ¿Cuál es el "cerebro" del juego?  
+   a\) Tablero. b\) Juego. c\) IA.  
    **Respuesta correcta: c**
-2. ¿Qué clase captura los clics del usuario?
-   a) Tablero. b) IA. c) PosMatris.
+2. ¿Qué clase captura los clics del usuario?  
+   a\) Tablero. b\) IA. c\) PosMatris.  
    **Respuesta correcta: a**
-3. ¿Qué decide la clase Juego?
-   a) Quién ganó. b) El color de fondo. c) El tamaño de la ventana.
+3. ¿Qué decide la clase Juego?  
+   a\) Quién ganó. b\) El color de fondo. c\) El tamaño de la ventana.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Agrega una tercera dificultad (por ejemplo 'Muy difícil') que use minimax con mayor profundidad o con poda alfa-beta activada. Describe qué cambios harías en el flujo entre Tablero, Juego e IA.
@@ -999,14 +1001,14 @@ La mejor forma de aprender la línea de comandos es usarla. En el capítulo 4 ya
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué comando cambia de carpeta?
-   a) ls. b) cd. c) pwd.
+1. ¿Qué comando cambia de carpeta?  
+   a\) ls. b\) cd. c\) pwd.  
    **Respuesta correcta: b**
-2. ¿Qué comando lista los archivos en Linux?
-   a) dir. b) ls. c) cls.
+2. ¿Qué comando lista los archivos en Linux?  
+   a\) dir. b\) ls. c\) cls.  
    **Respuesta correcta: b**
-3. ¿Qué comando ejecuta una clase Java ya compilada?
-   a) javac. b) java. c) cd.
+3. ¿Qué comando ejecuta una clase Java ya compilada?  
+   a\) javac. b\) java. c\) cd.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Practica en la terminal: navega hasta la carpeta donde está tu `Hola.java` (usa `cd`), visualiza los archivos (usa `ls` o `dir`) y vuelve a la carpeta anterior (usa `cd ..`). Escribe los comandos que usaste en cada paso.
@@ -1040,14 +1042,14 @@ También puedes compilar y ejecutar en un solo paso con el comando `mvn compile 
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es Maven?
-   a) Un lenguaje de programación. b) Una herramienta que compila, prueba y empaqueta el proyecto. c) Un juego.
+1. ¿Qué es Maven?  
+   a\) Un lenguaje de programación. b\) Una herramienta que compila, prueba y empaqueta el proyecto. c\) Un juego.  
    **Respuesta correcta: b**
-2. ¿En qué archivo se configura Maven?
-   a) config.txt. b) pom.xml. c) main.java.
+2. ¿En qué archivo se configura Maven?  
+   a\) config.txt. b\) pom.xml. c\) main.java.  
    **Respuesta correcta: b**
-3. ¿Qué comando genera el archivo .jar?
-   a) mvn test. b) mvn compile. c) mvn package.
+3. ¿Qué comando genera el archivo .jar?  
+   a\) mvn test. b\) mvn compile. c\) mvn package.  
    **Respuesta correcta: c**
 
 > 💡 **CONSEJO:** Para abrir el juego directo desde Maven usa `mvn compile exec:java`. Esta es la forma más simple de probar tu código sin empaquetar, ideal durante el desarrollo.
@@ -1077,14 +1079,14 @@ Una "rama" (branch) es una versión paralela del proyecto. La rama principal se 
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es un "commit"?
-   a) Un error. b) Una fotografía del estado del proyecto. c) Una librería.
+1. ¿Qué es un "commit"?  
+   a\) Un error. b\) Una fotografía del estado del proyecto. c\) Una librería.  
    **Respuesta correcta: b**
-2. ¿Qué comando sube los cambios a GitHub?
-   a) git add. b) git commit. c) git push.
+2. ¿Qué comando sube los cambios a GitHub?  
+   a\) git add. b\) git commit. c\) git push.  
    **Respuesta correcta: c**
-3. ¿Qué es GitHub?
-   a) Un juego. b) Un servicio para alojar repositorios Git en la nube. c) Un compilador.
+3. ¿Qué es GitHub?  
+   a\) Un juego. b\) Un servicio para alojar repositorios Git en la nube. c\) Un compilador.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** En el repositorio, usa `git log --oneline` para ver el historial de commits y elige uno. Luego explora con `git show <hash>` qué archivos cambió en ese commit. Escribe qué aprendiste de mirar el historial del proyecto.
@@ -1117,14 +1119,14 @@ public void tableroConCasillasVaciasNoEstaLleno() {
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es una prueba unitaria?
-   a) Un programa que verifica que una función funciona. b) Un videojuego. c) Un tipo de variable.
+1. ¿Qué es una prueba unitaria?  
+   a\) Un programa que verifica que una función funciona. b\) Un videojuego. c\) Un tipo de variable.  
    **Respuesta correcta: a**
-2. ¿Qué nos avisan las pruebas cuando rompemos algo?
-   a) Nada. b) Que falló una prueba (regresión). c) Que ganamos.
+2. ¿Qué nos avisan las pruebas cuando rompemos algo?  
+   a\) Nada. b\) Que falló una prueba (regresión). c\) Que ganamos.  
    **Respuesta correcta: b**
-3. En el ejemplo, 'assertFalse(x)' significa que esperamos...
-   a) Que x sea true. b) Que x sea false. c) Que x sea un número.
+3. En el ejemplo, 'assertFalse(x)' significa que esperamos...  
+   a\) Que x sea true. b\) Que x sea false. c\) Que x sea un número.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Rómpelo a propósito: cambia temporalmente la lógica de `isTableroLleno` para que siempre devuelva `false` y ejecuta `mvn test`. Observa qué prueba falla y luego deshaz el cambio. Así ves, en la práctica, cómo las pruebas detectan una regresión.
@@ -1163,14 +1165,14 @@ En nuestro proyecto, las pruebas están en la carpeta `src/test/java` y se ejecu
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué librería usamos para las pruebas unitarias?
-   a) Swing. b) JUnit 5. c) Maven.
+1. ¿Qué librería usamos para las pruebas unitarias?  
+   a\) Swing. b\) JUnit 5. c\) Maven.  
    **Respuesta correcta: b**
-2. ¿Qué hace la anotación '@Test'?
-   a) Marca un método como prueba. b) Compila el código. c) Dibuja la ventana.
+2. ¿Qué hace la anotación '@Test'?  
+   a\) Marca un método como prueba. b\) Compila el código. c\) Dibuja la ventana.  
    **Respuesta correcta: a**
-3. ¿Qué comando ejecuta las pruebas?
-   a) mvn package. b) mvn test. c) java Tablero.
+3. ¿Qué comando ejecuta las pruebas?  
+   a\) mvn package. b\) mvn test. c\) java Tablero.  
    **Respuesta correcta: b**
 
 **🏆 RETO DE CÓDIGO:** Escribe una prueba nueva que verifique que al llenar una diagonal con las marcas de la computadora (turno 2), el método `evaluarJuego(2)` detecta el triki. Usa las aserciones `assertEquals` y `assertTrue` que aprendiste en este capítulo.
@@ -1226,14 +1228,14 @@ Maven compilará el código y ejecutará todas las pruebas de JUnit. Verás un r
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Dónde viven las pruebas del proyecto?
-   a) En src/main/java. b) En src/test/java. c) En la carpeta manual.
+1. ¿Dónde viven las pruebas del proyecto?  
+   a\) En src/main/java. b\) En src/test/java. c\) En la carpeta manual.  
    **Respuesta correcta: b**
-2. ¿Qué significa que 'assertTrue' reciba un valor falso?
-   a) La prueba pasa. b) La prueba falla. c) No pasa nada.
+2. ¿Qué significa que 'assertTrue' reciba un valor falso?  
+   a\) La prueba pasa. b\) La prueba falla. c\) No pasa nada.  
    **Respuesta correcta: b**
-3. ¿Qué comando ejecuta todas las pruebas?
-   a) mvn test. b) mvn compile. c) git push.
+3. ¿Qué comando ejecuta todas las pruebas?  
+   a\) mvn test. b\) mvn compile. c\) git push.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Crea un tablero 3x3 donde la computadora (turno 2) tenga lista la diagonal secundaria: (0,2) y (1,1). Escribe una prueba que llame a `jugadaMaquinaInteligente(3,2)` y verifique que la computadora elige (2,0) para ganar.
@@ -1251,14 +1253,14 @@ Gracias a las librerías, no necesitamos escribir desde cero cómo dibujar un bo
 
 **REPASO DEL CAPÍTULO**
 
-1. ¿Qué es una librería?
-   a) Un código ya hecho que reutilizamos. b) Un tipo de dato. c) Un comando.
+1. ¿Qué es una librería?  
+   a\) Un código ya hecho que reutilizamos. b\) Un tipo de dato. c\) Un comando.  
    **Respuesta correcta: a**
-2. ¿Cuál de estas NOS viene con Java?
-   a) Swing. b) JUnit 5. c) Ninguna.
+2. ¿Cuál de estas NOS viene con Java?  
+   a\) Swing. b\) JUnit 5. c\) Ninguna.  
    **Respuesta correcta: b**
-3. ¿Cómo obtiene Maven las librerías?
-   a) Las descarga automáticamente según el pom.xml. b) Las escribe a mano. c) Las compra.
+3. ¿Cómo obtiene Maven las librerías?  
+   a\) Las descarga automáticamente según el pom.xml. b\) Las escribe a mano. c\) Las compra.  
    **Respuesta correcta: a**
 
 **🏆 RETO DE CÓDIGO:** Agrega una nueva librería de tu elección (por ejemplo, una que genere números aleatorios o fechas) declarándola como dependencia en el `pom.xml` y usándola en un método del Triki. Recuerda que Maven la descargará automáticamente al compilar.
