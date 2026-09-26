@@ -1,0 +1,17 @@
+digraph mapa_clases {
+    rankdir=TB;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=13, penwidth=1.2];
+    edge [fontname="Fira Code", fontsize=11];
+
+    tablero [label="Tablero.java\n(pantalla: ventana y clics)", fillcolor="#e8f0fe", color="#4a6fa5"];
+    juego [label="Juego.java\n(logica: tablero y ganador)", fillcolor="#c8e6c9", color="#2e7d32"];
+    ia [label="IA.java\n(minimax: mejor jugada)", fillcolor="#ffe0b2", color="#ef6c00"];
+    pos [label="PosMatris.java\n(fila + columna)", fillcolor="#eceff1", color="#78909c"];
+
+    tablero -> juego [label="jugada(...)\nevaluaJuego(...)"];
+    juego -> ia [label="delega en\nmejorJugada(...)"];
+    juego -> pos [dir=both, label="usa"];
+    ia -> pos [dir=both, label="devuelve"];
+}

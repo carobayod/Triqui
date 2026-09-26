@@ -30,13 +30,13 @@ header#title-block-header { display: none; }
 body {
   margin: 0;
   padding: 0;
-  font-family: "Liberation Sans", Arial, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   color: #263238;
   line-height: 1.65;
 }
 
 h1, h2, h3, h4 {
-  font-family: "Liberation Sans", Arial, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   line-height: 1.25;
   page-break-after: avoid;
 }
@@ -148,3 +148,18 @@ figcaption {
 
 /* ---- Footer respeto espacios ---- */
 img { max-width: 100%; }
+
+/* ---- Portada: mockup, acento y credibilidad ---- */
+.cover .mockup {
+  display: block;
+  width: 118mm;
+  margin: 5mm auto 7mm auto;
+  border-radius: 14px;
+}
+.cover .sub .accent { color: #22c55e; font-weight: 700; }
+.cover .cred {
+  margin-top: 13mm;
+  font-size: 12px;
+  opacity: 0.85;
+  letter-spacing: 0.3px;
+}

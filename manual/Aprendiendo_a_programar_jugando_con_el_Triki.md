@@ -1,6 +1,6 @@
 ---
 title: "Aprende Java Jugando"
-subtitle: "Desarrolla un Triki con Interfaz Gráfica e Inteligencia Artificial (Minimax) desde Cero"
+subtitle: "De no saber programar a tu primer juego con Inteligencia Artificial (Minimax)"
 author: "Carlos Alberto Robayo Delgado"
 date: "Curso práctico, guiado y con retos de código"
 lang: es
@@ -13,7 +13,7 @@ El gancho es simple: "Pasa de no saber nada de programación a construir tu prim
 
 Este manual está pensado para principiantes absolutos. Usamos un tono cercano y sencillo, explicamos cada concepto aplicado directamente al código del Triki, y al final de cada capítulo encontrarás un repaso con preguntas y respuestas, además de un reto de código para que practiques.
 
-El libro está organizado en seis partes pensadas para aprender en orden. La Parte Cero te enseña las reglas del juego y te muestra una partida completa bajo el microscopio, para que entiendas qué vamos a construir desde el primer minuto. La Parte I te prepara el taller: instalas el entorno y ejecutas el Triki por primera vez. La Parte II cubre los fundamentos de la programación con Java. La Parte III te muestra cómo está construido el juego, empezando por el mapa del código. La Parte IV presenta las herramientas profesionales: la línea de comandos, Maven, Git y las pruebas unitarias. Cierra con un glosario y un apéndice de referencia rápida del código.
+El libro está organizado en cinco partes pensadas para aprender en orden. La Parte Cero te enseña las reglas del juego y te muestra una partida completa bajo el microscopio, para que entiendas qué vamos a construir desde el primer minuto. La Parte I te prepara el taller: instalas el entorno y ejecutas el Triki por primera vez. La Parte II cubre los fundamentos de la programación con Java. La Parte III te muestra cómo está construido el juego, empezando por el mapa del código. La Parte IV presenta las herramientas profesionales: la línea de comandos, Maven, Git y las pruebas unitarias. Cierra con un glosario y un apéndice de referencia rápida del código.
 
 > 💡 **CONSEJO:** No te saltes la Parte I. Configurar bien el entorno (JDK, IDE y Maven) y ejecutar el juego temprano es el primer paso para que todo lo demás funcione sin frustraciones.
 
@@ -41,6 +41,8 @@ En nuestro juego también permitimos tableros más grandes (por ejemplo 4x4 o 5x
 | X     | O     | O     |
 
 Las tres X de la primera columna forman un triki: gana el jugador uno.
+
+![Tablero 3x3 con un triki en la primera columna](assets/tablero_reglas.png){ width=70% }
 
 > 💡 **CONSEJO:** Dentro de la computadora, las casillas se nombran con dos números: la **fila** (de arriba hacia abajo, empezando en 0) y la **columna** (de izquierda a derecha, empezando en 0). Así, la casilla central de un tablero 3x3 es la (1, 1). Esta misma notación la verás en todo el código del libro.
 
@@ -71,6 +73,8 @@ Ahora vamos a ver cómo se aplican las reglas del capítulo anterior en una part
 **Movimiento 4:** O, que en dificultad fácil juega al azar, no nota la amenaza y juega en (1, 0).
 
 **Movimiento 5:** X completa la columna con (2, 1). ¡Tres X en línea! Termina la partida: gana el jugador.
+
+![Secuencia de la partida: movimiento por movimiento](assets/partida_secuencia.png){ width=100% }
 
 El tablero quedó así:
 
@@ -610,6 +614,8 @@ Y en `src/test/java`:
 
 Estas piezas encajan así: `Tablero` (la pantalla) le pide reglas a `Juego` (la lógica), y cuando le toca jugar a la máquina, `Juego` delega en `IA` para decidir dónde marcar. `PosMatris` es el mensaje que se pasan entre ellas: "juega en la fila tal, columna tal".
 
+![Mapa del código: las cuatro clases y sus conexiones](assets/mapa_clases.png){ width=78% }
+
 En los próximos capítulos recorreremos el mapa en orden: primero entendemos qué es una interfaz gráfica y sus componentes (capítulos 15 a 18), después caminamos por el código real de cada archivo (capítulos 19 a 21) y cerramos viendo cómo se conectan todas las piezas (capítulo 22). Al final del libro, el apéndice te servirá como referencia rápida de este mismo mapa.
 
 > 💡 **CONSEJO:** Cuando un proyecto de código te parezca grande, empieza siempre por el mapa: ¿qué archivos hay y qué hace cada uno? Con esa vista general, cualquier archivo concreto deja de intimidar. Los programadores profesionales pasan mucho tiempo leyendo mapas de proyectos ajenos.
@@ -875,8 +881,8 @@ La idea del minimax es sencilla: la computadora 'simula' todas las jugadas posib
 ```java
 // En IA.java - el algoritmo minimax
 private int minimax(int[][] tablero, int profundidad, boolean esMaximizando,
-                   int turnoComputador, int turnoHumano) {
-    // Riesgo final: gano la computadora, gano el humano o empate
+                     int turnoComputador, int turnoHumano) {
+    // Casos base: gano la computadora, gano el humano o empate
     if (ganador(tablero, turnoComputador)) return 10 - profundidad;
     if (ganador(tablero, turnoHumano)) return profundidad - 10;
     if (tableroLleno(tablero)) return 0;
@@ -884,16 +890,36 @@ private int minimax(int[][] tablero, int profundidad, boolean esMaximizando,
     if (esMaximizando) {
         // Turno de la computadora: busca el puntaje mas alto
         int mejor = Integer.MIN_VALUE;
-        // ... probar cada casilla vacia y elegir la mejor
+        for (int fila = 0; fila < tablero.length; fila++) {
+            for (int columna = 0; columna < tablero.length; columna++) {
+                if (tablero[fila][columna] == 0) {
+                    tablero[fila][columna] = turnoComputador; // probar la jugada
+                    int puntaje = minimax(tablero, profundidad + 1, false, turnoComputador, turnoHumano);
+                    tablero[fila][columna] = 0; // deshacer la jugada
+                    mejor = Math.max(mejor, puntaje);
+                }
+            }
+        }
         return mejor;
     } else {
         // Turno del humano: busca el puntaje mas bajo (nos conviene a nosotros)
         int mejor = Integer.MAX_VALUE;
-        // ...
+        for (int fila = 0; fila < tablero.length; fila++) {
+            for (int columna = 0; columna < tablero.length; columna++) {
+                if (tablero[fila][columna] == 0) {
+                    tablero[fila][columna] = turnoHumano;
+                    int puntaje = minimax(tablero, profundidad + 1, true, turnoComputador, turnoHumano);
+                    tablero[fila][columna] = 0;
+                    mejor = Math.min(mejor, puntaje);
+                }
+            }
+        }
         return mejor;
     }
 }
 ```
+
+> 💡 **CONSEJO:** Fíjate en el patrón *"probar → recursión → deshacer"*: `tablero[fila][columna] = turno` ... `tablero[fila][columna] = 0`. Se llama **backtracking**, y es la técnica que permite explorar todas las jugadas posibles usando la misma matriz, sin crear copias del tablero en cada paso.
 
 No te preocupes si el minimax parece complicado. Lo importante es comprender la idea: la computadora prueba movimientos por adelantado y elige el que la deja mejor parada. Este mismo concepto se usa en juegos mucho más grandes, como el ajedrez.
 
@@ -911,7 +937,7 @@ No te preocupes si el minimax parece complicado. Lo importante es comprender la 
    a) Hay empate. b) Gana la computadora. c) Gana el humano.
    **Respuesta correcta: b**
 
-**🏆 RETO DE CÓDIGO:** En la dificultad 'Difícil', observa y registra cuánto tarda la computadora en responder con tableros 3x3, 4x4 y 5x5. Reflexiona por qué el 5x5 tarda más (el número de jugadas posibles crece muy rápido). Esto te dará intuición sobre la complejidad de los algoritmos.
+**🏆 RETO DE CÓDIGO:** Ahora que el minimax está completo, investigá qué es la poda alfa-beta (mencionada en el recuadro de este capítulo) e intentá implementarla: agregá dos parámetros `alpha` y `beta` a `minimax`, y cortá el ciclo con `break` cuando `beta <= alpha`. Compará cuántas llamadas recursivas hace la versión con poda contra la versión sin poda en un tablero 4x4.
 
 ## Capítulo 22: Conectando pantalla, lógica e inteligencia
 
@@ -1332,7 +1358,7 @@ public class PosMatris {
 
 La computadora elige la jugada con el MAYOR puntaje (aquí: **Jugada B = 10**, con la que gana la computadora).
 
-**Explicación a fondo, con el código completo y la poda alfa-beta: Capítulo 21.**
+**Explicación a fondo, con el código completo del minimax: Capítulo 21. La poda alfa-beta se presenta como concepto y queda planteada como reto de código.**
 
 ## src/main/java/Tablero.java — la interfaz gráfica
 

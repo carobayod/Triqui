@@ -1,0 +1,10 @@
+digraph tablero_reglas {
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=none, margin=0];
+    t [label=<<TABLE BORDER="2" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6" COLOR="#4a6fa5"><TR><TD BGCOLOR="#c8e6c9"><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#1e3a8a"><B>X</B></FONT></TD><TD><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#b45309"><B>O</B></FONT></TD><TD><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#1e3a8a"><B>X</B></FONT></TD></TR><TR><TD BGCOLOR="#c8e6c9"><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#1e3a8a"><B>X</B></FONT></TD><TD><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#b45309"><B>O</B></FONT></TD><TD><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#1e3a8a"><B>X</B></FONT></TD></TR><TR><TD BGCOLOR="#c8e6c9"><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#1e3a8a"><B>X</B></FONT></TD><TD><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#b45309"><B>O</B></FONT></TD><TD><FONT FACE="Fira Code" POINT-SIZE="20" COLOR="#b45309"><B>O</B></FONT></TD></TR></TABLE>>];
+    nota [label="Columna 0: tres X en linea = triki (fila 0 a fila 2)",
+         shape=box, style="rounded,filled", fillcolor="#ffecb3", color="#ef6c00",
+         fontname="Fira Code", fontsize=13, penwidth=1.0];
+    t -> nota;
+}

@@ -3,33 +3,38 @@
 
 \definecolor{coverblue}{RGB}{0,70,150}
 \definecolor{coverdarkblue}{RGB}{0,40,100}
+\definecolor{accentgreen}{RGB}{74,222,128}
 
 \renewcommand{\maketitle}{
   \begin{titlepage}
     \thispagestyle{empty}
     \begin{tikzpicture}[remember picture, overlay]
-      % Bloque azul en la parte superior (42% de la pagina)
+      % Bloque azul en la parte superior (~62% de la pagina)
       \fill[coverblue] (current page.north west) rectangle
-        ([yshift=-0.42\paperheight]current page.north east);
+        ([yshift=-0.62\paperheight]current page.north east);
 
-      % Titulo en blanco, centrado dentro del bloque azul
-      \node[anchor=center, text=white, font=\Huge\bfseries\sffamily, align=center, text width=0.85\paperwidth]
-        at ([yshift=-0.16\paperheight]current page.north)
-        {Aprende Java\\[0.3em]Jugando};
+      % ===== Titulo (marca) en Georgia bold =====
+      \node[anchor=center, text=white, font=\Huge\bfseries, align=center, text width=0.9\paperwidth]
+        at ([yshift=-0.085\paperheight]current page.north)
+        {Aprende Java\\[0.18em]Jugando};
 
-      % Subtitulo en blanco, dentro del bloque azul
-      \node[anchor=center, text=white!85!coverblue, font=\Large, align=center, text width=0.78\paperwidth]
-        at ([yshift=-0.34\paperheight]current page.north)
-        {Desarrolla un Triki con Interfaz Gráfica\\e Inteligencia Artificial (Minimax) desde Cero};
+      % ===== Mockup de la ventana del juego (imagen central) =====
+      \node[anchor=center] at ([yshift=-0.335\paperheight]current page.north)
+        {\includegraphics[width=0.415\paperwidth]{assets/mockup_juego.png}};
 
-      % Autor en azul oscuro, debajo del bloque
-      \node[anchor=center, text=coverdarkblue, font=\Large, align=center]
-        at ([yshift=-0.52\paperheight]current page.north)
+      % ===== Subtitulo de venta, dentro del bloque azul, acento verde =====
+      \node[anchor=center, text=white, font=\Large, align=center, text width=0.8\paperwidth]
+        at ([yshift=-0.555\paperheight]current page.north)
+        {De no saber programar a tu primer juego\\con \textcolor{accentgreen}{\textbf{Inteligencia Artificial}} (Minimax)};
+
+      % ===== Autor en azul oscuro, debajo del bloque =====
+      \node[anchor=center, text=coverdarkblue, font=\large, align=center]
+        at ([yshift=-0.74\paperheight]current page.north)
         {Carlos Alberto Robayo Delgado};
 
-      % Etiqueta en gris
+      % ===== Linea de credibilidad en gris =====
       \node[anchor=center, text=gray, font=\large, align=center]
-        at ([yshift=-0.58\paperheight]current page.north)
+        at ([yshift=-0.80\paperheight]current page.north)
         {Curso práctico, guiado y con retos de código};
 
       % Linea decorativa azul en la parte inferior

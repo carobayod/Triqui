@@ -68,7 +68,7 @@ def build(style, css_file, cover_file, out_pdf):
 </html>"""
     html_path = TMP / f"libro_{style}.html"
     html_path.write_text(html)
-    p = subprocess.run(["weasyprint", str(html_path), str(MANUAL / out_pdf)], capture_output=True, text=True)
+    p = subprocess.run(["weasyprint", "--base-url", str(MANUAL), str(html_path), str(MANUAL / out_pdf)], capture_output=True, text=True)
     if p.returncode == 0:
         print(f"OK {style}: {out_pdf} ({ (MANUAL / out_pdf).stat().st_size } bytes)")
     else:
