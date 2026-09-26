@@ -9,8 +9,6 @@ lang: es
 
 ¿Alguna vez quisiste crear tu propio videojuego pero sentiste que la programación era demasiado difícil? Este libro demuestra lo contrario: con una idea sencilla, un juego clásico como el Triki (tres en raya), y un lenguaje ordenado como Java, puedes construir desde cero un programa con ventanas, botones, colores y hasta una inteligencia artificial que piensa sus jugadas.
 
-El gancho es simple: "Pasa de no saber nada de programación a construir tu primer juego con interfaz gráfica e IA que piensa sus jugadas". No necesitas experiencia previa; solo ganas de aprender y mucha curiosidad.
-
 Este manual está pensado para principiantes absolutos. Usamos un tono cercano y sencillo, explicamos cada concepto aplicado directamente al código del Triki, y al final de cada capítulo encontrarás un repaso con preguntas y respuestas, además de un reto de código para que practiques.
 
 El libro está organizado en cinco partes pensadas para aprender en orden. La Parte Cero te enseña las reglas del juego y te muestra una partida completa bajo el microscopio, para que entiendas qué vamos a construir desde el primer minuto. La Parte I te prepara el taller: instalas el entorno y ejecutas el Triki por primera vez. La Parte II cubre los fundamentos de la programación con Java. La Parte III te muestra cómo está construido el juego, empezando por el mapa del código. La Parte IV presenta las herramientas profesionales: la línea de comandos, Maven, Git y las pruebas unitarias. Cierra con un glosario y un apéndice de referencia rápida del código.
