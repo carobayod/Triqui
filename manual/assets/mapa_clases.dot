@@ -9,9 +9,13 @@ digraph mapa_clases {
     juego [label="Juego.java\n(logica: tablero y ganador)", fillcolor="#c8e6c9", color="#2e7d32"];
     ia [label="IA.java\n(minimax: mejor jugada)", fillcolor="#ffe0b2", color="#ef6c00"];
     pos [label="PosMatris.java\n(fila + columna)", fillcolor="#eceff1", color="#78909c"];
+    nivel [label="nivel\n(facil / dificil)", shape=diamond, fillcolor="#fff9c4", color="#f9a825"];
 
+    tablero -> nivel [label="elige"];
+    nivel -> juego [label="facil:\njugadaMaquinaAleatoria(...)"];
+    nivel -> juego [label="dificil:\njugadaMaquinaInteligente(...)", constraint=false];
     tablero -> juego [label="jugada(...)\nevaluaJuego(...)"];
-    juego -> ia [label="delega en\nmejorJugada(...)"];
+    juego -> ia [label="solo en dificil:\ndelega en mejorJugada(...)"];
     juego -> pos [dir=both, label="usa"];
     ia -> pos [dir=both, label="devuelve"];
 }

@@ -25,6 +25,12 @@ manual/Libro_Aprende_Java_Triqui_Chromium_*.pdf
 manual/Libro_Aprende_Java_Triqui_Premium.pdf
 manual/templates_canva/mockup_juego.pdf
 
+# Vectores de los diagramas: salida regenerable de build_diagramas.sh desde los
+# .dot (que SI se versionan). El libro usa los .png a 600dpi; estos .svg/.pdf
+# son material futuro para edicion web. Se regeneran con el script.
+manual/assets/*.svg
+manual/assets/*.pdf
+
 # Playwright (pipeline alternativo con Chromium, solo para comparar motores)
 node_modules/
 manual/playwright/

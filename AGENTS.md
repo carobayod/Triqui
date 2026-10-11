@@ -26,6 +26,49 @@ Filtros lua disponibles: `boxes-tcolorbox.lua` (callouts 💡⚠️🏆 → tcol
 
 Regeneración completa: command `/rebuild-libro` o skill `book-building`.
 
+### Diagramas
+
+Los 6 diagramas del libro se generan desde sus fuentes `.dot` en `manual/assets/`:
+`tablero_reglas`, `partida_secuencia`, `mapa_clases`, `minimax_basic`, `minimax_tree`,
+`flujo_turno`. (`mockup_juego.png` NO tiene .dot: es una captura real.)
+
+```
+cd manual/assets && ./build_diagramas.sh          # png 600dpi + svg + pdf
+cd manual/assets && DPI=300 ./build_diagramas.sh  # si el peso molesta
+```
+
+El Markdown canónico apunta a los `.png` (no a los `.svg`): el PDF Premium va por
+xelatex y **LaTeX no acepta SVG** en `\includegraphics`. Los `.svg` y `.pdf` quedan
+generados como material vectorial listo para una futura edición web. Los PNG a 600dpi
+dan 641–1114 ppi en el PDF final (por encima del estándar de impresión de 300).
+
+### Motor PDF: Chromium (alternativa) — DECISIÓN PENDIENTE
+
+Hay un segundo pipeline que produce el mismo libro con **Chromium** en vez de
+WeasyPrint. Sirve para comparar motores, no está en uso por defecto:
+
+| | |
+|---|---|
+| Script acoplado | `manual/build_playwright.mjs` (produce `Chromium_{A,B,C}.pdf`) |
+| Herramienta **independiente y reutilizable** | `~/herramientas/pdf-chromium/build_pdf.mjs` — genérica, por flags, con README. Es la versión buena; el script del repo es solo procedencia. |
+
+```
+cd manual && node build_playwright.mjs A B C          # acoplado
+node ~/herramientas/pdf-chromium/build_pdf.mjs --fuente doc.md --css a.css --salida doc.pdf --verificar
+```
+
+Diferencias medidas Chromium vs WeasyPrint: Chromium da ~1 página menos, numera
+portada e índice (WeasyPrint no), y sustituye FiraCode-SemiBold por Regular. El texto
+es idéntico. **Pendiente: elegir un motor** y dejar solo uno.
+
+## Skill externo: archify (auditoría de diagramas, no pipeline)
+
+Instalado global en `~/.agents/skills/archify` (82k estrellas, MIT). Es un skill de
+opencode que genera diagramas **interactivos HTML** leyendo el código. No se usa para
+generar los diagramas del libro (su tipografía es JetBrains Mono y rompe Georgia+Fira
+Code). Se puede usar para **auditar el contenido** de los `.dot` contra el código real.
+Su salida vive en el Desktop: `Triqui_Libro/Mapa_clases_Archify/`.
+
 ## Pipeline del video (v2)
 
 Fuente: la canónica + `manual/Video/slide_content.py` (38 escenas curadas) → `make_video.py`:
@@ -46,6 +89,15 @@ Verificación: `ffprobe` → 1920x1080p30, h264 yuv420p, aac mono, duración ~8:
 - **Formatos regenerados** (docx, epub, Canva A/B/C, Premium LaTeX) desde la canónica y verificados. Copias nuevas en `/mnt/c/Users/57350/OneDrive/Desktop/Triqui_Libro/` (los archivos antiguos con sufijo `_` son entregas previas, se pueden borrar).
 - **Acoplamiento video**: el video v2 NO se regeneró (decisión). `slide_content.py` ya está re-mapeado al nuevo libro = **41 escenas futuras** (SECTIONS_N=41); si se redescribe el video se obtendrá esa cantidad, no 38.
 - Skills/commands de opencode en `.opencode/` (ver arriba). Recordar: al modificar `.opencode/` hay que **reiniciar opencode** para que cargue.
+- **Curso Hotmart "Documentos PRO con IA" (paralelo, 2026-10-11)**: en `~/proyectos/hotmart_proyecto.md` (fuera de este repo). NO es el libro del Triki: es un curso nuevo sobre crear PDF/Word/EPUB profesionales. El libro solo se cita, **no se toca**. Índice v3 aprobado (9 módulos · 48 lecciones) pero el texto de las lecciones vive solo en el chat: recuperar de ahí antes de escribir.
+
+## Pendientes conocidos (2026-10-11)
+
+1. **Elegir motor PDF**: Chromium o WeasyPrint (ver arriba). Hay 3 PDF de Chromium ya generados esperando decisión.
+2. **`[X] días`** sin definir en `ventas/copy_hotmart_para_quien_no.md` (línea 118).
+3. **`.md` del Desktop desactualizado**: `Triqui_Libro/Aprendiendo_a_programar_jugando_con_el_Triki.md` está en `df7ddcff` pero la canónica en `ffb1c83a`; copiar la canónica antes de venderlo.
+4. **Revocar el PAT de GitHub** que se expuso al inicio de una sesión de octubre.
+5. **Curso Hotmart**: recuperar el índice v3 y el Módulo 1 del chat.
 
 ## Convenciones del libro
 
@@ -55,6 +107,7 @@ Verificación: `ffprobe` → 1920x1080p30, h264 yuv420p, aac mono, duración ~8:
 - Imágenes: `![texto](assets/...)`. TOC de pandoc depth 2 → solo H1 (partes) y H2 (capítulos) entran al índice.
 - Código en Java con resaltado de listings (LaTeX) / highlight-js (HTML).
 - **Tipografía (unificada 2026-09-26)**: Georgia para todo el texto (cuerpo, títulos, portada, paginación) y Fira Code para el código, en los 4 PDF, el EPUB y el DOCX. En LaTeX: nada de `\sffamily` ni de color en los `titlesec` de `header.tex`. En CSS: la regla `code { font-family }` debe existir (si no, el código en línea cae al `monospace` genérico) y `@bottom-center` no debe usar Liberation Sans. `pdffonts` debe dar solo Georgia (3) + Fira Code (2).
+- **Diagramas (2026-10-11)**: los 6 `.dot` se regeneran con `build_diagramas.sh` a 600 dpi (641–1114 ppi en el PDF). `mapa_clases.dot` ahora muestra los **dos** caminos de la máquina (fácil=aleatoria, difícil=inteligente→IA) mediante el nodo `nivel`; antes solo mostraba el camino de la IA, lo que hacía pensar que siempre usaba minimax.
 
 ## Entorno y trampas operativas
 
