@@ -115,18 +115,18 @@ y es lo que te permite modificar el juego sin miedo.
 
 **R: ¿Puedo devolverlo si no me sirve?**
 
-R: Sí, tienes **[X] días** para pedir el reembolso desde la plataforma, sin
-dar explicaciones. *(Sustituye [X] por el plazo que ofrezcas.)*
+R: Sí, tienes **30 días** para pedir el reembolso desde la plataforma, sin
+dar explicaciones.
 
 ---
 
 ## 5. Notas internas (no publicar)
 
-- Los tres formatos tienen paginación distinta: Premium 37 páginas, Canva
-  A/B/C 66 páginas, DOCX y EPUB reflowables. Si el producto se entrega con la
+- Paginación real (verificada 2026-10-11, tras regenerar los diagramas a 600 dpi):
+  Premium 36 páginas, Canva A 68, Canva B 67, Canva C 67. DOCX y EPUB son
+  reflowables y no tienen paginación fija. Si el producto se entrega con la
   edición Canva en vez del Premium, actualiza el número del bloque 4.
 - El DOCX y el EPUB no llevan la portada ilustrada: eso es solo del PDF.
 - El bloque 2 sirve también como respuesta rastera en el chat de soporte.
 - Bloques 3 + 1 juntos funcionan mejor que el bloque 1 solo: positivo, negativo
   y cierre en positivo.
-- Pendiente de confirmar antes de publicar: el plazo de reembolso del bloque 4.

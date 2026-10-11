@@ -42,24 +42,35 @@ xelatex y **LaTeX no acepta SVG** en `\includegraphics`. Los `.svg` y `.pdf` que
 generados como material vectorial listo para una futura edición web. Los PNG a 600dpi
 dan 641–1114 ppi en el PDF final (por encima del estándar de impresión de 300).
 
-### Motor PDF: Chromium (alternativa) — DECISIÓN PENDIENTE
+### Motor PDF del libro: Chromium (decidido 2026-10-11)
 
-Hay un segundo pipeline que produce el mismo libro con **Chromium** en vez de
-WeasyPrint. Sirve para comparar motores, no está en uso por defecto:
+El libro se genera con **Chromium** (Playwright), no con WeasyPrint. Motivo: Chromium
+implementa el CSS de paged media (`@page`, margin boxes, `counter(page)`, páginas
+con nombre) igual que WeasyPrint, y además numera portada e índice.
 
 | | |
 |---|---|
-| Script acoplado | `manual/build_playwright.mjs` (produce `Chromium_{A,B,C}.pdf`) |
-| Herramienta **independiente y reutilizable** | `~/herramientas/pdf-chromium/build_pdf.mjs` — genérica, por flags, con README. Es la versión buena; el script del repo es solo procedencia. |
+| **Herramienta canónica** | `~/herramientas/pdf-chromium/build_pdf.mjs` — genérica, por flags, con README. **Es la que se usa.** |
+| Script acoplado (solo procedencia) | `manual/build_playwright.mjs` — generaba los `Chromium_{A,B,C}.pdf` de la comparación |
 
 ```
-cd manual && node build_playwright.mjs A B C          # acoplado
-node ~/herramientas/pdf-chromium/build_pdf.mjs --fuente doc.md --css a.css --salida doc.pdf --verificar
+cd manual && node ~/herramientas/pdf-chromium/build_pdf.mjs \
+  --fuente Aprendiendo_a_programar_jugando_con_el_Triki.md \
+  --plantilla templates_canva --tema C --lua-filter strip-emoji.lua \
+  --salida Libro_Aprende_Java_Triqui_Chromium_C.pdf --verificar
 ```
 
-Diferencias medidas Chromium vs WeasyPrint: Chromium da ~1 página menos, numera
-portada e índice (WeasyPrint no), y sustituye FiraCode-SemiBold por Regular. El texto
-es idéntico. **Pendiente: elegir un motor** y dejar solo uno.
+**Lo que NO cambia**: WeasyPrint sigue usándose para los PDF Canva A/B/C (salidas ya
+entregadas) y para los slides del video (`make_video.py`). La decisión aplica solo al
+motor del **libro** cuando se regenere.
+
+Chromium no soporta `target-counter`, así que el índice paginado se resuelve con
+**dos pasadas** (la herramienta lo hace). `--verificar` avisa si el paginado o el
+índice no cuadran: si dice `DESAJUSTE`, no publicar.
+
+Diferencias medidas Chromium vs WeasyPrint (por si hay que comparar):
+Chromium da ~1 página menos, numera portada e índice, y sustituye FiraCode-SemiBold
+por Regular. El texto es idéntico salvo los números de página corridos una.
 
 ## Skill externo: archify (auditoría de diagramas, no pipeline)
 
@@ -93,11 +104,12 @@ Verificación: `ffprobe` → 1920x1080p30, h264 yuv420p, aac mono, duración ~8:
 
 ## Pendientes conocidos (2026-10-11)
 
-1. **Elegir motor PDF**: Chromium o WeasyPrint (ver arriba). Hay 3 PDF de Chromium ya generados esperando decisión.
-2. **`[X] días`** sin definir en `ventas/copy_hotmart_para_quien_no.md` (línea 118).
-3. **`.md` del Desktop desactualizado**: `Triqui_Libro/Aprendiendo_a_programar_jugando_con_el_Triki.md` está en `df7ddcff` pero la canónica en `ffb1c83a`; copiar la canónica antes de venderlo.
-4. **Revocar el PAT de GitHub** que se expuso al inicio de una sesión de octubre.
-5. **Curso Hotmart**: recuperar el índice v3 y el Módulo 1 del chat.
+1. **Revocar el PAT de GitHub** que se expuso al inicio de una sesión de octubre.
+2. **Curso Hotmart**: recuperar el índice v3 y el Módulo 1 del chat.
+
+Resueltos el 2026-10-11: motor PDF elegido (Chromium), garantía de 30 días definida
+en `ventas/copy_hotmart_para_quien_no.md`, `.md` del Desktop sincronizado con la
+canónica, diagramas regenerados a 600 dpi.
 
 ## Convenciones del libro
 
