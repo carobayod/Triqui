@@ -15,6 +15,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path("/home/carobayo/proyectos/Triqui")
@@ -117,15 +118,64 @@ def build_scenes():
 
 
 # ---------------------------------------------------------------- narración
-def first_sentences(paras, max_words=40):
-    full = " ".join(paras)
-    sentences = [s for s in re.split(r"(?<=[.!?])\s+", full) if s]
+# El repaso y el reto viven dentro de scene["paras"] porque asi estan en el
+# markdown. Para la narracion hay que filtrarlos: si no, el video intenta leer
+# en voz alta "a) Un ciclo. Respuesta correcta: b" y el reto de codigo.
+_REPISO = re.compile(
+    r"^\s*(\d+[.)]\s|a\\\)|a\)|Respuesta correcta|🏆|> ?[💡⚠🏆]|REPASO|RETO)", re.I)
+
+
+def _es_narrable(p):
+    return not _REPISO.match(p or "")
+
+
+def first_sentences(paras, max_words=60):
+    """Primeras frases con sentido completo.
+
+    Antes cortaba a 40 palabras sin mirar, y si la frase terminaba en dos
+    puntos ("que se escribe asi:") se comia lo que venia despues: el oyente
+    escuchaba un salto sin saber por que. Ahora, si se pasa del limite pero la
+    frase pide continuacion (termina en : o ,), se incluye la siguiente.
+    """
+    limpio = [p for p in paras if _es_narrable(p)]
+    if not limpio:
+        limpio = [p for p in paras if p and p.strip()]
+
+    # Se parte POR PARRAFO primero. Un parrafo que acaba en dos puntos suele
+    # estar seguido de un bloque de codigo, y los bloques no estan en paras. Si
+    # se unieran los parrafos con un espacio, "...que se escribe asi:" y "En el
+    # Triki..." quedarian pegados en una sola frase y la voz dira un salto sin
+    # aviso. Partiendo por parrafo, la frase que cuelga queda aislada y se puede
+    # descartar.
+    sentences = []
+    for p in limpio:
+        p = (p or "").strip()
+        if not p:
+            continue
+        sentences.extend(s for s in re.split(r"(?<=[.!?])\s+", p) if s.strip())
+
+    # Si una frase termina en dos puntos y lo que sigue NO es su continuacion
+    # (no empieza en minuscula ni con un conector), se descarta: al oyente le
+    # sonaria a que falta algo.
+    conectores = ("y ", "o ", "u ", "que ", "porque ", "para ", "como ", "cuando ",
+                  "si ", "entonces ", "además ", "también ", "pero ", "por ")
+    OKE = []
+    for i, s in enumerate(sentences):
+        if s.rstrip().endswith(":"):
+            nxt = sentences[i + 1] if i + 1 < len(sentences) else ""
+            sigue = (not nxt) or nxt[:1].islower() or nxt.lower().startswith(conectores)
+            if not sigue:
+                continue
+        OKE.append(s)
+    sentences = OKE or sentences
+
     words = 0
     picked = []
     for s in sentences:
         w = len(s.split())
-        if words + w > max_words:
-            break
+        if words + w > max_words and picked:
+            if not s.rstrip().endswith((":", ",")):
+                break
         picked.append(s)
         words += w
         if len(picked) >= 4:
@@ -174,15 +224,17 @@ def narrate_text(scene, idx):
     if narr:
         return expand_numbers(narr)
     t = scene["title"].strip()
+    body = first_sentences(scene["paras"])
     num = re.match(r"Capítulo (\d+):\s*(.*)", t)
+    # No se anuncia "Capítulo N:" al principio. El slide ya muestra el titulo en
+    # grande; repetirlo en la voz hacia que el video sonara a indice ledo, y
+    # ademas retardaba la entrada. Se arranca direto con el contenido.
     if num:
-        name = num.group(2) or f"número {num.group(1)}"
-        base = f"Capítulo {num.group(1)}: {name}. {first_sentences(scene['paras'])}"
+        base = body or (num.group(2) or "")
     elif t.startswith("src/"):
-        ctitle = CONTENT.get(idx, t, scene["banner"])[0]
-        base = f"{ctitle}. {first_sentences(scene['paras'])}"
+        base = f"{CONTENT.get(idx, t, scene['banner'])[0]}. {body}".strip()
     else:
-        base = f"{t}. {first_sentences(scene['paras'])}"
+        base = f"{t}. {body}".strip()
     return expand_numbers(base)
 
 
@@ -199,12 +251,27 @@ def synth(text, out_wav):
         # edge-tts devuelve mp3; el resto del pipeline (sox, ensamblado) espera
         # wav 24 kHz mono, que es lo que produce Kokoro. Convertimos para no
         # tocar nada mas del montaje.
+        #
+        # Ademas reintenta: el endpoint no es un API oficial y devuelve 403 si
+        # se le pide mucho seguido, y con 41 escenas seguidas hace falta.
         tmp = out_wav.with_suffix(".edge.mp3")
-        p = subprocess.run(["edge-tts", "--voice", EDGE_VOICE, "--rate", EDGE_RATE,
-                            "--text", text, "--write-media", str(tmp)],
-                           capture_output=True, text=True)
-        if p.returncode != 0 or not tmp.exists():
-            print("EDGE-TTS ERROR:", p.stderr[-300:])
+        ultimo = ""
+        p = None
+        for intento in range(4):
+            p = subprocess.run(["edge-tts", "--voice", EDGE_VOICE,
+                                "--rate", EDGE_RATE, "--text", text,
+                                "--write-media", str(tmp)],
+                               capture_output=True, text=True)
+            if p.returncode == 0 and tmp.exists() and tmp.stat().st_size > 2000:
+                break
+            ultimo = p.stderr[-200:]
+            if intento < 3:
+                espera = 20 * (intento + 1)
+                print(f"  edge-tts fallo (intento {intento + 1}/4), "
+                      f"reintentando en {espera}s", flush=True)
+                time.sleep(espera)
+        else:
+            print("EDGE-TTS ERROR:", ultimo, flush=True)
             sys.exit(1)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(tmp),
                         "-ar", "24000", "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
