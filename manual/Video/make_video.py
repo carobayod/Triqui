@@ -11,6 +11,7 @@ Pipeline:
 Uso:  python make_video.py [--first N] [--voice kokoro|piper] [--rebuild]
 """
 import html
+import json
 import re
 import shutil
 import subprocess
@@ -219,8 +220,98 @@ def expand_numbers(text):
     return text
 
 
+# ---------------------------------------------------------------- normalizacion TTS
+# Para espanol, Kokoro no usa un G2P espanol: cae a espeak-ng (kokoro/
+# pipeline.py:133, EspeakG2P). Verificado contra el texto real de las escenas:
+#
+#   "JVM"          -> xˌotaˌuβeˈɛme   "jota-uve-eme", no la sigla
+#   "POO"          -> pˈoo            "poo"
+#   "if"           -> ˈif             leido en ingles
+#   "else"         -> ˈelse           leido en ingles
+#   "{ width = x }"-> { wˈidt ... }   las LLAVES se leen
+#   "Math.random()"-> mˈat.rˈandom()  los PARENTESIS se leen
+#
+# Las llaves y los parentesis sobreviven como fonemas literales: eso no suena
+# raro, es audio inservible. Y las siglas salen deletreadas con fonema ingles.
+#
+# Lo que YA funciona solo y por eso NO se toca (verificado con espeak-ng):
+#   "=" -> iɣwˈal "igual" | "%" -> poɾθjˈɛnto "por ciento"
+#   "+" -> mˈas "mas"      | "-" -> mˈenos "menos"
+#   "·" -> pˈunto mˈeðjo "punto medio" | "X" -> ˈɛkis "equis"
+#   "LEGO" -> lˈeɣo | "1.5" -> ˈuno kˈoma θˈinko "uno coma cinco"
+
+# Siglas -> como las deberia decir un narrator. Se deletrean cuando la sigla es
+# la parte importante (la abreviatura se nombra al lado de su significado), y
+# se expanden cuando el significado ya esta dicho y la sigla es de adorno.
+_SIGLAS_TXT = [
+    (r"\bJVM\b", "Jave Eme Eme"),
+    (r"\bPOO\b", "Pe O O"),
+    (r"\bGUI\b", "interfaz grafica de usuario"),
+]
+
+# Palabras clave de Java: en espanol hay que deletrearlas o glosarlas, porque
+# espeak-ng las pronuncia en ingles.
+_CLAVES_TXT = [
+    (r"\bif\s*/\s*else\b", "i f, barra e l s e"),
+    (r"\belse\b", "e l s e"),
+    (r"\bif\b", "i f"),
+]
+
+# Metodos con parentesis: "Math.random()" -> los parentesis se leen. Se quitan
+# los parentesis, pero el punto se convierte en palabra para que no se lea como
+# un archivo.
+_METODOS_TXT = [
+    (r"\bMath\.random\(\)", "Math punto random"),
+    (r"\bMath\.random\b", "Math punto random"),
+]
+
+
+def normalize_for_tts(text):
+    """Deja el texto legible por espeak-ng antes de mandarlo a Kokoro.
+
+    Se aplica DESPUES de expand_numbers: los numeros ya estan en palabras, asi
+    que aca solo hay que arreglar siglas, claves y simbolos que se leen en voz
+    alta. No tocar lo que ya funciona (ver la nota de arriba).
+    """
+    for patron, nuevo in _METODOS_TXT + _SIGLAS_TXT + _CLAVES_TXT:
+        text = re.sub(patron, nuevo, text, flags=re.IGNORECASE)
+
+    # Aclaraciones entre parentesis: el parentesis no se puede borrar tal cual,
+    # porque a veces es lo unico que separa el termino de su aclaracion
+    # ("el molde (la clase) define la forma" -> "el molde la clase define la
+    # forma", que ya no se entiende). Se convierte en coma.
+    #
+    # Se probo "es decir" y sonaba peor: hay escenas con cinco aclaraciones
+    # seguidas y el narrator repetia la muletilla en cada una.
+    text = re.sub(r"\s*\(([^)]{1,60})\)", r", \1,", text)
+    # Parentesis sueltos que el patron anterior no agarro (grupo largo). Se
+    # quitan igual.
+    text = re.sub(r"[(){}\[\]]", " ", text)
+    # Comillas: no suenan, pero sobran al pasar por espeak.
+    text = text.replace('"', " ").replace("'", " ")
+
+    # El guion de lista ("- jugada(fila, columna)") se lee como menos. Se
+    # convierte en coma.
+    text = re.sub(r"(?<![\w-])\-\s+", ", ", text)
+
+    # Limpieza de puntuacion. Sin esto quedan comas colgando, que al leerlas en
+    # voz alta suenan como tropezar: ", jugada, fila, columna, turno, marca una
+    # casilla." y "es decir interfaz grafica de usuario," seguido de nada.
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"\s+([.,;:!?])", r"\1", text)
+    text = re.sub(r"\s*,\s*(?=[.;:])", "", text)
+    # Coma justo despues de otra coma.
+    text = re.sub(r",\s*(?=,\s)", "", text)
+    # Coma con la que arranca una frase tras punto (o al principio del todo).
+    text = re.sub(r"(?<=[.;:])\s*,\s*", " ", text)
+    text = re.sub(r"^\s*,\s*", "", text)
+    # Coma al final: se quita y se deja que la pausa la marque el punto final.
+    text = re.sub(r"\s*,\s*$", "", text)
+    return text.strip()
+
+
 def narrate_text(scene, idx):
-    _, _, _, narr = CONTENT.get(idx, scene["title"], scene["banner"])
+    _, _, _, narr, _ = CONTENT.get(idx, scene["title"], scene["banner"])
     if narr:
         return expand_numbers(narr)
     t = scene["title"].strip()
@@ -239,6 +330,29 @@ def narrate_text(scene, idx):
 
 
 # ---------------------------------------------------------------- TTS
+def synth_all(escenas):
+    """Genera todo el audio de Kokoro en un solo proceso.
+
+    Antes se llamaba a synth() escena por escena, y cada llamada cargaba el
+    modelo de 82M: 41 cargas para 41 escenas, casi una hora. Aqui se arma un
+    manifiesto y synth_kokoro.py --lote lo resuelve con una sola carga.
+    """
+    trabajo = []
+    for idx, scene in escenas:
+        texto = normalize_for_tts(narrate_text(scene, idx))
+        trabajo.append({"texto": texto,
+                        "salida": str(WORK / "audio" / f"s{idx}.wav")})
+    manifiesto = WORK / "kokoro_lote.json"
+    manifiesto.write_text(json.dumps(trabajo, ensure_ascii=False), encoding="utf-8")
+    p = subprocess.run([str(KOKORO_PYTHON), str(KOKORO_PY), "--lote", str(manifiesto)],
+                       capture_output=True, text=True)
+    if p.returncode != 0:
+        print("KOKORO ERROR:", p.stderr[-400:])
+        sys.exit(1)
+    print(p.stdout.rstrip())
+    manifiesto.unlink(missing_ok=True)
+
+
 def synth(text, out_wav):
     if VOICE_ENGINE == "kokoro":
         p = subprocess.run([str(KOKORO_PYTHON), str(KOKORO_PY), text, str(out_wav)],
@@ -289,7 +403,7 @@ def synth(text, out_wav):
 
 # ---------------------------------------------------------------- slides
 def slide_html(scene, idx):
-    title, section, points, _ = CONTENT.get(idx, scene["title"], scene["banner"])
+    title, section, points, _, extra = CONTENT.get(idx, scene["title"], scene["banner"])
     # títulos de capítulo: quitar número ("Capítulo 14") -> muestra el enunciado
     if scene["kind"] != "part":
         title = re.sub(r"^Capítulo \d+:\s*", "", title)
@@ -297,14 +411,44 @@ def slide_html(scene, idx):
     bullets = "".join(f"<li>{i}</li>" for i in items)
     n = CONTENT.SECTIONS_N
     progress = f"{idx + 1:02d} / {n}"
+
+    # Cabecera + regla, comun a todas las variantes.
+    cabeza = (f"<h1>{html.escape(title)}</h1>\n  <div class=\"rule\"></div>")
+
+    # Las escenas del apendice (36-40) son distintas a las demas: en vez de tres
+    # palabras, muestran un diagrama o un bloque de codigo real tomado del
+    # libro. Antes estas escenas decian "Une todo el juego" y no se entendia
+    # nada; el contenido existe en el markdown, solo no llegaba a la pantalla.
+    clase = "contenido"
+    if extra and extra.get("codigo"):
+        clase += " con-codigo"
+        cuerpo = cabeza + (f"\n  <pre class=\"code\">{html.escape(extra['codigo'])}</pre>")
+        if extra.get("glosa"):
+            cuerpo += f"\n  <p class=\"glosa\">{html.escape(extra['glosa'])}</p>"
+    elif extra and extra.get("diagrama"):
+        # La variante depende de la proporcion del PNG: uno vertical al lado de
+        # un texto en 16:9 queda ilegible.
+        lado = extra.get("lado")
+        if lado is None:
+            try:
+                from PIL import Image
+                with Image.open(extra["diagrama"]) as im:
+                    lado = "lado" if im.size[0] / im.size[1] > 1.3 else "abajo"
+            except Exception:
+                lado = "abajo"
+        clase += f" con-img-{lado}"
+        img = (f"<img src=\"file://{extra['diagrama']}\" "
+               f"alt=\"{html.escape(extra.get('alt', 'diagrama'))}\">")
+        cuerpo = (f"\n  <div class=\"texto\">{cabeza}\n  <ul>{bullets}</ul></div>"
+                  f"\n  <div class=\"diagrama\">{img}</div>")
+    else:
+        cuerpo = cabeza + f"\n  <ul>{bullets}</ul>"
+
     return f"""<div class="slide">
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="top"><span class="section">{html.escape(section)}</span>
     <span class="progress">{progress}</span></div>
-  <div class="contenido">
-  <h1>{html.escape(title)}</h1>
-  <div class="rule"></div>
-  <ul>{bullets}</ul>
+  <div class="{clase}">{cuerpo}
   </div>
   <div class="foot"><span class="course">Aprende Java Jugando</span>
     <span class="tag">Triki con IA</span></div>
@@ -343,7 +487,7 @@ def wav_dur(path):
 
 
 def prepare_scene(idx, scene, rebuild=False):
-    text = narrate_text(scene, idx)
+    text = normalize_for_tts(narrate_text(scene, idx))
     awav = WORK / "audio" / f"s{idx}.wav"
     apng = WORK / "slides" / f"s{idx}.png"
     if rebuild or not awav.exists():
@@ -520,6 +664,17 @@ def build_all(first_n=None, rebuild=False):
     if first_n:
         scenes = scenes[:first_n]
     print(f"Escenas: {len(scenes)}  voz={VOICE_ENGINE}  fundidos={XFADE}s")
+
+    # Kokoro carga un modelo de 82M por proceso. Si se sintetiza escena por
+    # escena eso son 41 cargas (casi una hora), asi que se pasa todo el lote de
+    # una vez. Las escenas que ya tienen wav (rebuild parcial) se respetan.
+    if VOICE_ENGINE == "kokoro":
+        faltan = [(i, s) for i, s in enumerate(scenes)
+                  if rebuild or not (WORK / "audio" / f"s{i}.wav").exists()]
+        if faltan:
+            print(f"Kokoro: {len(faltan)} escenas por sintetizar (una sola carga)")
+            synth_all(faltan)
+
     durs = [prepare_scene(i, s, rebuild) for i, s in enumerate(scenes)]
     print("Audio + slides listos:")
     print(" ", [round(d, 1) for d in durs])

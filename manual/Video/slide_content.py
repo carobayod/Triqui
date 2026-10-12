@@ -4,7 +4,10 @@ secciones (partes / intro / glosario). Re-mapeado tras la reorganización:
 Parte Cero + Parte I "Prepara el taller" + Parte III "Cómo está construido".
 SIN regenerar el video v2: este archivo queda listo para futuros renders.
 """
+from pathlib import Path
 
+# Diagramas del libro, que el video antes no usaba en ninguna diapositiva.
+ASSETS = Path(__file__).resolve().parents[1] / "assets"
 DATA = {
     0: dict(
         title="Introducción",
@@ -251,35 +254,67 @@ DATA = {
     36: dict(
         title="Apéndice · referencia rápida",
         section="Apéndice",
-        points=["El mapa visual del código",
-                "Un archivo por responsabilidad",
-                "Para consultar a tu ritmo"],
+        points=["Cuatro clases, un trabajo cada una",
+                "Juego decide quién ganó",
+                "IA elige la mejor jugada"],
+        extra=dict(diagrama=ASSETS / "mapa_clases_archify.png",
+                   alt="Diagrama de las cuatro clases del Triki y cómo se hablan entre sí",
+                   lado="lado"),
         narr="Como apéndice, un mapa de referencia rápida del código del Triki, "
              "organizado por archivos, para consultar cuando quieras."),
     37: dict(
-        title="PosMatris.java",
+        title="PosMatris.java · guardar una posición",
         section="Apéndice",
         points=["Un contenedor de datos",
                 "Guarda fila y columna",
-                "Simple y reutilizable"]),
+                "Simple y reutilizable"],
+        # Codigo real tomado del apendice del libro (linea 1327). Antes esta
+        # escena decia solo "Simple y reutilizable", que no explica nada.
+        extra=dict(codigo="public class PosMatris {\n"
+                          "    private int iFila;    // fila\n"
+                          "    private int iColumna; // columna\n\n"
+                          "    public PosMatris(int iFila, int iColumna) {\n"
+                          "        this.iFila = iFila;\n"
+                          "        this.iColumna = iColumna;\n"
+                          "    }\n"
+                          "    public int getiFila() { return iFila; }\n"
+                          "    public int getiColumna() { return iColumna; }\n"
+                          "}",
+                  glosa="new PosMatris(1, 2) crea la posición fila 1, "
+                        "columna 2: más fácil que asignar campo por campo.")),
     38: dict(
-        title="Juego.java · apéndice",
+        title="Juego.java · la lógica del juego",
         section="Apéndice",
         points=["La matriz del tablero",
                 "Turnos y verificaciones",
-                "Quién gana cada partida"]),
+                "Quién gana cada partida"],
+        extra=dict(codigo="// Convención: 0 = vacío, 1 = X, 2 = O\n"
+                          "jugada(fila, columna, turno)   // marca\n"
+                          "evaluarJuego(turno)            // revisa\n"
+                          "isTableroLleno()              // empate\n"
+                          "jugadaMaquinaInteligente(...)  // delega en IA",
+                  glosa="Juego guarda el tablero en una matriz de enteros "
+                        "y decide quién ganó. Lo explica a fondo el capítulo 20.")),
     39: dict(
-        title="IA.java · apéndice",
+        title="IA.java · el algoritmo minimax",
         section="Apéndice",
         points=["Recorre cada casilla libre",
                 "Evalúa jugadas ganadoras",
-                "Juega contra ti con cabeza"]),
+                "Busca la mejor jugada con minimax"],
+        # El arbol de minimax ya existe en el libro (assets/minimax_tree.png) y
+        # no se estaba usando en ningun lado del video.
+        extra=dict(diagrama=ASSETS / "minimax_tree.png",
+                   alt="Árbol de decisión del minimax con los puntajes de cada jugada",
+                   lado="lado")),
     40: dict(
-        title="Tablero.java · apéndice",
+        title="Tablero.java · la interfaz gráfica",
         section="Apéndice",
         points=["La ventana principal",
                 "Nueve botones conectados",
-                "Une todo el juego"]),
+                "Une todo el juego"],
+        extra=dict(diagrama=ASSETS / "flujo_turno_video.png",
+                   alt="Flujo de un turno: del clic del jugador a la respuesta de la máquina",
+                   lado="abajo")),
 }
 
 SECTIONS_N = 41
@@ -291,4 +326,6 @@ def get(idx, fallback_title="", fallback_banner="Curso Java"):
     section = d.get("section") or fallback_banner
     points = d.get("points", [])
     narr = d.get("narr")
-    return title, section, points, narr
+    # Quinto valor: el contenido visual de la diapositiva (diagrama o bloque de
+    # codigo). Las escenas del apendice lo usan; las demas lo traen vacio.
+    return title, section, points, narr, d.get("extra")

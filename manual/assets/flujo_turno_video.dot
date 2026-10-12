@@ -1,0 +1,53 @@
+// Flujo de un turno, partido en dos filas para las diapositivas del video.
+//
+// NO es el diagrama del libro (flujo_turno.dot, vertical rankdir=TB). Ese va
+// bien en una pagina de PDF, donde hay toda la altura disponible, pero en una
+// diapositiva 16:9 queda ilegible: al medirlo daba 2177x4741 (ratio 0.46), que
+// en un ancho de 150mm sale a 326mm de alto. Es decir, se salia de la pagina.
+//
+// Aqui se parte en dos filas con rank=same, y con menos nodos por fila, para
+// que quepa en el ancho de la diapositiva sin recortarse.
+
+digraph flujo_turno_h {
+    rankdir=LR;
+    ranksep=0.55;
+    nodesep=0.30;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=17,
+          penwidth=2.0, margin="0.16,0.09"];
+    edge [fontname="Fira Code", fontsize=15];
+
+    // ---- fila 1: la jugada del jugador
+    { rank=same; inicio; marcarX; evaluar; }
+    { rank=same; decision; }
+
+    inicio  [label="Clic del jugador\nen una casilla", fillcolor="#e8f0fe", color="#4a6fa5"];
+    marcarX [label="juego.jugada(fila, col, turno)\nmarca X en la casilla",
+             fillcolor="#e8f0fe", color="#4a6fa5"];
+    evaluar [label="juego.evaluarJuego(turno)\nrevisa filas, columnas\ny diagonales",
+             fillcolor="#e8f0fe", color="#4a6fa5"];
+    decision [label="¿Ganó\nel jugador?", shape=diamond, fillcolor="#fff4d6",
+              color="#b45309"];
+
+    inicio -> marcarX -> evaluar -> decision;
+
+    // ---- fila 2: la respuesta de la maquina
+    { rank=same; gano; compu; }
+    { rank=same; modo; marcarO; }
+
+    gano  [label="Sí\nMensaje:\nganaste", fillcolor="#e6f5ea", color="#2e7d32"];
+    compu [label="No\nTurno de la\ncomputadora (2)", fillcolor="#e8f0fe", color="#4a6fa5"];
+    modo  [label="Dificultad", shape=diamond, fillcolor="#fff4d6", color="#b45309"];
+    marcarO [label="Fácil: casilla al azar\nDifícil: IA minimax\nMarca O y evalúa",
+             fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    decision -> gano   [label="Sí"];
+    decision -> compu  [label="No"];
+    compu -> modo -> marcarO;
+
+    volver [label="Vuelve\nal jugador", fillcolor="#e8f0fe", color="#4a6fa5"];
+    gano -> volver;
+    marcarO -> volver;
+    volver -> inicio [style=dashed, color="#4a6fa5", constraint=false];
+}
