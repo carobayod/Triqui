@@ -8,7 +8,7 @@
     content: counter(page);
     font-size: 9pt;
     color: #94A3B8;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Georgia, "DejaVu Sans", serif;
   }
 }
 @page cover {
@@ -30,13 +30,13 @@ header#title-block-header { display: none; }
 body {
   margin: 0;
   padding: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, "DejaVu Sans", serif;
   color: #263238;
   line-height: 1.65;
 }
 
 h1, h2, h3, h4 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, "DejaVu Sans", serif;
   line-height: 1.25;
   page-break-after: avoid;
 }
@@ -58,7 +58,45 @@ li > ul, li > ol { margin-top: 2mm; }
 a { color: #1A237E; text-decoration: none; }
 
 strong { font-weight: bold; }
-em { font-style: italic; }
+/* em TIENE que declarar font-family. Sin esto WeasyPrint lo resuelve a Georgia
+   (hereda) pero Chromium cae a la fuente por defecto del navegador, Times New
+   Roman, y el PDF acaba con una 6a fuente que rompe la convencion de Georgia +
+   Fira Code. Medido en Chromium_C antes del arreglo: Georgia x3, FiraCode x2 y
+   TimesNewRoman-ItalicMT. */
+em { font-style: italic; font-family: Georgia, "DejaVu Sans", serif; }
+
+/* Pandoc mete su propia hoja de estilos dentro del HTML y el pipeline la
+   concatena DESPUES (build_pdf.mjs: many.css + CSS_CHROMIUM). Por cascada,
+   estas reglas ganan a las de arriba. Pandoc pone "font-style: italic" en h5,
+   h6 y en varios span del resaltado de codigo, sin declarar font-family, y en
+   Chromium eso cae a la fuente por defecto del navegador (Times New Roman).
+   Hay que pisar explicitamente todas. */
+h5, h6 { font-family: Georgia, "DejaVu Sans", serif; }
+code span.an, code span.co, code span.cv, code span.do,
+code span.in, code span.va, code span.cf, code span.op, code span.fl,
+code span.ch, code span.im, code span.bu, code span.dt, code span.st,
+code span.dv, code span.er, code span.kw, code span.fu, code span.at,
+code span.sc { font-family: "Fira Code", "DejaVu Sans Mono", monospace; }
+
+/* Las comillas tipograficas ('...' y "...") tampoco respetan font-family:
+   Chromium las compone con la fuente por defecto del navegador, Times New
+   Roman, aunque esten dentro de un <p> con Georgia. Medido: el PDF salia con
+   una 6a fuente (TimesNewRoman-ItalicMT) usada solo en 1 pagina, la 44, que
+   es donde esta "algoritmo 'recursivo' y 'exhaustivo'".
+   El markdown tiene 176 de estas comillas, asi que el problema es frecuente.
+   Convertirlas a <q> hace que hereden la familia del texto. */
+q { font-family: Georgia, "DejaVu Sans", serif; }
+
+/* La flecha U+2192 ("->") NO esta en Georgia. Cuando el texto la trae, Chromium
+   cae a la siguiente fuente de la lista y mete una 6a (medido: primero Times
+   New Roman, luego DejaVu Sans al cambiar el fallback). Se envuelve en <span
+   class="flecha"> para darle una fuente que si la tiene y que ademas encaja con
+   el texto: DejaVu Sans, que es la sans del sistema.
+   En este markdown hay una sola, en "probar -> recursión -> deshacer", pero el
+   problema aparece en cuanto el texto use cualquier simbolo que Georgia no
+   tenga. */
+.flecha { font-family: "DejaVu Sans", "Noto Sans Symbols", sans-serif;
+  font-style: normal; }
 
 hr {
   border: none; border-top: 2px solid #E2E8F0; margin: 8mm 0; page-break-after: avoid;
@@ -135,7 +173,11 @@ span.codeline::before {
   user-select: none;
 }
 /* colores de sintaxis (pandoc) */
-.sourceCode .co { color: #2E7D32; font-style: italic; }   /* comentario */
+/* Los comentarios del codigo tambien en italica. El contenedor .sourceCode ya
+   fija Fira Code, asi que se le declara la misma familia explicita para que
+   Chromium no introduzca una fuente ajena. */
+.sourceCode .co { color: #2E7D32; font-style: italic;
+  font-family: "Fira Code", "DejaVu Sans Mono", monospace; }   /* comentario */
 .sourceCode .kw { color: #1565C0; }                        /* palabra clave */
 .sourceCode .st { color: #C62828; }                        /* string */
 .sourceCode .bu { color: #00695C; }                        /* builtin */
@@ -152,6 +194,9 @@ figure {
 figure img { max-width: 100%; max-height: 240mm; }
 figcaption {
   font-size: 9pt; color: #64748B; margin-top: 2mm; font-style: italic;
+  /* Igual que em: sin font-family, Chromium usa la del navegador (Times) en
+     vez de heredar Georgia. */
+  font-family: Georgia, "DejaVu Sans", serif;
 }
 
 /* ---- Footer respeto espacios ---- */
@@ -172,7 +217,7 @@ img { max-width: 100%; }
 .cover .badge .pill { display: inline-block; padding: 3pt 16pt; border-radius: 999px; }
 .cover h1 {
   position: absolute; top: 40mm; left: 0; width: 100%;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, "DejaVu Sans", serif;
   font-weight: 700; font-size: 46pt; line-height: 1.08; letter-spacing: 1px;
   border: none; padding: 0; margin: 0; text-align: center;
   z-index: 1;
