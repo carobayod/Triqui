@@ -36,6 +36,13 @@ XFADE = 0.5
 NAV_BANNER = "Aprende Java Jugando"
 VOICE_ENGINE = "kokoro"
 
+# edge-tts (Microsoft Edge TTS): sin API key y gratis, pero necesita internet.
+# Voz elegida tras comparar 27 muestras: es-CL-LorenzoNeural.
+# EDGE_RATE ajusta el ritmo; con "+0%" Lorenzo habla algo mas lento que Kokoro,
+# asi que el video se alarga un poco. Se mide y se corrige si hace falta.
+EDGE_VOICE = "es-CL-LorenzoNeural"
+EDGE_RATE = "+0%"
+
 
 # ---------------------------------------------------------------- parsing
 def clean_section(txt):
@@ -188,6 +195,22 @@ def synth(text, out_wav):
             print("KOKORO ERROR:", p.stderr[-300:])
             sys.exit(1)
         return p
+    if VOICE_ENGINE == "edge":
+        # edge-tts devuelve mp3; el resto del pipeline (sox, ensamblado) espera
+        # wav 24 kHz mono, que es lo que produce Kokoro. Convertimos para no
+        # tocar nada mas del montaje.
+        tmp = out_wav.with_suffix(".edge.mp3")
+        p = subprocess.run(["edge-tts", "--voice", EDGE_VOICE, "--rate", EDGE_RATE,
+                            "--text", text, "--write-media", str(tmp)],
+                           capture_output=True, text=True)
+        if p.returncode != 0 or not tmp.exists():
+            print("EDGE-TTS ERROR:", p.stderr[-300:])
+            sys.exit(1)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(tmp),
+                        "-ar", "24000", "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
+                       check=True, capture_output=True)
+        tmp.unlink(missing_ok=True)
+        return p
     p = subprocess.run([str(PIPER), "--model", str(VOICE), "--output_file", str(out_wav),
                         "--length_scale", "1.05"],
                        input=text + "\n", capture_output=True, text=True)
@@ -211,9 +234,11 @@ def slide_html(scene, idx):
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="top"><span class="section">{html.escape(section)}</span>
     <span class="progress">{progress}</span></div>
+  <div class="contenido">
   <h1>{html.escape(title)}</h1>
   <div class="rule"></div>
   <ul>{bullets}</ul>
+  </div>
   <div class="foot"><span class="course">Aprende Java Jugando</span>
     <span class="tag">Triki con IA</span></div>
 </div>"""
@@ -303,7 +328,11 @@ def kenburns(src_png, dur, out_mp4, idx):
     else:                            # imagen quieta: el ojo descansa
         z, x, y = "1.03", "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
 
-    vf = (f"scale=6000:-2,"
+    # El upscale de entrada es lo que mas cuesta: con scale=6000 cada clip de
+    # 20 s tardaba 112 s. Con 3500 baja a 43 s (2.6x) sin diferencia visible:
+    # 3500 px sobre 203 mm siguen siendo ~440 ppi, de sobra para pantalla e
+    # impresion. Solo habria que subirlo si un paneo notase tembleque.
+    vf = (f"scale=3500:-2,"
           f"zoompan=z='{z}':d={frames}:"
           f"x='{x}':y='{y}':fps={FPS}:s=1920x1080,"
           "format=yuv420p")
@@ -436,6 +465,9 @@ def build_all(first_n=None, rebuild=False):
 
 
 if __name__ == "__main__":
+    # OJO: este bloque NO es un ambito de funcion, es el propio modulo. Por eso
+    # la asignacion de abajo ya cambia la global, y por eso poner "global" aqui
+    # da SyntaxError (el nombre ya fue asignado en la linea 37).
     args = sys.argv[1:]
     first_n = None
     rebuild = False

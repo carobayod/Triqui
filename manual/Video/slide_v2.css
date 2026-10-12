@@ -30,23 +30,28 @@
 .progress { font-family: "Lato", sans-serif; font-size: 4.2mm; font-weight: 700;
   color: #ffffff; letter-spacing: 1.5px; }
 
-/* título */
-h1 { position: absolute; left: 16mm; right: 16mm; top: 31mm; margin: 0; z-index: 2;
-  font-family: Georgia, "Times New Roman", serif; font-size: 15mm; font-weight: 700;
-  line-height: 1.12; color: #ffffff;
-  text-shadow: 0 2.5px 8px rgba(0,0,0,0.4); }
-.rule { position: absolute; left: 16mm; top: 72mm; width: 34mm; height: 2.4mm;
-  background: linear-gradient(90deg, #26C6DA, #7ce3ee); border-radius: 2mm; z-index: 2; }
+/* título y lista van en FLUJO normal, no con coordenadas fijas.
+   Antes ambos estaban en position:absolute (h1 top:31mm, ul top:79mm). Con eso
+   la lista no se enteraba de que el titulo habia crecido: un titulo de tres
+   lineas terminaba en 81.4mm y montaba encima del primer bullet. En flujo, el
+   titulo empuja la lista y es imposible que se solapen. */
+.contenido { position: absolute; left: 16mm; right: 16mm; top: 30mm; z-index: 2; }
 
-/* puntos clave */
-ul { position: absolute; left: 16mm; right: 16mm; top: 79mm; margin: 0;
-  list-style: none; z-index: 2; }
-li { font-family: "Lato", "Liberation Sans", sans-serif; font-size: 6.8mm;
-  line-height: 1.28; font-weight: 600; color: #ffffff;
-  margin: 0 0 6.2mm 0; padding-left: 12mm; position: relative; }
+h1 { margin: 0;
+  font-family: Georgia, "Times New Roman", serif; font-size: 9.5mm; font-weight: 700;
+  line-height: 1.18; color: #ffffff;
+  text-shadow: 0 2.5px 8px rgba(0,0,0,0.4); }
+.rule { margin: 4.5mm 0 0 0; width: 34mm; height: 2.4mm;
+  background: linear-gradient(90deg, #26C6DA, #7ce3ee); border-radius: 2mm; }
+
+ul { margin: 4.5mm 0 0 0; list-style: none; }
+li { font-family: "Lato", "Liberation Sans", sans-serif; font-size: 5.2mm;
+  line-height: 1.3; font-weight: 600; color: #ffffff;
+  margin: 0 0 4.4mm 0; padding-left: 9mm; position: relative; }
+li:last-child { margin-bottom: 0; }
 li::before {
-  content: ""; position: absolute; left: 0; top: 1.6mm;
-  width: 4.6mm; height: 4.6mm; border: 1.3mm solid #26C6DA; border-radius: 1mm;
+  content: ""; position: absolute; left: 0; top: 1.2mm;
+  width: 3.6mm; height: 3.6mm; border: 1mm solid #26C6DA; border-radius: 1mm;
   background: rgba(38,198,218,0.15);
 }
 
