@@ -1,0 +1,55 @@
+// Flujo de un turno: version DIAPOSITIVA, dibujada para 26mm de alto.
+//
+// Por que existe este intento:
+//
+// En la diapositiva, tras el titulo (16mm) y los tres bullets (29mm), solo
+// quedan ~26mm de alto para el diagrama. Los intentos anteriores:
+//
+//   - flujo_turno.dot (libro):    ratio 0.46 -> 365mm de alto. Imposible.
+//   - flujo_turno_video.dot:      ratio 3.55 ->  47mm. Se recorta.
+//   - flujo_turno_video3.dot:     ratio 1.49 -> 113mm. Se recorta.
+//
+// Y el usuario reporto que "se ven cortadas como si el contenedor fuera mas
+// pequeno que la imagen", que es overflow:hidden recortando lo que no cabe.
+//
+// OJO con Graphviz: con rankdir=LR y una cadena de aristas a -> b -> c, los
+// nodos se apilan VERTICALMENTE (misma x, y decreciente) y el ratio se cae a
+// 0.88. Medido con dot -Tplain: todos los nodos con x=3.3653. Para que LR
+// funcione de verdad, los nodos de una misma fila tienen que declararse juntos
+// con rank=same y las aristas de una fila a otra deben existir (sino el rank
+// no se aplica). Por eso hay dos filas y un salto de retorno.
+//
+// Detalle fino (nombres de metodo) que queda para el libro y la voz.
+
+digraph flujo_turno_diapo {
+    rankdir=LR;
+    ranksep=0.55;
+    nodesep=0.30;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=30,
+          penwidth=2.8, margin="0.12,0.06"];
+    edge [fontname="Fira Code", fontsize=26, penwidth=2.2];
+
+    // Fila 1: la jugada y la revision.
+    //
+    // OJO: {rank=same; a; b; c} NO agrupa los nodos. Medido con dot -Tplain:
+    // los tres quedaban con x=2.3233 e y decreciente, o sea apilados en
+    // vertical, y el ratio se caia a 1.60. Un subgrafo { a; b; c } SI los
+    // coloca en la misma fila (x=0.375, 1.625, 2.875 con la misma y).
+    subgraph fila1 {
+        a [label="Clic en\nuna casilla", fillcolor="#e8f0fe", color="#4a6fa5"];
+        b [label="marca X\ny revisa", fillcolor="#e8f0fe", color="#4a6fa5"];
+        c [label="¿Ganó el\njugador?", shape=diamond, fillcolor="#fff4d6", color="#b45309"];
+    }
+
+    // Fila 2: la respuesta de la maquina, o el fin de la partida.
+    subgraph fila2 {
+        e [label="IA juega O\ny vuelve a\nrevisar", fillcolor="#e8f0fe", color="#4a6fa5"];
+        fin [label="Gana\nel jugador", fillcolor="#e6f5ea", color="#2e7d32"];
+    }
+
+    c -> e [label="no"];
+    c -> fin [label="sí", color="#2e7d32"];
+    e -> a [style=dashed, color="#4a6fa5"];
+}

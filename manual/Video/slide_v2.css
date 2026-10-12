@@ -107,7 +107,7 @@ li::before {
    a media imagen (medido: contenido hasta y=940 de 1080 y luego nada). */
 .contenido.con-img-abajo .diagrama { flex: 1 1 auto; display: flex;
   align-items: center; justify-content: center; margin-top: 2.5mm;
-  min-height: 0; overflow: hidden; }
+  min-height: 0; }
 /* object-fit: contain no basta en WeasyPrint: la imagen se renderiza a todo
    lo ancho y el alto se respeta solo si queda sitio. Medido antes: el
    diagrama salia 1549x116 (ratio 13.35) cuando el original es 3.55, o sea

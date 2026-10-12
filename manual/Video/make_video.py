@@ -69,7 +69,18 @@ def clean_section(txt):
         if ln.isupper() and len(ln) <= 45 and not ln.endswith((".", ",")):
             continue
         ln = re.sub(r"[*_`~]", "", ln)
-        ln = re.sub(r"!\[.*?\]\(.*?\)", "", ln)
+        # Imagenes: se descarta la LINEA COMPLETA, incluidos los atributos que
+        # van despues del cierre: "![alt](ruta){ width=42% }".
+        #
+        # Antes solo se quitaba el "![]()" con regex y el "{ width=42% }"
+        # quedaba suelto, con lo que caia como parrafo y la voz leia en voz
+        # alta "width igual a cuarenta y dos por ciento" al final de la escena
+        # de Tablero.java. No es codigo del juego: es el ancho con el que Pandoc
+        # escala la imagen en el PDF.
+        if re.match(r"^!\[[^\]]*\]\([^)]*\)", ln):
+            continue
+        ln = re.sub(r"!\[[^\]]*\]\([^)]*\)\s*\{[^}]*\}", "", ln)
+        ln = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", ln)
         ln = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", ln)
         ln = ln.strip()
         if ln:

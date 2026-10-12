@@ -1,0 +1,49 @@
+// Flujo de un turno: version DIAPOSITIVA, una sola fila.
+//
+// Por que existe este intento:
+//
+// En la diapositiva, tras el titulo (16mm) y los bullets, quedan 25-35mm de
+// alto para el diagrama. Los intentos anteriores:
+//
+//   - flujo_turno.dot (libro):  ratio 0.46 -> 365mm de alto. Imposible.
+//   - flujo_turno_video.dot:    ratio 3.55 ->  47mm. Se recorta.
+//   - flujo_turno_video3.dot:   ratio 1.49 -> 113mm. Se recorta.
+//   - flujo_turno_diapo.dot:    ratio 3.15 ->  53mm. Se recorta.
+//
+// El usuario reporto que "se ven cortadas como si el contenedor fuera mas
+// pequeno que la imagen": es overflow:hidden recortando lo que no cabe.
+//
+// Dos trampas de Graphviz que costaron tiempo, documentadas porque van a
+// volver a aparecer:
+//
+// 1. {rank=same; a; b; c} NO agrupa los nodos. Medido con dot -Tplain: los
+//    tres quedaban con la misma x e y decreciente, apilados en vertical. Un
+//    subgrafo { a; b; c } SI los coloca en la misma fila.
+// 2. Con rankdir=LR, una cadena simple a->b->c se dibuja en vertical si los
+//    nodos no estan en un subgrafo comun. Por eso este archivo usa subgrafos.
+//
+// Este es una sola fila de 5 pasos. Sin bifurcacion: el final de partida se
+// marca con el color verde del ultimo nodo y con la nota al pie, porque una
+// rama mas obliga a una segunda fila y el ratio cae por debajo de 5.
+
+digraph flujo_turno_fila {
+    rankdir=LR;
+    ranksep=0.62;
+    nodesep=0.34;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=30,
+          penwidth=2.8, margin="0.14,0.07"];
+    edge [fontname="Fira Code", fontsize=26, penwidth=2.2];
+
+    subgraph fila {
+        a [label="Clic en\nuna casilla", fillcolor="#e8f0fe", color="#4a6fa5"];
+        b [label="marca X\ny revisa", fillcolor="#e8f0fe", color="#4a6fa5"];
+        c [label="¿Ganó el\njugador?", shape=diamond, fillcolor="#fff4d6",
+           color="#b45309"];
+        d [label="IA juega O\nen otra casilla", fillcolor="#e8f0fe", color="#4a6fa5"];
+        e [label="vuelve a\nrevisar", fillcolor="#e6f5ea", color="#2e7d32"];
+    }
+
+    a -> b -> c -> d -> e;
+}

@@ -1,0 +1,54 @@
+// Flujo de un turno en tres filas, para las diapositivas del video.
+//
+// Tercer intento. Los dos anteriores:
+//
+// - flujo_turno.dot (el del libro): rankdir=TB, ratio 0.46. En el PDF va bien
+//   porque tiene toda la altura de la pagina; en una diapositiva 16:9 queda
+//   ilegible.
+// - flujo_turno_video.dot: partido en dos filas, ratio 3.55. Entra completo y
+//   con la proporcion correcta (medido con pdfimages: 163x46mm, ratio 3.55
+//   exacto), pero es una franja de 46mm de alto y el texto interno queda en
+//   unos 5mm: chico y muy estirado a lo ancho.
+//
+// Este reparte los nueve nodos en tres filas de tres, lo que da un ratio
+// cercano a 1.5. Asi el diagrama ocupa mas alto en la diapositiva (que es lo
+// que hace legible el texto) sin salirse por abajo.
+
+digraph flujo_turno_v3 {
+    rankdir=LR;
+    ranksep=0.70;
+    nodesep=0.34;
+    bgcolor="white";
+    fontname="Fira Code";
+    node [shape=box, style="rounded,filled", fontname="Fira Code", fontsize=19,
+          penwidth=2.2, margin="0.18,0.10"];
+    edge [fontname="Fira Code", fontsize=17];
+
+    // ---- fila 1: la jugada del jugador
+    { rank=same; f1a; f1b; f1c; }
+    f1a [label="Clic del jugador\nen una casilla", fillcolor="#e8f0fe", color="#4a6fa5"];
+    f1b [label="jugada(fila, col, turno)\nmarca X en la casilla",
+         fillcolor="#e8f0fe", color="#4a6fa5"];
+    f1c [label="evaluarJuego(turno)\nrevisa filas, columnas\ny diagonales",
+         fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // ---- fila 2: la decision
+    { rank=same; f2a; f2b; f2c; }
+    f2a [label="¿Ganó\nel jugador?", shape=diamond, fillcolor="#fff4d6", color="#b45309"];
+    f2b [label="Sí\nMensaje:\nganaste", fillcolor="#e6f5ea", color="#2e7d32"];
+    f2c [label="No\nTurno de la\ncomputadora (2)", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    // ---- fila 3: la respuesta de la maquina
+    { rank=same; f3a; f3b; f3c; }
+    f3a [label="Dificultad", shape=diamond, fillcolor="#fff4d6", color="#b45309"];
+    f3b [label="Fácil: casilla al azar\nDifícil: IA minimax\nMarca O y evalúa",
+         fillcolor="#e8f0fe", color="#4a6fa5"];
+    f3c [label="Vuelve\nal jugador", fillcolor="#e8f0fe", color="#4a6fa5"];
+
+    f1a -> f1b -> f1c -> f2a;
+    f2a -> f2b [label="Sí"];
+    f2a -> f2c [label="No"];
+    f2c -> f3a;
+    f3a -> f3b -> f3c;
+    f3b -> f2a [style=dashed, color="#4a6fa5", constraint=false];
+}

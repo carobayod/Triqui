@@ -314,10 +314,17 @@ DATA = {
     40: dict(
         title="Tablero.java · la interfaz gráfica",
         section="Apéndice",
-        points=["La ventana principal",
-                "Nueve botones conectados",
-                "Une todo el juego"],
-        extra=dict(diagrama=ASSETS / "flujo_turno_video.png",
+        # Dos bullets y no tres: el diagrama necesita el alto. Con tres, el
+        # texto se come 47mm de los 73mm disponibles y al diagrama le quedan
+        # 26mm, que no alcanzan para ninguna version del flujo (medido: la de
+        # dos filas pide 47mm, la de una fila 21mm). Con dos quedan 35mm.
+        points=["La ventana principal con nueve botones",
+                "El manejador de clics que une todo el juego"],
+        # flujo_turno_fila.png: una sola fila de cinco pasos, ratio 7.84. A
+        # 168mm de ancho queda en 21mm de alto y entra sin recorte. Las otras
+        # versiones del diagrama dan 3.15, 3.55, 1.49 y 0.46 de proporcion y
+        # todas se cortan en este hueco.
+        extra=dict(diagrama=ASSETS / "flujo_turno_fila.png",
                    alt="Flujo de un turno: del clic del jugador a la respuesta de la máquina",
                    lado="abajo")),
 }
