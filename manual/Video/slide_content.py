@@ -270,18 +270,23 @@ DATA = {
                 "Simple y reutilizable"],
         # Codigo real tomado del apendice del libro (linea 1327). Antes esta
         # escena decia solo "Simple y reutilizable", que no explica nada.
+        #
+        # Se recorta a 7 lineas: el original tiene 9 y con la glosa se pasaba
+        # del limite de la diapositiva (medido: el contenido llegaba a y=1046
+        # de 1080 y montaba sobre el pie, que empieza en y=1010). Con 7 lineas
+        # entra lo esencial: los dos campos, el constructor con parametros y
+        # un getter. El libro conserva la version completa.
         extra=dict(codigo="public class PosMatris {\n"
                           "    private int iFila;    // fila\n"
-                          "    private int iColumna; // columna\n\n"
+                          "    private int iColumna; // columna\n"
                           "    public PosMatris(int iFila, int iColumna) {\n"
                           "        this.iFila = iFila;\n"
                           "        this.iColumna = iColumna;\n"
                           "    }\n"
                           "    public int getiFila() { return iFila; }\n"
-                          "    public int getiColumna() { return iColumna; }\n"
                           "}",
                   glosa="new PosMatris(1, 2) crea la posición fila 1, "
-                        "columna 2: más fácil que asignar campo por campo.")),
+                        "columna 2.")),
     38: dict(
         title="Juego.java · la lógica del juego",
         section="Apéndice",

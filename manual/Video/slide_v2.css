@@ -41,6 +41,13 @@ h1 { margin: 0;
   font-family: Georgia, "Times New Roman", serif; font-size: 9.5mm; font-weight: 700;
   line-height: 1.18; color: #ffffff;
   text-shadow: 0 2.5px 8px rgba(0,0,0,0.4); }
+
+/* Los titulos del apendice son largos ("PosMatris.java · guardar una posicion",
+   1911px medidos, contra 1427px utiles) y a 9.5mm partian en dos lineas. Con el
+   titulo en dos lineas el bloque de codigo o el diagrama se quedaban sin alto:
+   en s40 el flujo se cortaba a media imagen. A 7.2mm entran en una sola. */
+h1.t-largo { font-size: 7.2mm; line-height: 1.14; }
+h1.t-medio { font-size: 8.2mm; line-height: 1.15; }
 .rule { margin: 4.5mm 0 0 0; width: 34mm; height: 2.4mm;
   background: linear-gradient(90deg, #26C6DA, #7ce3ee); border-radius: 2mm; }
 
@@ -70,36 +77,72 @@ li::before {
    El alto va con max-height y object-fit: contain para que NUNCA se deformen
    ni desborden la pagina. El ancho usa min() para no pasar del area util
    (203.2mm - 32mm de margenes = 171.2mm). */
-.contenido.con-img-lado { display: flex; gap: 7mm; align-items: center; right: 16mm; }
-.con-img-lado .texto { flex: 1 1 46%; min-width: 0; }
-.con-img-lado .diagrama { flex: 1 1 54%; display: flex; justify-content: center; }
-.con-img-lado .diagrama img { max-width: 100%; max-height: 62mm; object-fit: contain; }
+/* En la variante "lado" el titulo vivia en una columna de 46% (unos 744px), y
+   a 9.5mm cualquier titulo del apendice se partia en dos o tres lineas: eso
+   descuadraba el bloque y empujaba el diagrama. Ahora la columna de texto es
+   mas ancha (52%) y el titulo arranca mas chico. */
+.contenido.con-img-lado { display: flex; gap: 6mm; align-items: center; right: 16mm; }
+.con-img-lado .texto { flex: 1 1 52%; min-width: 0; }
+.con-img-lado .diagrama { flex: 1 1 48%; display: flex; justify-content: center; }
+/* El arbol de minimax es casi cuadrado (ratio 1.19), asi que en la columna
+   angosta se renderiza a 71x60mm. Cabe (la diapositiva util son ~63mm de alto
+   desde top:30mm) pero queda justo: se baja el limite a 58mm para dejar
+   margen y que no roce el pie. */
+.con-img-lado .diagrama img { max-width: 100%; max-height: 62mm;
+  width: auto; height: auto; object-fit: contain; }
+.con-img-lado h1 { font-size: 5mm; line-height: 1.12; }
+.con-img-lado ul { margin-top: 3.5mm; }
+.con-img-lado li { font-size: 4.9mm; margin-bottom: 3.4mm; }
 
 .contenido.con-img-abajo { display: flex; flex-direction: column; }
 /* El alto maximo del bloque importa: la diapositiva es de 114.3mm y el pie
    vive abajo. Sin esto el diagrama se dibuja hasta el borde y monta sobre el
    pie (medido: el contenido llegaba a y=1079 de 1080). */
-.contenido.con-img-abajo { max-height: 92mm; bottom: 14mm; }
+/* Mismo criterio que con-codigo: el alto maximo se mide desde top:30mm, no
+   agregando bottom (eso estira el bloque y monta sobre el pie). */
+.contenido.con-img-abajo { max-height: 63mm; }
 .con-img-abajo .texto { flex: 0 0 auto; }
+/* Cuando hay codigo, el diagrama no se usa, asi que este alto no compite.
+   Antes el limite era 44mm y con el titulo en dos lineas el flujo se cortaba
+   a media imagen (medido: contenido hasta y=940 de 1080 y luego nada). */
 .contenido.con-img-abajo .diagrama { flex: 1 1 auto; display: flex;
   align-items: center; justify-content: center; margin-top: 2.5mm;
   min-height: 0; overflow: hidden; }
-.con-img-abajo .diagrama img { max-width: 158mm; max-height: 44mm;
-  object-fit: contain; }
+/* object-fit: contain no basta en WeasyPrint: la imagen se renderiza a todo
+   lo ancho y el alto se respeta solo si queda sitio. Medido antes: el
+   diagrama salia 1549x116 (ratio 13.35) cuando el original es 3.55, o sea
+   aplastado casi 4 veces. Con width:auto y height:auto la imagen conserva su
+   proporcion y se ve completa. */
+.con-img-abajo .diagrama img { max-width: 168mm; max-height: 46mm;
+  width: auto; height: auto; object-fit: contain; }
+.con-img-abajo h1 { font-size: 8mm; line-height: 1.15; }
+.con-img-abajo ul { margin-top: 3.5mm; }
+.con-img-abajo li { font-size: 4.9mm; margin-bottom: 3.2mm; }
 
 /* Version con codigo: el bloque <pre> reemplaza a la lista de bullets. Se
    limita a 7 lineas porque la diapositiva es 16:9 y no hay mucho alto: mas de
    eso se sale por abajo y monta sobre el pie. */
 .contenido.con-codigo { display: flex; flex-direction: column; }
-.con-codigo pre.code { margin: 4mm 0 0 0; padding: 4mm 5mm;
+/* .contenido es position:absolute con top:30mm. Si se le agrega bottom, el
+   navegador lo estira en las DOS direcciones y el bloque invade el pie
+   (medido: s37 paso de 24px a 10762px de invasion). El alto maximo se
+   calcula desde top: la diapositiva mide 114.3mm, el pie empieza sobre 99mm
+   desde arriba, asi que quedan 99-30 = 69mm, menos 6mm de holgura. */
+.contenido.con-codigo { max-height: 63mm; }
+.con-codigo pre.code { margin: 3.4mm 0 0 0; padding: 3.4mm 4.5mm;
   background: rgba(6, 12, 40, 0.72);
   border-left: 1.2mm solid #26C6DA; border-radius: 0 2mm 2mm 0;
   font-family: "Fira Code", "DejaVu Sans Mono", monospace;
-  font-size: 3.5mm; line-height: 1.42; color: #e8f4ff;
+  font-size: 3.3mm; line-height: 1.38; color: #e8f4ff;
   white-space: pre-wrap; overflow: hidden; }
-.con-codigo .glosa { margin: 3.5mm 0 0 0; padding: 0;
-  font-family: "Lato", sans-serif; font-size: 4.6mm; line-height: 1.32;
-  font-weight: 600; color: #cfe6ff; font-style: italic; }
+.con-codigo h1 { font-size: 7.4mm; line-height: 1.14; }
+/* La glosa se salia por abajo (medido: la franja y=1000-1040 estaba tomada y
+   montaba sobre el pie). max-height en el flex contenedor no recorta a los
+   hijos en WeasyPrint, asi que el limite va aqui, en el hijo que se desborda. */
+.con-codigo .glosa { margin: 2.6mm 0 0 0; padding: 0;
+  font-family: "Lato", sans-serif; font-size: 4.2mm; line-height: 1.28;
+  font-weight: 600; color: #cfe6ff; font-style: italic;
+  max-height: 12mm; overflow: hidden; }
 
 /* footer */
 .foot { position: absolute; left: 16mm; right: 16mm; bottom: 8mm;

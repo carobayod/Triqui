@@ -402,6 +402,54 @@ def synth(text, out_wav):
 
 
 # ---------------------------------------------------------------- slides
+# Ancho util de la diapositiva: 203.2mm menos 16mm de margen a cada lado, y la
+# regla @page de build_slide() pone la pagina en mm sobre un PNG de 1920px, o
+# sea 9.45 px por mm. 171.2mm * 9.45 = 1618px.
+_ANCHO_UTIL_PX = 1618
+_FUENTE_TITULO = None
+
+
+def _ancho_titulo(texto, px):
+    """Ancho real del texto en la fuente serif del titulo.
+
+    Se mide con PIL porque el CSS no puede decidirlo: el navegador de WeasyPrint
+    parte el titulo donde quiera y despues ya no se puede corregir.
+    """
+    global _FUENTE_TITULO
+    if _FUENTE_TITULO is None:
+        from PIL import ImageFont
+        base = 90  # 9.5mm * 9.45 px/mm
+        for ruta in ("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+                     "/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf"):
+            try:
+                _FUENTE_TITULO = ImageFont.truetype(ruta, base)
+                break
+            except OSError:
+                continue
+        else:
+            _FUENTE_TITULO = False
+    if not _FUENTE_TITULO:
+        return len(texto) * 45
+    return _FUENTE_TITULO.getbbox(texto)[2]
+
+
+def _clase_titulo(texto):
+    """Elige el tamano del h1 segun quepa en una sola linea.
+
+    El umbral es 1450px, no los 1618px teoricos: el titulo lleva text-shadow y
+    Georgia renderizada por WeasyPrint es algo mas ancha que la fuente que se
+    mide aqui. Con 1450 los cinco titulos del apendice entran en una linea y se
+    verificó midiendo el render, no calculando.
+    """
+    ancho = _ancho_titulo(texto, 90)
+    # 7.2mm es 0.758 de 9.5mm: el ancho se reduce en la misma proporcion.
+    if ancho * 0.758 > 1450:
+        return "t-largo"
+    if ancho * 0.863 > 1450:   # 8.2mm
+        return "t-medio"
+    return ""
+
+
 def slide_html(scene, idx):
     title, section, points, _, extra = CONTENT.get(idx, scene["title"], scene["banner"])
     # títulos de capítulo: quitar número ("Capítulo 14") -> muestra el enunciado
@@ -412,8 +460,15 @@ def slide_html(scene, idx):
     n = CONTENT.SECTIONS_N
     progress = f"{idx + 1:02d} / {n}"
 
-    # Cabecera + regla, comun a todas las variantes.
-    cabeza = (f"<h1>{html.escape(title)}</h1>\n  <div class=\"rule\"></div>")
+    # El tamaño del titulo depende de lo que ocupe: con codigo o diagrama
+    # debajo, un titulo de dos lineas se come el alto y recorta el contenido
+    # (medido: en s40 el flujo se cortaba a media imagen).
+    #
+    # Se mide el ancho REAL con la fuente, no se estima por numero de
+    # caracteres: Georgia y DejaVu miden distinto y un promedio salen mal.
+    clase_t = _clase_titulo(title)
+    tag_h1 = f' class="{clase_t}"' if clase_t else ""
+    cabeza = (f"<h1{tag_h1}>{html.escape(title)}</h1>\n  <div class=\"rule\"></div>")
 
     # Las escenas del apendice (36-40) son distintas a las demas: en vez de tres
     # palabras, muestran un diagrama o un bloque de codigo real tomado del
