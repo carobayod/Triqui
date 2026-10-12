@@ -42,35 +42,55 @@ xelatex y **LaTeX no acepta SVG** en `\includegraphics`. Los `.svg` y `.pdf` que
 generados como material vectorial listo para una futura edición web. Los PNG a 600dpi
 dan 641–1114 ppi en el PDF final (por encima del estándar de impresión de 300).
 
-### Motor PDF del libro: Chromium (decidido 2026-10-11)
+### Motor PDF del libro: WeasyPrint (redecidido 2026-10-12)
 
-El libro se genera con **Chromium** (Playwright), no con WeasyPrint. Motivo: Chromium
-implementa el CSS de paged media (`@page`, margin boxes, `counter(page)`, páginas
-con nombre) igual que WeasyPrint, y además numera portada e índice.
-
-| | |
-|---|---|
-| **Herramienta canónica** | `~/herramientas/pdf-chromium/build_pdf.mjs` — genérica, por flags, con README. **Es la que se usa.** |
-| Script acoplado (solo procedencia) | `manual/build_playwright.mjs` — generaba los `Chromium_{A,B,C}.pdf` de la comparación |
+El libro se genera con **WeasyPrint**, via `manual/templates_canva/build_canva.py`.
+**El PDF oficial es `Libro_Aprende_Java_Triqui_Canva_C.pdf`.**
 
 ```
-cd manual && node ~/herramientas/pdf-chromium/build_pdf.mjs \
-  --fuente Aprendiendo_a_programar_jugando_con_el_Triki.md \
-  --plantilla templates_canva --tema C --lua-filter strip-emoji.lua \
-  --salida Libro_Aprende_Java_Triqui_Chromium_C.pdf --verificar
+cd manual && python3 -u templates_canva/build_canva.py
 ```
 
-**Lo que NO cambia**: WeasyPrint sigue usándose para los PDF Canva A/B/C (salidas ya
-entregadas) y para los slides del video (`make_video.py`). La decisión aplica solo al
-motor del **libro** cuando se regenere.
+Corre **desde `manual/`**, no desde `manual/templates_canva/`: el script busca los
+filtros lua (`strip-emoji.lua`) en el cwd, y desde la subcarpeta falla con
+`cannot open strip-emoji.lua`.
 
-Chromium no soporta `target-counter`, así que el índice paginado se resuelve con
-**dos pasadas** (la herramienta lo hace). `--verificar` avisa si el paginado o el
-índice no cuadran: si dice `DESAJUSTE`, no publicar.
+**Por que se volvio a WeasyPrint** (el 11-oct se habia elegido Chromium, el 12-oct
+se revirtio):
 
-Diferencias medidas Chromium vs WeasyPrint (por si hay que comparar):
-Chromium da ~1 página menos, numera portada e índice, y sustituye FiraCode-SemiBold
-por Regular. El texto es idéntico salvo los números de página corridos una.
+| | WeasyPrint | Chromium |
+|---|---|---|
+| Indice navegable | funciona | no funciona |
+| `target-counter` | nativo | no existe, doble pasada |
+| Velocidad | ~4 min los 3 temas | ~2 min cada uno |
+| Enumeracion real de paginas | hay que medirla | exacta |
+| Tipografia (comillas, `<em>`) | hereda Georgia | cae a otra fuente |
+
+El motivo decisivo es el indice. Chromium genera 41 enlaces, con nombres
+transliterados a ASCII y destinos por numero de pagina, y aun asi el clic no salta:
+escribe el arbol de destinos del catalogo en formato *legacy* (diccionario plano)
+donde el spec pide un *name tree*, y muchos lectores lo ignoran. Se intento
+arreglar dos veces sin exito.
+
+**No reintentar los enlaces de Chromium** salvo que se prueben en un lector real y
+funcionen. La leccion: comprobar comportamiento, no estructura. Que el PDF tenga
+41 anotaciones `/Link` bien escritas no dice nada de si el lector las resuelve.
+
+Chromium queda documentado como alternativa (`~/herramientas/pdf-chromium/`, fuera de
+este repo) para cuando haga falta enumeracion exacta de paginas o PDF/UA.
+
+**TRAMPA — dos juegos de PDFs con nombres casi iguales.** `build_canva.py` escribe
+con `Triki` (i) y `build_pdf.mjs` con `Triqui` (u). En `manual/` conviven:
+
+```
+Libro_Aprende_Java_Triki_Chromium_A.pdf     <- con i: generados HOY con build_pdf.mjs
+Libro_Aprende_Java_Triqui_Chromium_A.pdf    <- con u: del 11-oct, obsoletos
+Libro_Aprende_Java_Triqui_Canva_C.pdf       <- con u: el OFICIAL (WeasyPrint)
+```
+
+El oficial es el de `Triqui` + `Canva`, porque es el que genera `build_canva.py`.
+Cuando se comparen o se borren, **mirar el log de salida del script**, no el
+`ls`: los dos juegos se distinguen por una sola letra.
 
 ## Skill externo: archify (auditoría de diagramas, no pipeline)
 
@@ -93,6 +113,17 @@ Fuente: la canónica + `manual/Video/slide_content.py` (38 escenas curadas) → 
 
 Uso: `python3 manual/Video/make_video.py [--first N] [--voice kokoro|piper] [--rebuild]`.
 Verificación: `ffprobe` → 1920x1080p30, h264 yuv420p, aac mono, duración ~8:57. Command `/rebuild-video` / skill `triki-video`.
+
+## Entregables: dónde copia el usuario los archivos
+
+**Regla permanente**: toda muestra, ejemplo o audio generado va a la **raíz** de
+`/mnt/c/Users/57350/OneDrive/Desktop/Triqui_Libro/` (= `C:\Users\57350\OneDrive\Desktop\Triqui_Libro`),
+no a una subcarpeta. Lo pidió explícitamente el 2026-10-12.
+
+`Muestras_voz_kokoro/` dentro de esa carpeta existe, pero las copias de trabajo van
+también a la raíz: el usuario abre esa carpeta y quiere ver los archivos de
+inmediato, sin navegar. Nombre descriptivo en español y con la voz incluida
+(`Ejemplo_Escena40_Voz_Dora.wav`, `Prueba_Idioma_2_mixto_JFrame_en.wav`).
 
 ## Estado del plan (relevante para futuras sesiones)
 

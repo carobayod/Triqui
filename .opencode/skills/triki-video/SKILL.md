@@ -1,53 +1,108 @@
 ---
 name: triki-video
-description: Regenera o itera sobre el video explicativo del libro del Triki (narración Kokoro voz Dora o Piper, slides WeasyPrint→PNG, clips Ken Burns o Manim, ensamblado ffmpeg por lotes). Use when the user says "video", "video del triki", "narración", "voz", "kokoro", "piper", "manim", "slides", "escenas", "rehacer/regenerar el video".
+description: Regenera o itera sobre el video explicativo del libro del Triki (narración Kokoro voz Dora, slides WeasyPrint a PNG con sistema de imágenes, clips Ken Burns o Manim, ensamblado ffmpeg por lotes). Use when the user says "video", "video del triki", "narración", "voz", "kokoro", "manim", "slides", "escenas", "diapositiva", "rehacer/regenerar el video".
 ---
 
-# Video explicativo del Triki (v2)
+# Video explicativo del Triki (v3)
 
 ## Fuente y flujo
 
 ```
 manual/Aprendiendo_a_programar_jugando_con_el_Triki.md
-   + manual/Video/slide_content.py (38 escenas curadas: DATA[idx] = title/section/points/narr)
-   └─> make_video.py  ─>  work/  ─>  Video_Explicativo_Triki_v2.mp4
+   + manual/Video/slide_content.py (41 escenas curadas)
+   └─> make_video.py ─> work/ ─> Video_Explicativo_Triki_v2.mp4
 ```
 
-1. `build_scenes()` parsea el .md en SECTIONS_N escenas.
-2. `narrate_text()`: usa `narr` de slide_content.py; si no, título + primeras frases; `expand_numbers()` convierte números a palabras (Dora los lee bien).
-3. TTS: Kokoro (`.venv312/bin/python synth_kokoro.py <texto> <out.wav>`, voz ef_dora, KPipeline lang_code="e", wav 24 kHz mono). Alternativa: `--voice piper` (`.venv/bin/piper`, modelo es_ES-sharvard-medium).
-4. Slides: HTML (título + puntos + progreso NN/38) → WeasyPrint PDF (page 203.2x114.3mm ≈16:9, `slide_v2.css`) → `pdftoppm` PNG 240 dpi.
-5. Clips: si existe `work/clips/manim_s<N>.mp4` se usa el clip de Manim; si no, **Ken Burns** (ffmpeg `scale=2000*zoompan` 1920x1080@30, CRF 19) sobre el PNG del slide.
-6. Ensamblado: pista de narración con sox (pad + mix 1ch 24k norm); **concat por lotes BATCH=8** con fades 0.5 s de escena, `setsar=1`; último pase mezcla vídeo+audio y fades globales → MP4 1080p30 h264/yuv420p, aac mono, `-movflags +faststart`.
+1. `build_scenes()` parsea el .md en 41 escenas (`SECTIONS_N = 41`).
+2. `narrate_text()`: usa `narr` de `slide_content.py` si existe; si no, título +
+   primeras frases del markdown. Filtra el repaso y el reto de código (viven dentro
+   de `paras` porque así están en el markdown) y **no** anuncia "Capítulo N:" al
+   principio.
+3. `normalize_for_tts()`: deja el texto legible por espeak-ng antes del TTS.
+4. `expand_numbers()`: números a palabras (Kokoro en español no los lee bien).
+5. TTS: **Kokoro** voz `ef_dora`, wav 24 kHz mono, vía `.venv312/bin/python
+   synth_kokoro.py`. El script tiene modo `--lote` (manifiesto JSON) que carga el
+   modelo de 82M **una sola vez** para las 41 escenas.
+6. Slides: HTML → WeasyPrint PDF (página 203.2×114.3 mm ≈ 16:9, `slide_v2.css`) →
+   `pdftoppm` PNG 240 dpi.
+7. Clips: si existe `work/clips/manim_s<N>.mp4` se usa; si no, **Ken Burns**.
+8. Ensamblado: concat por lotes con fades de 0.5 s.
 
 ## Comandos
 
-- Regenerar todo (incremental): `python3 manual/Video/make_video.py` (cualquier cwd; rutas absolutas).
-- Iterar pocas escenas: `python3 manual/Video/make_video.py --first 3`
-- Forzar re-síntesis/rebuild de audio+slides+clips: `--rebuild`
-- Voz alternativa: `--voice piper`
-- Clips Manim (sustituyen Ken Burns de ciertas escenas, hoy 18/20/21):
-  ```
-  cd manual/Video && .venv/bin/manim -qh manim_scenes.py <Escena>
-  cp media/images/.../<Escena>.mp4 work/clips/manim_s<N>.mp4
-  ```
+```bash
+cd manual/Video
+python3 make_video.py --voice kokoro          # completo
+python3 make_video.py --voice kokoro --first 5   # probar sin esperar 40 min
+python3 check_slides.py 36 37 38 39 40        # verificar slides por píxeles
+python3 muestra_escena.py 40 ef_dora em_alex  # comparar dos voces
+```
 
-## Curación de contenido (si cambia el libro)
-
-- Editar `manual/Video/slide_content.py` (DATA[idx], SECTIONS_N).
-- **Acoplamiento**: el video se genera desde el mismo .md; si reorganizamos capítulos hay que re-mapear índices/títulos para que las escenas sigan correspondiendo.
-- Regla del proyecto: tras reorganizar el libro, AJUSTAR slide_content.py pero NO regenerar el video salvo petición explícita.
+Motores de voz: `--voice kokoro` (por defecto), `--voice edge`, `--voice piper`.
 
 ## Verificación
 
-- `ffprobe Video_Explicativo_Triki_v2.mp4`: 1920x1080, 30 fps, duración ~8:57, codec h264 yuv420p, audio aac mono, tamaño ~98 MB.
-- Revisar arranques: `ffplay` o copiar a Windows (`/mnt/c/Users/57350/OneDrive/Desktop/Triqui_Libro/`) para revisión humana.
-- Comprobar que los offests de narración vs escenas no se desalinean (una escena de 7.4 s con narración larga es señal de curación pobre).
+- `ffprobe Video_Explicativo_Triki_v2.mp4` → 1920×1080, 30 fps, ~9:58, h264
+  yuv420p, aac mono 24 kHz, ~52 MB.
+- **Decodificación completa antes de publicar**:
+  ```
+  ffmpeg -v error -i Video_Explicativo_Triki_v2.mp4 -f null -
+  ```
+  Log vacío = íntegro. (ffmpeg SÍ abre mp4; solo falla con PDF.)
+- Audio presente al inicio, medio y final: `volumedetect` a los 30 s, 300 s y 570 s.
+- **md5 del origen y la copia deben coincidir.** Una copia hecha antes de que
+  termine el ensamblado deja un archivo truncado que `ffprobe` reporta como
+  completo si tiene `-movflags +faststart` (el moov va al principio). Ese fue el
+  corte de audio que reportó el usuario.
+
+## Entregables
+
+Copiar **a la raíz** de `/mnt/c/Users/57350/OneDrive/Desktop/Triqui_Libro/`
+(nombre en español, con la voz incluida). Ese Desktop es solo una copia de
+entrega: **el usuario no tiene acceso gráfico a WSL**, así que nunca hay que
+intentar leer o comparar desde ahí. Comparar siempre dentro de
+`~/proyectos/Triqui`.
+
+## Animaciones (Manim)
+
+Clases en `manual/Video/manim_scenes.py`: `TableroScene`, `MinimaxScene`,
+`CapasScene`, `SwingScene`, `LayoutScene`.
+
+| Clip | Escena | Contenido |
+|---|---|---|
+| `manim_s03` | 3 | una jugada en el tablero |
+| `manim_s18` | 18 | el mapa del código, tres capas |
+| `manim_s20` | 20 | componentes Swing: JFrame, botonera, JButton |
+| `manim_s21` | 21 | GridLayout |
+| `manim_s25` | 25 | **el árbol de minimax** (va en el capítulo de la IA, no en Swing) |
+
+Renderizar: `.venv/bin/python -m manim -qh --format mp4 -r 1920,1080 -o <salida>
+manim_scenes.py <Clase>`.
+
+## Curación de contenido
+
+- Editar `manual/Video/slide_content.py` (`DATA[idx]`, `SECTIONS_N`).
+- **Acoplamiento**: el video se genera desde el mismo .md; si se reorganizan
+  capítulos hay que re-mapear índices y títulos.
+- Cada entrada puede traer un `extra` con `diagrama` (ruta PNG) o `codigo`
+  (bloque de texto) + `glosa`. Es lo que usan las escenas 36-40 del apéndice.
 
 ## Gotchas
 
-- El docstring del script aún dice "xfade", pero el código REAL usa concat por lotes (xfade histórico daba OOM). No "corregir" a xfade.
+- **Lotes de Kokoro**: sin `synth_kokoro.py --lote` son 41 cargas del modelo de
+  82M (una por escena) y el build tarda casi una hora. El modo por lote lo baja a
+  unos minutos.
+- **edge-tts usa el endpoint interno de Edge** (`speech.platform.bing.com`), con
+  un token antifraude `Sec-MS-GEC`. Microsoft puede romperlo: devuelve 403 a todo
+  el mundo a la vez. Verificado 2026-10-11 con la 7.2.8 (la última). Si vuelve a
+  fallar, no reintentar: usar Kokoro. Es la razón por la que el video usa Kokoro.
+- **Kokoro en español cae a espeak-ng**, que lee mal las siglas (`JVM` → "jota-uve-
+  eme") y **lee las llaves y paréntesis en voz alta**. Por eso `normalize_for_tts()`.
+- `all()` con un generador cortaba el chequeo en el primer `False` y solo revisaba
+  una escena. Evaluar la lista entera y resumir después.
+- El docstring de `make_video.py` aún dice "xfade", pero el código REAL usa concat
+  por lotes (xfade histórico daba OOM). No "corregir" a xfade.
 - `setsar=1` imprescindible (evita SAR 4:3 erróneo en el concat).
-- Kokoro por escena es lento: usar `--first N` para probar. `.venv312` es Python 3.12; `.venv` trae manim + piper.
-- No usar `pkill -f` con patrón que coincida con el propio comando (corchetes `'[m]ake_video.py'`).
-- No commitear `work/`, `media/` ni binarios grandes.
+- No usar `pkill -f` con patrón que coincida con el propio comando (usar `'[m]ake_video.py'`).
+- **No copiar el video al Desktop hasta que el ensamblado termine.** Verificar con
+  md5.
