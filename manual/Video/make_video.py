@@ -263,13 +263,49 @@ def prepare_scene(idx, scene, rebuild=False):
 
 
 def kenburns(src_png, dur, out_mp4, idx):
+    """Movimiento suave pero VARIADO.
+
+    Antes todas las escenas hacian el mismo zoom hacia adentro con un drift
+    lateral alterno. Repetido 38 veces se vuelve pesado: el ojo aprende el
+    gesto y deja de mirarlo. Aqui se rota entre seis modos y uno de cada
+    cinco deja la imagen quieta, para que el descanso tambien sea parte del
+    ritmo.
+
+    Los modos se eligen por indice (no al azar) para que el resultado sea
+    reproducible: reejecutar el script da el mismo video.
+    """
     frames = max(int(round(dur * FPS)), int(2 * FPS))
-    # panorámica suave alternando dirección según la escena
-    drift = 0.06 if idx % 2 == 0 else -0.06
-    x = f"iw/2-(iw/zoom/2)+({drift:.4f}*iw*on/{frames})"
+    modo = idx % 6
+    amp = 0.055                      # recorrido lateral maximo
+    vel = 0.0013                     # velocidad de zoom
+
+    if modo == 0:                    # zoom in lento, centrado
+        z, x, y = (f"min(zoom+{vel},1.12)",
+                   "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)")
+    elif modo == 1:                  # zoom out: arranca cerca y se aleja
+        z = f"max(1.12-{vel}*on,1.0)"
+        x, y = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
+    elif modo == 2:                  # paneo lateral, sin zoom
+        d = amp if idx % 2 == 0 else -amp
+        z = "1.04"
+        x = f"iw/2-(iw/zoom/2)+({d}*iw*on/{frames})"
+        y = "ih/2-(ih/zoom/2)"
+    elif modo == 3:                  # paneo vertical, sin zoom
+        d = amp if idx % 2 == 0 else -amp
+        z = "1.06"
+        x = "iw/2-(iw/zoom/2)"
+        y = f"ih/2-(ih/zoom/2)+({d}*ih*on/{frames})"
+    elif modo == 4:                  # zoom in desplazandose en diagonal
+        d = amp * 0.7
+        z = f"min(zoom+{vel},1.10)"
+        x = f"iw/2-(iw/zoom/2)+({d}*iw*on/{frames})"
+        y = f"ih/2-(ih/zoom/2)+({d*0.5}*ih*on/{frames})"
+    else:                            # imagen quieta: el ojo descansa
+        z, x, y = "1.03", "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
+
     vf = (f"scale=6000:-2,"
-          f"zoompan=z='min(zoom+0.0010,1.14)':d={frames}:"
-          f"x='{x}':y='ih/2-(ih/zoom/2)':fps={FPS}:s=1920x1080,"
+          f"zoompan=z='{z}':d={frames}:"
+          f"x='{x}':y='{y}':fps={FPS}:s=1920x1080,"
           "format=yuv420p")
     subprocess.run(["ffmpeg", "-y", "-i", str(src_png), "-vf", vf,
                     "-frames:v", str(frames), "-r", str(FPS),
@@ -277,9 +313,39 @@ def kenburns(src_png, dur, out_mp4, idx):
                     "-an", str(out_mp4)], check=True, capture_output=True)
 
 
+# Footage real del juego. Capturar la pantalla no funciona en WSLg (sale
+# negro con x11grab y con Robot), asi que el juego se renderiza pidiendo al
+# componente Swing que se pinte sobre un BufferedImage: una partida real,
+# nitida y reproducible. Va en las escenas donde se explica el juego o los
+# clics, que es donde ver la interfaz moviendose explica mas que una foto.
+GAMEPLAY = {
+    1:  "game_a.mp4",   # Parte Cero - el juego para todos
+    3:  "game_c.mp4",   # Cap 2 - una partida bajo el microscopio (la larga)
+    6:  "game_b.mp4",   # Cap 4 - compilar y ejecutar
+    22: "game_a.mp4",   # Cap 18 - los eventos (los clics)
+}
+
+
 def scene_clip(idx, dur, rebuild=False):
     manim = WORK / "clips" / f"manim_s{idx}.mp4"
     clip = WORK / "clips" / f"s{idx}.mp4"
+
+    if idx in GAMEPLAY:
+        src = WORK / "clips" / GAMEPLAY[idx]
+        if src.exists():
+            vlen = wav_dur(src)
+            pad = max(dur - vlen, 0.0)
+            vf = ("scale=1080:1080:flags=lanczos,"
+                  "pad=1920:1080:(ow-iw)/2:0:color=0x0B1020,"
+                  "fps=30,format=yuv420p"
+                  + (f",tpad=stop_mode=clone:stop_duration={pad:.2f}" if pad > 0.2 else ""))
+            subprocess.run(["ffmpeg", "-y", "-i", str(src), "-vf", vf,
+                            "-r", str(FPS), "-t", f"{dur:.2f}",
+                            "-c:v", "libx264", "-preset", "veryfast",
+                            "-crf", "19", "-an", str(clip)],
+                           check=True, capture_output=True)
+            return clip
+
     if manim.exists() and (rebuild or not clip.exists()):
         vlen = wav_dur(manim)
         pad = max(dur - vlen, 0.0)

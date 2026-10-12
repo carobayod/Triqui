@@ -34,3 +34,5 @@ manual/assets/*.pdf
 # Playwright (pipeline alternativo con Chromium, solo para comparar motores)
 node_modules/
 manual/playwright/
+manual/Video/work/clips/game_*.mp4
+manual/Video/work/clips/partida*.mp4
